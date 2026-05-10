@@ -1,0 +1,178 @@
+@import "tailwindcss";
+
+/* ============================================================
+   DESIGN TOKENS — single source of truth
+   ============================================================ */
+@theme {
+  /* Brand greens — 4-tier system */
+  --color-brand-primary: #006241;
+  --color-brand-accent:  #00754A;
+  --color-brand-house:   #1E3932;
+  --color-brand-uplift:  #2b5148;
+  --color-brand-light:   #d4e9e2;
+
+  /* Gold — Rewards only */
+  --color-gold:          #cba258;
+  --color-gold-light:    #dfc49d;
+  --color-gold-lightest: #faf6ee;
+
+  /* Surface */
+  --color-surface-white:   #ffffff;
+  --color-surface-cool:    #f9f9f9;
+  --color-surface-warm:    #f2f0eb;
+  --color-surface-ceramic: #edebe9;
+  --color-surface-black:   #000000;
+
+  /* Text — never pure black */
+  --color-text:            rgba(0, 0, 0, 0.87);
+  --color-text-soft:       rgba(0, 0, 0, 0.58);
+  --color-text-white:      rgba(255, 255, 255, 1);
+  --color-text-white-soft: rgba(255, 255, 255, 0.70);
+  --color-text-rewards:    #33433d;
+
+  /* Feedback */
+  --color-error:   #c82014;
+  --color-warning: #fbbc05;
+  --color-success: #22c55e;
+
+  /* Border */
+  --color-border-input:    #d6dbde;
+  --color-border-hairline: #e7e7e7;
+
+  /* Spacing — 1rem = 10px */
+  --spacing-1: 0.4rem;
+  --spacing-2: 0.8rem;
+  --spacing-3: 1.6rem;
+  --spacing-4: 2.4rem;
+  --spacing-5: 3.2rem;
+  --spacing-6: 4.0rem;
+  --spacing-7: 4.8rem;
+  --spacing-8: 5.6rem;
+  --spacing-9: 6.4rem;
+
+  /* Radius */
+  --radius-sm:     4px;
+  --radius-md:     12px;
+  --radius-pill:   50px;
+  --radius-full:   9999px;
+  --radius-circle: 50%;
+
+  /* Shadows — always layered */
+  --shadow-card:        0 0 0.5px 0 rgba(0,0,0,0.14), 0 1px 1px 0 rgba(0,0,0,0.24);
+  --shadow-nav:         0 1px 3px rgba(0,0,0,0.1), 0 2px 2px rgba(0,0,0,0.06), 0 0 2px rgba(0,0,0,0.07);
+  --shadow-frap:        0 0 6px rgba(0,0,0,0.24), 0 8px 12px rgba(0,0,0,0.14);
+  --shadow-frap-active: 0 0 6px rgba(0,0,0,0.24), 0 8px 12px rgba(0,0,0,0);
+
+  /* Typography */
+  --font-sans:   'SoDoSans', 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-serif:  'Lander Tall', 'Iowan Old Style', Georgia, serif;
+  --font-script: 'Kalam', 'Comic Sans MS', cursive;
+
+  --text-micro:   1.3rem;
+  --text-sm:      1.4rem;
+  --text-base:    1.6rem;
+  --text-lg:      1.9rem;
+  --text-h1:      2.4rem;
+  --text-h2:      2.4rem;
+  --text-hero:    2.8rem;
+  --text-jumbo:   3.6rem;
+  --text-display: 5.0rem;
+
+  --tracking-tight:  -0.16px;
+  --tracking-normal: -0.01em;
+
+  /* Breakpoints */
+  --breakpoint-xs: 480px;
+  --breakpoint-sm: 768px;
+  --breakpoint-md: 1024px;
+  --breakpoint-lg: 1440px;
+
+  /* Motion */
+  --ease-expander: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-spring:   cubic-bezier(0.32, 2.32, 0.61, 0.27);
+}
+
+/* ============================================================
+   ROOT — anchor 1rem = 10px (load-bearing for the rem scale)
+   ============================================================ */
+:root {
+  font-size: 62.5%;
+}
+
+/* ============================================================
+   BASE — HTML defaults match the design system
+   ============================================================ */
+@layer base {
+  body {
+    background-color: var(--color-surface-warm);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: 1.5;
+    letter-spacing: var(--tracking-normal);
+  }
+
+  h1 {
+    font-size: var(--text-h1);
+    font-weight: 600;
+    color: var(--color-brand-primary);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  h2 {
+    font-size: var(--text-h2);
+    font-weight: 400;
+    color: var(--color-text);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  h3 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--color-text);
+  }
+}
+
+/* ============================================================
+   COMPONENTS — reusable patterns
+   ============================================================ */
+@layer components {
+  .btn-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 16px;
+    border-radius: var(--radius-pill);
+    font-weight: 600;
+    letter-spacing: var(--tracking-normal);
+    transition: all 0.2s ease;
+  }
+  .btn-pill:active {
+    transform: scale(0.95);
+  }
+
+  .btn-frap {
+    position: fixed;
+    bottom: var(--spacing-3);
+    right:  var(--spacing-3);
+    width:  var(--spacing-8);
+    height: var(--spacing-8);
+    border-radius: var(--radius-circle);
+    background-color: var(--color-brand-accent);
+    color: var(--color-surface-white);
+    box-shadow: var(--shadow-frap);
+    transition: all 0.2s ease;
+    z-index: 400;
+  }
+  .btn-frap:active {
+    transform: scale(0.95);
+    box-shadow: var(--shadow-frap-active);
+  }
+
+  .card-content {
+    background-color: var(--color-surface-white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    padding: var(--spacing-3);
+  }
+}

@@ -27,12 +27,28 @@
 
 Always prefix with `use` — this is a Vue ecosystem requirement.
 
+Group composables by domain in a subfolder. Each composable is its own file — no barrel `index.ts`.
+
+Pinia stores are already composables — use them directly for global state. Only create a composable when you need local state (loading, error) or logic around an action.
+
 ```
-useTodos.ts       → noun-based (managing a resource)
-useAuth.ts        → noun-based
-useFetch.ts       → verb-based (generic action)
-useLocalStorage.ts → verb-based
-useDebounce.ts    → verb-based
+composables/
+└── auth/
+    ├── useLoginWithGoogle.ts → verb-based (action + local loading/error)
+    └── useLogout.ts          → verb-based (action + local loading)
+
+stores/
+└── authStore.ts              → global state — used directly as a composable
+```
+
+Import directly from the file — never from a folder index:
+
+```ts
+// ✅
+import { useLoginWithGoogle } from '@/composables/auth/useLoginWithGoogle'
+
+// ❌ No barrel imports
+import { useLoginWithGoogle } from '@/composables/auth'
 ```
 
 ### Stores (Pinia)
@@ -59,13 +75,16 @@ type UpdateUserPayload = Partial<Omit<User, 'id'>>
 
 ### API Layer
 
-Suffix with `Api`, no `Service` — keep it simple.
+Two layers — a client wrapper and domain-specific API objects.
 
 ```
-api/todos.ts    → export const todosApi = { ... }
-api/auth.ts     → export const authApi = { ... }
-api/users.ts    → export const usersApi = { ... }
+api/supabaseClient.ts → export const supabaseClient = { ... }   ← transport only
+api/authApi.ts   → export const authApi = { ... }          ← calls supabaseClient
+api/todosApi.ts  → export const todosApi = { ... }         ← calls supabaseClient
 ```
+
+- `supabaseClient.ts` is the only file that imports from `@/lib/supabase`. All domain API files go through it — never import supabase directly elsewhere.
+- Domain API files suffix with `Api` — no `Service`.
 
 ### Components
 
@@ -74,6 +93,44 @@ api/users.ts    → export const usersApi = { ... }
 | `Base + Noun`   | Generic, reusable anywhere | `BaseButton`, `BaseInput`, `BaseModal` |
 | `Domain + Role` | Domain-specific UI         | `TodoItem`, `TodoForm`, `UserAvatar`   |
 | `The + Noun`    | Singleton layout parts     | `TheHeader`, `TheFooter`, `TheSidebar` |
+| `Icon + Name`   | SVG icon wrapper           | `IconGoogle`, `IconChevron`            |
+
+### SVG Icons
+
+Raw SVG files live in `src/assets/icons/`. Each icon is wrapped in a thin Vue component under `src/components/common/` using `vite-svg-loader`.
+
+```
+src/assets/icons/google.svg          ← raw SVG source
+src/components/common/icons/IconGoogle.vue  ← Vue component wrapper
+```
+
+**Icon component pattern:**
+
+```vue
+<!-- src/components/common/IconGoogle.vue -->
+<script setup lang="ts">
+import GoogleSvg from '@/assets/icons/google.svg?component'
+</script>
+
+<template>
+  <GoogleSvg aria-hidden="true" />
+</template>
+```
+
+**Usage in views/components:**
+
+```ts
+import IconGoogle from '@/components/common/icons/IconGoogle.vue'
+```
+
+```html
+<IconGoogle class="shrink-0" />
+```
+
+**Rules:**
+- Never inline SVG markup in templates — always go through the icon component
+- Raw `.svg` files are in `assets/icons/` only; never placed inside `components/`
+- Always add `aria-hidden="true"` on decorative icons
 
 ---
 
@@ -81,27 +138,34 @@ api/users.ts    → export const usersApi = { ... }
 
 ```
 src/
+├── assets/
+│   └── icons/      # Raw SVG files — consumed via vite-svg-loader, never inlined
+│
 ├── types/          # Shared TypeScript types — no logic, just shapes
 │   ├── todo.ts     # Domain models (Todo, TodoFilter)
 │   ├── api.ts      # API response shapes (ApiResponse<T>, PaginatedResponse<T>)
 │   └── common.ts   # Utility types (AsyncStatus, AsyncState<T>)
 │
 ├── api/            # ONLY place that makes HTTP calls
-│   ├── client.ts   # Single axios instance — config once, use everywhere
-│   ├── todos.ts    # todosApi — CRUD for /todos
-│   └── auth.ts     # authApi — login, logout, refresh
+│   ├── supabaseClient.ts  # supabaseClient — shared wrapper for all Supabase calls
+│   ├── authApi.ts  # authApi — login, logout, session (calls supabaseClient)
+│   └── todos.ts    # todosApi — CRUD for /todos (calls supabaseClient)
 │
 ├── stores/         # Pinia — global state shared across multiple views
 │   ├── todoStore.ts
 │   └── authStore.ts
 │
-├── composables/    # Reusable logic — computed, watchers, side effects
-│   ├── useTodos.ts
-│   ├── useAuth.ts
-│   └── useLocalStorage.ts
+├── composables/    # Reusable logic — one file per composable, grouped by domain
+│   ├── auth/
+│   │   ├── useAuthStore.ts
+│   │   ├── useLoginWithGoogle.ts
+│   │   └── useLogout.ts
+│   └── todo/
+│       └── useTodoStore.ts
 │
 ├── components/     # UI only — props in, events out, no API calls
 │   ├── common/     # BaseButton, BaseInput, BaseModal...
+│   │   └── icons/  # IconGoogle, IconChevron... (SVG wrappers via vite-svg-loader)
 │   ├── todo/       # TodoItem, TodoForm, TodoList
 │   └── layout/     # TheHeader, TheSidebar, TheFooter
 │
@@ -183,13 +247,15 @@ components/     ← receives props, emits events, renders UI
 
 ### Flow rules — what can call what
 
-| Layer          | Can call            | Cannot call              |
-| -------------- | ------------------- | ------------------------ |
-| `components/`  | — (props/emit only) | stores, api, composables |
-| `views/`       | composables         | api directly             |
-| `composables/` | stores              | api directly             |
-| `stores/`      | api/                | composables, components  |
-| `api/`         | httpClient          | anything Vue-related     |
+| Layer          | Can call                      | Cannot call              |
+| -------------- | ----------------------------- | ------------------------ |
+| `components/`  | — (props/emit only)           | stores, api, composables |
+| `views/`       | composables, stores (state)   | api directly             |
+| `composables/` | stores, api/                  | components               |
+| `stores/`      | api/                          | composables, components  |
+| `api/`         | httpClient                    | anything Vue-related     |
+
+> Views may import Pinia stores directly for reading global state. For actions with local loading/error state, use a composable.
 
 ---
 
@@ -252,10 +318,13 @@ const hasActiveTodos = computed(() => todos.value.some((t) => !t.done))
 ```ts
 // ✅ Always use @ alias — never relative paths beyond 1 level
 import type { Todo } from '@/types/todo'
-import { useTodos } from '@/composables/useTodos'
+import { useLoginWithGoogle } from '@/composables/auth/useLoginWithGoogle'
 
 // ❌ Avoid deep relative imports
 import type { Todo } from '../../../types/todo'
+
+// ❌ No barrel/index imports
+import { useLoginWithGoogle } from '@/composables/auth'
 ```
 
 ### Exports
@@ -298,8 +367,8 @@ const routes = [
 ```
 PascalCase.vue        → component or view
 camelCase.ts          → composable, store, api, util, type file
-use + Noun/Verb       → composable  (useTodos, useFetch)
-use + Noun + Store    → pinia store (useTodoStore)
+use + Noun/Verb       → composable  (useLoginWithGoogle, useLogout)
+use + Noun + Store    → pinia store (useTodoStore) or state composable (useAuthStore)
 domain + Api          → api export  (todosApi)
 Base + Noun           → generic component (BaseButton)
 The + Noun            → singleton layout (TheHeader)

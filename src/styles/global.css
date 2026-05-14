@@ -1,135 +1,143 @@
 @import "tailwindcss";
 
 /* ============================================================
-   DESIGN TOKENS — single source of truth
+   DESIGN TOKENS — Mastercard-inspired design system
+   Ref: .docs/DESIGN_SYSTEM.md
    ============================================================ */
 @theme {
-  /* Brand greens — 4-tier system */
-  --color-brand-primary: #006241;
-  --color-brand-accent:  #00754A;
-  --color-brand-house:   #1E3932;
-  --color-brand-uplift:  #2b5148;
-  --color-brand-light:   #d4e9e2;
 
-  /* Gold — Rewards only */
-  --color-gold:          #cba258;
-  --color-gold-light:    #dfc49d;
-  --color-gold-lightest: #faf6ee;
+  /* ── Canvas & Surface ──────────────────────────────────────
+     Never use pure white as the page canvas.
+     Canvas Cream is the default body background.          */
+  --color-canvas:        #F3F0EE;  /* warm putty — page background */
+  --color-canvas-lifted: #FCFBFA;  /* one step lighter — raised sections */
+  --color-surface-white: #FFFFFF;  /* nav pill, modals, satellite CTAs */
+  --color-surface-soft:  #F4F4F4;  /* cool-gray alt surface */
 
-  /* Surface */
-  --color-surface-white:   #ffffff;
-  --color-surface-cool:    #f9f9f9;
-  --color-surface-warm:    #f2f0eb;
-  --color-surface-ceramic: #edebe9;
-  --color-surface-black:   #000000;
+  /* ── Ink — primary text & CTAs ────────────────────────────  */
+  --color-ink:      #141413;  /* warm near-black — headings, CTAs, footer */
+  --color-charcoal: #262627;  /* slightly softer black for some text alternates */
 
-  /* Text — never pure black */
-  --color-text:            rgba(0, 0, 0, 0.87);
-  --color-text-soft:       rgba(0, 0, 0, 0.58);
-  --color-text-white:      rgba(255, 255, 255, 1);
-  --color-text-white-soft: rgba(255, 255, 255, 0.70);
-  --color-text-rewards:    #33433d;
+  /* ── Neutral text ──────────────────────────────────────────  */
+  --color-slate:   #696969;  /* muted secondary / disabled text */
+  --color-granite: #555555;  /* inline body accents, link alternates */
+  --color-dust:    #D1CDC7;  /* whisper — very low contrast on canvas */
 
-  /* Feedback */
-  --color-error:   #c82014;
-  --color-warning: #fbbc05;
-  --color-success: #22c55e;
+  /* ── Accent — Signal Orange ────────────────────────────────
+     Signal (#CF4500) is a legal/consent signal.
+     NEVER use it for marketing CTAs.                      */
+  --color-signal:       #CF4500;  /* consent / legal / privacy actions only */
+  --color-signal-light: #F37338;  /* orbital arcs & decorative accents only */
+  --color-clay:         #9A3A0A;  /* deep rust for secondary link-style buttons */
 
-  /* Border */
-  --color-border-input:    #d6dbde;
-  --color-border-hairline: #e7e7e7;
+  /* ── Link ──────────────────────────────────────────────────  */
+  --color-link: #3860BE;
 
-  /* Spacing — 1rem = 10px */
-  --spacing-1: 0.4rem;
-  --spacing-2: 0.8rem;
-  --spacing-3: 1.6rem;
-  --spacing-4: 2.4rem;
-  --spacing-5: 3.2rem;
-  --spacing-6: 4.0rem;
-  --spacing-7: 4.8rem;
-  --spacing-8: 5.6rem;
-  --spacing-9: 6.4rem;
+  /* ── Brand mark — logo only, never UI ─────────────────────  */
+  --color-brand-red:    #EB001B;
+  --color-brand-yellow: #F79E1B;
 
-  /* Radius */
-  --radius-sm:     4px;
-  --radius-md:     12px;
-  --radius-pill:   50px;
-  --radius-full:   9999px;
-  --radius-circle: 50%;
+  /* ── Spacing — 8px base unit ───────────────────────────────
+     Scale: 8 / 16 / 24 / 32 / 48 / 64 / 96 / 128         */
+  --spacing-1: 0.8rem;   /*  8px */
+  --spacing-2: 1.6rem;   /* 16px */
+  --spacing-3: 2.4rem;   /* 24px */
+  --spacing-4: 3.2rem;   /* 32px */
+  --spacing-5: 4.8rem;   /* 48px */
+  --spacing-6: 6.4rem;   /* 64px */
+  --spacing-7: 9.6rem;   /* 96px */
+  --spacing-8: 12.8rem;  /* 128px */
 
-  /* Shadows — always layered */
-  --shadow-card:        0 0 0.5px 0 rgba(0,0,0,0.14), 0 1px 1px 0 rgba(0,0,0,0.24);
-  --shadow-nav:         0 1px 3px rgba(0,0,0,0.1), 0 2px 2px rgba(0,0,0,0.06), 0 0 2px rgba(0,0,0,0.07);
-  --shadow-frap:        0 0 6px rgba(0,0,0,0.24), 0 8px 12px rgba(0,0,0,0.14);
-  --shadow-frap-active: 0 0 6px rgba(0,0,0,0.24), 0 8px 12px rgba(0,0,0,0);
+  /* ── Radius ─────────────────────────────────────────────────
+     Only three zones: tiny (≤6), medium-large (20-40),
+     full-pill (999+). The 8-16px range is intentionally absent. */
+  --radius-xs:      4px;   /* tiny decorative chips */
+  --radius-sm:      6px;   /* small decorative elements */
+  --radius-cta:     20px;  /* primary & secondary pill CTAs */
+  --radius-consent: 24px;  /* consent / signal orange pills */
+  --radius-hero:    40px;  /* hero media frames, stadium containers */
+  --radius-circle:  50%;   /* circular portraits, icon buttons, satellite CTAs */
+  --radius-pill:    999px; /* full pill — nav, carousel, chips, selectors */
 
-  /* Typography */
-  --font-sans:   'SoDoSans', 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  --font-serif:  'Lander Tall', 'Iowan Old Style', Georgia, serif;
-  --font-script: 'Kalam', 'Comic Sans MS', cursive;
+  /* ── Shadows — atmospheric cushioning, never hard-edged ─────  */
+  --shadow-float:   rgba(0, 0, 0, 0.04) 0px 4px 24px 0px;   /* nav pill */
+  --shadow-card:    rgba(0, 0, 0, 0.08) 0px 24px 48px 0px;  /* hero, elevated cards */
+  --shadow-feature: rgba(0, 0, 0, 0.25) 0px 70px 110px 0px; /* rare dramatic elevation */
 
-  --text-micro:   1.3rem;
-  --text-sm:      1.4rem;
-  --text-base:    1.6rem;
-  --text-lg:      1.9rem;
-  --text-h1:      2.4rem;
-  --text-h2:      2.4rem;
-  --text-hero:    2.8rem;
-  --text-jumbo:   3.6rem;
-  --text-display: 5.0rem;
+  /* ── Typography — MarkForMC → Sofia Sans fallback ────────── */
+  --font-sans: 'Sofia Sans', Arial, sans-serif;
 
-  --tracking-tight:  -0.16px;
-  --tracking-normal: -0.01em;
+  /* Type scale — 1rem = 10px (62.5% root)                   */
+  --text-eyebrow: 1.4rem;  /* 14px — uppercase section labels */
+  --text-sm:      1.4rem;  /* 14px — footer links */
+  --text-base:    1.6rem;  /* 16px — body paragraph */
+  --text-nav:     1.6rem;  /* 16px — nav links, button labels */
+  --text-h3:      2.4rem;  /* 24px — card / section sub-titles */
+  --text-h2:      3.6rem;  /* 36px — section headings */
+  --text-h1:      6.4rem;  /* 64px — hero headline */
 
-  /* Breakpoints */
-  --breakpoint-xs: 480px;
-  --breakpoint-sm: 768px;
-  --breakpoint-md: 1024px;
-  --breakpoint-lg: 1440px;
+  /* Letter spacing                                           */
+  --tracking-headline: -0.02em;   /* -2% — all display headings */
+  --tracking-nav:      -0.03em;   /* -3% — nav links & button labels */
+  --tracking-eyebrow:   0.04em;   /* +4% — uppercase eyebrow labels only */
 
-  /* Motion */
-  --ease-expander: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --ease-spring:   cubic-bezier(0.32, 2.32, 0.61, 0.27);
+  /* ── Motion ────────────────────────────────────────────────  */
+  --ease-standard: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  /* ── Breakpoints ────────────────────────────────────────────  */
+  --breakpoint-sm: 768px;   /* tablet */
+  --breakpoint-md: 1024px;  /* desktop */
+  --breakpoint-lg: 1440px;  /* wide */
 }
 
 /* ============================================================
-   ROOT — anchor 1rem = 10px (load-bearing for the rem scale)
+   ROOT — 1rem = 10px
    ============================================================ */
 :root {
   font-size: 62.5%;
 }
 
 /* ============================================================
-   BASE — HTML defaults match the design system
+   BASE — bare HTML matches the design system by default
    ============================================================ */
 @layer base {
   body {
-    background-color: var(--color-surface-warm);
-    color: var(--color-text);
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
     font-family: var(--font-sans);
     font-size: var(--text-base);
-    line-height: 1.5;
-    letter-spacing: var(--tracking-normal);
+    font-weight: 450;
+    line-height: 1.4;
+    letter-spacing: normal;
   }
 
   h1 {
     font-size: var(--text-h1);
-    font-weight: 600;
-    color: var(--color-brand-primary);
-    letter-spacing: var(--tracking-tight);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: var(--tracking-headline);
+    color: var(--color-ink);
   }
 
   h2 {
     font-size: var(--text-h2);
-    font-weight: 400;
-    color: var(--color-text);
-    letter-spacing: var(--tracking-tight);
+    font-weight: 500;
+    line-height: 1.22;
+    letter-spacing: var(--tracking-headline);
+    color: var(--color-ink);
   }
 
   h3 {
-    font-size: var(--text-lg);
-    font-weight: 600;
-    color: var(--color-text);
+    font-size: var(--text-h3);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: var(--tracking-headline);
+    color: var(--color-ink);
+  }
+
+  a {
+    color: var(--color-link);
+    text-decoration: none;
   }
 }
 
@@ -137,42 +145,133 @@
    COMPONENTS — reusable patterns
    ============================================================ */
 @layer components {
-  .btn-pill {
+
+  /* ── Eyebrow label ───────────────────────────────────────── */
+  .eyebrow {
+    font-size: var(--text-eyebrow);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--color-slate);
+  }
+
+  /* ── Primary CTA — Ink Pill ──────────────────────────────── */
+  .btn-primary {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 7px 16px;
-    border-radius: var(--radius-pill);
-    font-weight: 600;
-    letter-spacing: var(--tracking-normal);
-    transition: all 0.2s ease;
+    gap: 0.8rem;
+    padding: 6px 24px;
+    border-radius: var(--radius-cta);
+    background-color: var(--color-ink);
+    color: var(--color-canvas);
+    border: 1.5px solid var(--color-ink);
+    font-size: var(--text-nav);
+    font-weight: 500;
+    letter-spacing: var(--tracking-nav);
+    transition: opacity 0.15s var(--ease-standard);
+    cursor: pointer;
   }
-  .btn-pill:active {
-    transform: scale(0.95);
-  }
+  .btn-primary:hover  { opacity: 0.88; }
+  .btn-primary:active { transform: scale(0.97); }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
 
-  .btn-frap {
-    position: fixed;
-    bottom: var(--spacing-3);
-    right:  var(--spacing-3);
-    width:  var(--spacing-8);
-    height: var(--spacing-8);
-    border-radius: var(--radius-circle);
-    background-color: var(--color-brand-accent);
-    color: var(--color-surface-white);
-    box-shadow: var(--shadow-frap);
-    transition: all 0.2s ease;
-    z-index: 400;
-  }
-  .btn-frap:active {
-    transform: scale(0.95);
-    box-shadow: var(--shadow-frap-active);
-  }
-
-  .card-content {
+  /* ── Secondary CTA — Outlined Pill ──────────────────────── */
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    padding: 6px 24px;
+    border-radius: var(--radius-cta);
     background-color: var(--color-surface-white);
-    border-radius: var(--radius-md);
+    color: var(--color-ink);
+    border: 1.5px solid var(--color-ink);
+    font-size: var(--text-nav);
+    font-weight: 450;
+    letter-spacing: var(--tracking-nav);
+    transition: opacity 0.15s var(--ease-standard);
+    cursor: pointer;
+  }
+  .btn-secondary:hover  { opacity: 0.80; }
+  .btn-secondary:active { transform: scale(0.97); }
+  .btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* ── Consent CTA — Signal Orange ────────────────────────────
+     Use ONLY for cookie consent, privacy, and legal actions.
+     Never use for marketing CTAs.                          */
+  .btn-consent {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1px 30px;
+    border-radius: var(--radius-consent);
+    background-color: var(--color-signal);
+    color: var(--color-surface-white);
+    font-size: 1.3rem;
+    font-weight: 400;
+    letter-spacing: 0.013em;
+    cursor: pointer;
+  }
+
+  /* ── Satellite CTA — Circular micro-CTA ─────────────────────
+     Always docked to the bottom-right of a circular portrait. */
+  .btn-satellite {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-circle);
+    background-color: var(--color-surface-white);
+    color: var(--color-ink);
+    cursor: pointer;
+  }
+
+  /* ── Icon-only Circle Button ─────────────────────────────── */
+  .btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-circle);
+    border: 1px solid var(--color-ink);
+    background-color: transparent;
+    color: var(--color-ink);
+    cursor: pointer;
+    transition: opacity 0.15s var(--ease-standard);
+  }
+  .btn-icon:hover { opacity: 0.72; }
+
+  /* ── Floating Nav Pill ───────────────────────────────────── */
+  .nav-pill {
+    background-color: var(--color-surface-white);
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-float);
+    padding: 16px 40px;
+  }
+
+  /* ── Hero / Stadium Frame ────────────────────────────────── */
+  .frame-stadium {
+    border-radius: var(--radius-hero);
+    overflow: hidden;
     box-shadow: var(--shadow-card);
-    padding: var(--spacing-3);
+  }
+
+  /* ── Circular Portrait ───────────────────────────────────── */
+  .portrait {
+    border-radius: var(--radius-circle);
+    overflow: hidden;
+    aspect-ratio: 1;
+  }
+
+  /* ── Content Card (generic) ──────────────────────────────── */
+  .card {
+    background-color: var(--color-surface-white);
+    border-radius: var(--radius-hero);
+    box-shadow: var(--shadow-card);
+    padding: var(--spacing-4);
   }
 }

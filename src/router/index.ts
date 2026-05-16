@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   { path: '/groups', component: () => import('@/features/group/views/GroupListView.vue'), meta: { requiresAuth: true } },
+  { path: '/groups/:id', component: () => import('@/features/group/views/GroupDetailView.vue'), meta: { requiresAuth: true } },
   { path: '/sign-in', component: () => import('@/features/auth/views/SignInView.vue') },
   { path: '/auth/callback', component: () => import('@/features/auth/views/AuthCallback.vue') },
 ]

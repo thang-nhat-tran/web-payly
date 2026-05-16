@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/features/auth/stores/auth.store'
 import { useListGroup } from '@/features/group/composables/useListGroup'
 import { useCreateGroup } from '@/features/group/composables/useCreateGroup'
@@ -12,20 +13,17 @@ import { Plus } from 'lucide-vue-next'
 import { toast } from 'vue-sonner'
 import type { CreateGroupForm } from '@/features/group/schemas/create-group.schema'
 import { GROUP_MESSAGES } from '@/features/group/constants/group-message.constant'
+const router = useRouter()
 const auth = useAuthStore()
 const groups = useListGroup()
 const createGroup = useCreateGroup()
 const showCreateModal = ref(false)
 
-function refresh() {
-  if (auth.user?.id) groups.query(auth.user.id)
-}
-
 async function handleCreateSubmit({ name, description }: CreateGroupForm) {
   await createGroup.mutate({ name, description, createdBy: auth.user!.id })
   if (createGroup.isSuccess.value) {
     showCreateModal.value = false
-    refresh()
+    groups.query()
     toast.success(GROUP_MESSAGES.CREATE_SUCCESS, {
       description: createGroup.data.value?.name,
     })
@@ -38,7 +36,7 @@ async function handleCreateSubmit({ name, description }: CreateGroupForm) {
 }
 
 onMounted(() => {
-  refresh()
+  groups.query()
 })
 </script>
 
@@ -68,6 +66,7 @@ onMounted(() => {
             v-for="group in groups.data.value"
             :key="group.id"
             :group="group"
+            @open="router.push(`/groups/${group.id}`)"
           />
         </template>
       </div>

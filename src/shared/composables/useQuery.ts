@@ -4,7 +4,9 @@ interface QueryOptions<TData, TQuery = void> {
   queryFn: (query: TQuery) => Promise<TData>
 }
 
-export function useQuery<TData, TQuery>(options: QueryOptions<TData, TQuery>) {
+export function useQuery<TData, TQuery = void>(
+  options: QueryOptions<TData, TQuery>,
+) {
   const data = ref<TData | null>(null)
   const error = ref<Error | null>(null)
   const isPending = ref(false)

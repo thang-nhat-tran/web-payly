@@ -6,6 +6,7 @@ import UserAvatar from '@/shared/components/user-profile/UserAvatar.vue'
 import type { GroupWithStats } from '@/features/group/types/group.types'
 
 const props = defineProps<{ group: GroupWithStats }>()
+const emit = defineEmits<{ open: [] }>()
 
 const MAX_VISIBLE = 4
 
@@ -44,7 +45,7 @@ function formatAmount(amount: number) {
         </div>
         <div v-if="extraCount > 0" class="avatar-ring avatar-extra">+{{ extraCount }}</div>
       </div>
-      <button class="btn-primary open-btn">Mở →</button>
+      <button class="btn-primary open-btn" @click="emit('open')">Mở →</button>
     </CardFooter>
   </Card>
 </template>

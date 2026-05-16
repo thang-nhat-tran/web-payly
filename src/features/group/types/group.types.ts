@@ -22,3 +22,5 @@ export interface CreateGroupRequest {
   description?: string | null
   createdBy: string
 }
+
+export type DetailTab = 'bills' | 'members' | 'settlement'

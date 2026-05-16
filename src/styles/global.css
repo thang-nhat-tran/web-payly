@@ -275,3 +275,52 @@
     padding: var(--spacing-4);
   }
 }
+
+/* ============================================================
+   SONNER TOAST — description utility (used via toastOptions.classes)
+   ============================================================ */
+.toast-description {
+  color: var(--color-slate) !important;
+  font-size: var(--text-sm) !important;
+}
+
+/* ============================================================
+   SONNER TOAST — design-system overrides
+   Maps vue-sonner CSS variables to our tokens so toasts feel
+   native to the Mastercard-inspired palette.
+   ============================================================ */
+[data-sonner-toaster] {
+  --width:         360px;
+  --border-radius: var(--radius-cta);
+  --font-size:     var(--text-sm);
+  --box-shadow:    var(--shadow-card);
+  font-family:     var(--font-sans);
+
+  /* Normal */
+  --normal-bg:     var(--color-surface-white);
+  --normal-border: var(--color-dust);
+  --normal-text:   var(--color-ink);
+
+  /* Description */
+  --description-color: var(--color-slate);
+
+  /* Success — soft green tinted to stay warm */
+  --success-bg:     #F0FAF4;
+  --success-border: #BBE8CB;
+  --success-text:   #166534;
+
+  /* Error — signal palette */
+  --error-bg:     #FFF4F0;
+  --error-border: #F5C4B2;
+  --error-text:   var(--color-signal);
+
+  /* Warning — warm amber */
+  --warning-bg:     #FFFBEB;
+  --warning-border: #FDE68A;
+  --warning-text:   #92400E;
+
+  /* Info — link blue */
+  --info-bg:     #EFF6FF;
+  --info-border: #BFDBFE;
+  --info-text:   var(--color-link);
+}

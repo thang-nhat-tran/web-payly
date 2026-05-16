@@ -1,10 +1,10 @@
-import { useAuthStore } from '@/stores/authStore'
+import { useAuthStore } from '@/features/auth/stores/auth.store'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
-  { path: '/groups', component: () => import('@/views/GroupListView.vue'), meta: { requiresAuth: true } },
-  { path: '/login', component: () => import('@/views/LoginView.vue') },
-  { path: '/auth/callback', component: () => import('@/views/AuthCallback.vue') },
+  { path: '/groups', component: () => import('@/features/group/views/GroupListView.vue'), meta: { requiresAuth: true } },
+  { path: '/sign-in', component: () => import('@/features/auth/views/SignInView.vue') },
+  { path: '/auth/callback', component: () => import('@/features/auth/views/AuthCallback.vue') },
 ]
 
 const router = createRouter({
@@ -18,14 +18,14 @@ router.beforeEach(async (to) => {
   if (!auth.initialized) await auth.init()
 
   if (to.path === '/') {
-    return auth.isAuthenticated ? '/groups' : '/login'
+    return auth.isAuthenticated ? '/groups' : '/sign-in'
   }
 
   if (to.meta.requiresAuth && !auth.isAuthenticated) {
-    return '/login'
+    return '/sign-in'
   }
 
-  if (to.path === '/login' && auth.isAuthenticated) {
+  if (to.path === '/sign-in' && auth.isAuthenticated) {
     return '/groups'
   }
 })

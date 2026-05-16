@@ -16,10 +16,10 @@ const { handleSubmit, resetForm } = useForm({
 const { value: name, errorMessage: nameError } = useField<string>('name')
 const { value: description } = useField<string>('description')
 
-const onSubmit = handleSubmit((values) => {
+const handleSubmitForm = handleSubmit(({ name, description }) => {
   emit('submit', {
-    name: values.name,
-    description: values.description?.trim() || null,
+    name,
+    description: description?.trim() || null,
   })
 })
 
@@ -27,13 +27,11 @@ function handleClose() {
   resetForm()
   emit('close')
 }
-
-defineExpose({ resetForm })
 </script>
 
 <template>
   <Modal :open="open" title="Tạo nhóm mới" @close="handleClose">
-    <form class="form" @submit.prevent="onSubmit">
+    <form class="form" @submit.prevent="handleSubmitForm">
       <div class="field">
         <label class="label" for="group-name"
           >Tên nhóm <span class="required">*</span></label
@@ -68,7 +66,7 @@ defineExpose({ resetForm })
       <button class="btn-secondary" type="button" @click="handleClose">
         Huỷ
       </button>
-      <button class="btn-primary" :disabled="loading" @click="onSubmit">
+      <button class="btn-primary" :disabled="loading" @click="handleSubmitForm">
         {{ loading ? 'Đang tạo…' : 'Tạo nhóm' }}
       </button>
     </template>

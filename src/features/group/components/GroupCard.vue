@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Wallet } from 'lucide-vue-next'
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/shared/components/ui/card'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from '@/shared/components/ui/card'
 import UserAvatar from '@/shared/components/user-profile/UserAvatar.vue'
 import type { GroupWithStats } from '@/features/group/types/group.types'
 
@@ -11,18 +18,25 @@ const emit = defineEmits<{ open: [] }>()
 const MAX_VISIBLE = 4
 
 const visibleMembers = computed(() => props.group.members.slice(0, MAX_VISIBLE))
-const extraCount = computed(() => Math.max(0, props.group.members.length - MAX_VISIBLE))
+const extraCount = computed(() =>
+  Math.max(0, props.group.members.length - MAX_VISIBLE),
+)
 
 function formatAmount(amount: number) {
-  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount)
+  return new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+  }).format(amount)
 }
 </script>
 
 <template>
-  <Card>
+  <Card clickable @click="emit('open')">
     <CardHeader>
       <CardTitle>{{ group.name }}</CardTitle>
-      <CardDescription v-if="group.description">{{ group.description }}</CardDescription>
+      <CardDescription v-if="group.description">{{
+        group.description
+      }}</CardDescription>
     </CardHeader>
 
     <CardContent>
@@ -45,7 +59,7 @@ function formatAmount(amount: number) {
         </div>
         <div v-if="extraCount > 0" class="avatar-ring avatar-extra">+{{ extraCount }}</div>
       </div>
-      <button class="btn-primary open-btn" @click="emit('open')">Mở →</button>
+      <button class="btn-primary open-btn" @click.stop="emit('open')">Mở →</button>
     </CardFooter>
   </Card>
 </template>

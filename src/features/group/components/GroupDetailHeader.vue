@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { ArrowLeft } from 'lucide-vue-next'
-import defaultCover from '@/assets/default-group-cover.png'
+import { ArrowLeft, Users } from 'lucide-vue-next'
+import defaultCover from '@/assets/images/default-group-cover.jpg'
 
 defineProps<{
   name: string
-  subtitle: string
-  coverUrl?: string
+  subtitle?: string | null
+  coverUrl?: string | null
 }>()
 
-defineEmits<{ back: [] }>()
+defineEmits<{ back: []; selectMembers: [] }>()
 </script>
 
 <template>
@@ -18,12 +18,18 @@ defineEmits<{ back: [] }>()
   >
     <div class="overlay" />
     <div class="hero-inner">
-      <button class="back-btn" aria-label="Quay lại" @click="$emit('back')">
-        <ArrowLeft :size="20" :stroke-width="2" />
-      </button>
+      <div class="top-row">
+        <button class="icon-btn" aria-label="Quay lại" @click="$emit('back')">
+          <ArrowLeft :size="20" :stroke-width="2" />
+        </button>
+        <button class="icon-btn" aria-label="Thành viên" @click="$emit('selectMembers')">
+          <Users :size="20" :stroke-width="2" />
+        </button>
+      </div>
+
       <div class="info">
-        <h2 class="name">{{ name }}</h2>
-        <p class="subtitle">{{ subtitle }}</p>
+        <p class="name">{{ name }}</p>
+        <p v-if="subtitle" class="subtitle">{{ subtitle }}</p>
       </div>
     </div>
   </div>
@@ -55,14 +61,17 @@ defineEmits<{ back: [] }>()
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: space-between;
   padding: var(--spacing-2) var(--spacing-2) var(--spacing-3);
 }
 
-.back-btn {
-  position: absolute;
-  top: var(--spacing-2);
-  left: var(--spacing-2);
+.top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.icon-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -76,7 +85,7 @@ defineEmits<{ back: [] }>()
   transition: background 0.15s var(--ease-standard);
 }
 
-.back-btn:hover {
+.icon-btn:hover {
   background: rgba(255, 255, 255, 0.3);
 }
 

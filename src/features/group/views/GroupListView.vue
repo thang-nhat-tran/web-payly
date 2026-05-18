@@ -9,7 +9,8 @@ import UserAvatar from '@/shared/components/user-profile/UserAvatar.vue'
 import GroupCard from '@/features/group/components/GroupCard.vue'
 import GroupCardSkeleton from '@/features/group/components/GroupCardSkeleton.vue'
 import CreateGroupModal from '@/features/group/components/CreateGroupModal.vue'
-import { Plus } from 'lucide-vue-next'
+import AppFab from '@/shared/components/app/AppFab.vue'
+import { HousePlus } from 'lucide-vue-next'
 import { toast } from 'vue-sonner'
 import type { CreateGroupForm } from '@/features/group/schemas/create-group.schema'
 import { GROUP_MESSAGES } from '@/features/group/constants/group-message.constant'
@@ -72,13 +73,11 @@ onMounted(() => {
       </div>
     </main>
 
-    <button
-      class="fab"
+    <AppFab
+      :icon="HousePlus"
       aria-label="Tạo nhóm mới"
       @click="showCreateModal = true"
-    >
-      <Plus :size="24" :stroke-width="2" />
-    </button>
+    />
 
     <CreateGroupModal
       :open="showCreateModal"
@@ -106,33 +105,5 @@ onMounted(() => {
   .groups-grid {
     grid-template-columns: repeat(3, 1fr);
   }
-}
-
-.fab {
-  position: fixed;
-  bottom: var(--spacing-4);
-  right: var(--spacing-4);
-  width: 56px;
-  height: 56px;
-  border-radius: var(--radius-circle);
-  background-color: var(--color-ink);
-  color: var(--color-canvas);
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow-card);
-  cursor: pointer;
-  transition:
-    transform 0.15s var(--ease-standard),
-    opacity 0.15s var(--ease-standard);
-}
-
-.fab:hover {
-  opacity: 0.88;
-  transform: scale(1.06);
-}
-.fab:active {
-  transform: scale(0.95);
 }
 </style>

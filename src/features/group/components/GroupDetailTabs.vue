@@ -1,91 +1,62 @@
 <script setup lang="ts">
-import { SlidersHorizontal } from 'lucide-vue-next'
-import type { DetailTab } from '@/features/group/types/group.types'
+import type { GroupDetailTab } from '@/features/group/types/group.types'
 
-defineProps<{ active: DetailTab }>()
-defineEmits<{ select: [DetailTab] }>()
+defineProps<{ active: GroupDetailTab }>()
+defineEmits<{ select: [GroupDetailTab] }>()
+
+const tabs: {
+  value: GroupDetailTab
+  label: string
+}[] = [
+  { value: 'expenses', label: 'Khoản chi' },
+  { value: 'settlement', label: 'Thanh toán' },
+]
 </script>
 
 <template>
-  <div class="tabs">
-    <div class="tab-list">
-      <button
-        class="tab"
-        :class="{ 'tab--active': active === 'bills' }"
-        @click="$emit('select', 'bills')"
-      >
-        Hóa đơn
-      </button>
-      <button
-        class="tab"
-        :class="{ 'tab--active': active === 'members' }"
-        @click="$emit('select', 'members')"
-      >
-        Thành viên
-      </button>
-      <button
-        class="tab"
-        :class="{ 'tab--active': active === 'settlement' }"
-        @click="$emit('select', 'settlement')"
-      >
-        Kết toán
-      </button>
-    </div>
-    <button class="filter-btn" aria-label="Bộ lọc">
-      <SlidersHorizontal :size="18" :stroke-width="1.5" />
+  <div class="tab-list">
+    <button
+      v-for="tab in tabs"
+      :key="tab.value"
+      class="tab"
+      :class="{ 'tab--active': active === tab.value }"
+      @click="$emit('select', tab.value)"
+    >
+      {{ tab.label }}
     </button>
   </div>
 </template>
 
 <style scoped>
-.tabs {
+.tab-list {
   display: flex;
-  align-items: center;
   border-bottom: 1px solid var(--color-dust);
   padding: 0 var(--spacing-1);
 }
 
-.tab-list {
-  display: flex;
-  flex: 1;
-}
-
 .tab {
-  padding: var(--spacing-2) var(--spacing-2);
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 var(--spacing-2);
+  height: 48px;
   font-size: var(--text-base);
   font-weight: 450;
   color: var(--color-slate);
   background: none;
   border: none;
-  border-bottom: 2px solid transparent;
   cursor: pointer;
-  margin-bottom: -1px;
+  box-shadow: inset 0 -2px 0 0 transparent;
   transition:
     color 0.15s var(--ease-standard),
-    border-color 0.15s var(--ease-standard);
+    box-shadow 0.15s var(--ease-standard);
 }
 
 .tab--active {
   color: var(--color-ink);
   font-weight: 600;
-  border-bottom-color: var(--color-ink);
-}
-
-.filter-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-circle);
-  background: none;
-  border: none;
-  color: var(--color-slate);
-  cursor: pointer;
-  transition: color 0.15s var(--ease-standard);
-}
-
-.filter-btn:hover {
-  color: var(--color-ink);
+  box-shadow: inset 0 -2px 0 0 var(--color-ink);
 }
 </style>

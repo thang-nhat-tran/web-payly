@@ -2,6 +2,7 @@ export interface Group {
   id: string
   name: string
   description?: string | null
+  coverImageUrl?: string | null
   createdBy: string
   createdAt: string
 }
@@ -23,4 +24,8 @@ export interface CreateGroupRequest {
   createdBy: string
 }
 
-export type DetailTab = 'bills' | 'members' | 'settlement'
+export type GroupDetailTab = 'expenses' | 'settlement'
+export const TAB_EMPTY_MESSAGE: Record<GroupDetailTab, string> = {
+  expenses: 'Chưa có khoản chi nào.',
+  settlement: 'Chưa có thanh toán nào.',
+}

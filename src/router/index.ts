@@ -1,12 +1,9 @@
-import { useAuthStore } from '@/features/auth/stores/auth.store'
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '@/shared/stores/auth.store'
+import authRoutes from '@/modules/auth/router'
+import groupRoutes from '@/modules/group/router'
 
-const routes = [
-  { path: '/groups', component: () => import('@/features/group/views/GroupListView.vue'), meta: { requiresAuth: true } },
-  { path: '/groups/:id', component: () => import('@/features/group/views/GroupDetailView.vue'), meta: { requiresAuth: true } },
-  { path: '/sign-in', component: () => import('@/features/auth/views/SignInView.vue') },
-  { path: '/auth/callback', component: () => import('@/features/auth/views/AuthCallback.vue') },
-]
+const routes = [...authRoutes, ...groupRoutes]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

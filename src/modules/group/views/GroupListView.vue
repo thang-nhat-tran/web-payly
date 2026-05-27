@@ -1,0 +1,85 @@
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/shared/stores/auth.store'
+import { useListGroup } from '@/modules/group/composables/useListGroup'
+import AppHeader from '@/shared/components/app/AppHeader.vue'
+import UserAvatar from '@/shared/components/ui/Avatar.vue'
+import GroupCard from '@/modules/group/components/group-card/GroupCard.vue'
+import GroupCardSkeleton from '@/modules/group/components/group-card/GroupCardSkeleton.vue'
+import CreateGroupModal from '@/modules/group/components/create-group-modal/CreateGroupModal.vue'
+import AppFab from '@/shared/components/app/AppFab.vue'
+import { HousePlus } from 'lucide-vue-next'
+import { toast } from 'vue-sonner'
+import type { Group } from '@/modules/group/types/group.types'
+import { GROUP_MESSAGES } from '@/modules/group/components/group-detail/group.constants'
+
+const router = useRouter()
+const auth = useAuthStore()
+const groups = useListGroup()
+const showCreateModal = ref(false)
+
+function handleCreateSuccess(group: Group) {
+  showCreateModal.value = false
+  groups.query()
+  toast.success(GROUP_MESSAGES.CREATE_SUCCESS, { description: group.name })
+}
+
+onMounted(() => {
+  groups.query()
+})
+</script>
+
+<template>
+  <div class="min-h-screen">
+    <AppHeader>
+      <template #left>
+        <h3>Nhóm chi tiêu</h3>
+      </template>
+
+      <template #right>
+        <UserAvatar :src="auth.user?.user_metadata?.avatar_url" :name="auth.user?.email" size="lg" />
+      </template>
+    </AppHeader>
+
+    <main class="mx-auto px-3 py-3">
+      <div class="groups-grid">
+        <template v-if="groups.isPending.value">
+          <GroupCardSkeleton v-for="i in 6" :key="i" />
+        </template>
+        <template v-else>
+          <GroupCard
+            v-for="group in groups.data.value"
+            :key="group.id"
+            :group="group"
+            @open="router.push(`/groups/${group.id}`)"
+          />
+        </template>
+      </div>
+    </main>
+
+    <AppFab :icon="HousePlus" aria-label="Tạo nhóm mới" @click="showCreateModal = true" />
+
+    <CreateGroupModal :open="showCreateModal" @close="showCreateModal = false" @success="handleCreateSuccess" />
+  </div>
+</template>
+
+<style scoped>
+.groups-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-3);
+}
+
+@media (min-width: 768px) {
+  .groups-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .groups-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+</style>

@@ -2,97 +2,82 @@
 
 ## Table of Contents
 
-- [Vue + TypeScript File Naming Convention](#vue--typescript-file-naming-convention)
-  - [Table of Contents](#table-of-contents)
-  - [General Rules](#general-rules)
-- [Folder Structure](#folder-structure)
+- [General Rules](#general-rules)
 - [Naming Conventions](#naming-conventions)
-  - [Vue Components](#vue-components)
-    - [Rule](#rule)
-    - [Examples](#examples)
+  - [Folders](#folders)
+  - [Vue Components & Views](#vue-components--views)
   - [Composables](#composables)
-    - [Rule](#rule-1)
-    - [Examples](#examples-1)
   - [API Layer](#api-layer)
-    - [Rule](#rule-2)
-    - [Examples](#examples-2)
   - [Validation Schemas](#validation-schemas)
-    - [Rule](#rule-3)
-    - [Examples](#examples-3)
   - [Types](#types)
-    - [Rule](#rule-4)
-    - [Examples](#examples-4)
-    - [Avoid](#avoid)
   - [Stores](#stores)
-    - [Rule](#rule-5)
-    - [Examples](#examples-5)
   - [Constants](#constants)
-    - [Rule](#rule-6)
-    - [Examples](#examples-6)
+  - [Helpers](#helpers)
   - [Mappers / Transformers](#mappers--transformers)
-    - [Rule](#rule-7)
-    - [Examples](#examples-7)
   - [Utilities](#utilities)
-    - [Rule](#rule-8)
-    - [Examples](#examples-8)
   - [Routes](#routes)
-    - [Rule](#rule-9)
-    - [Examples](#examples-9)
 - [Naming Inside Files](#naming-inside-files)
-  - [Schemas](#schemas)
-  - [Form Types](#form-types)
-  - [API Request](#api-request)
-  - [API Responses](#api-responses)
 - [Architecture Rules](#architecture-rules)
-  - [Prefer Feature-Based Structure](#prefer-feature-based-structure)
-  - [Avoid Dump Files](#avoid-dump-files)
 
 ---
 
 ## General Rules
 
-- Use `feature-based structure`
-- Use `PascalCase` for Vue components
-- Use `kebab-case` for all non-component files
-- Prefer `feature-name.suffix.ts` naming
-- File names should describe the **purpose**, not the syntax
+> This doc governs **names only**. For folder structure & architecture, see [CODE_CONVENTION.md](./CODE_CONVENTION.md).
 
----
+| Target | Convention |
+| --- | --- |
+| **Folders** | `kebab-case` |
+| **Vue component & view files** | `PascalCase.vue` |
+| **All other files** | `kebab-case` with a domain-specific suffix (see sections below) |
 
-# Folder Structure
-
-```txt
-features/
-  group/
-    api/
-    components/
-    composables/
-    constants/
-    mappers/
-    schemas/
-    stores/
-    types/
-    utils/
-    views/
-```
+File names should describe the **purpose**, not the syntax.
 
 ---
 
 # Naming Conventions
 
-## Vue Components
+## Folders
 
 ### Rule
 
-- Use `PascalCase.vue`
+- All folders use `kebab-case` — no exceptions
+- Colocated component folders follow the component name in kebab-case
+
+### Examples
+
+```txt
+modules/group/
+modules/group/components/create-group-modal/
+modules/expense/components/expense-split-card/
+shared/stores/
+```
+
+### Avoid
+
+```txt
+modules/Group/
+components/CreateGroupModal/   ❌ PascalCase folder
+components/expenseSplitCard/   ❌ camelCase folder
+```
+
+---
+
+## Vue Components & Views
+
+### Rule
+
+- File name must be `PascalCase.vue`
 - Component name and file name must match
+- Applies to both `components/` and `views/`
 
 ### Examples
 
 ```txt
 GroupCard.vue
 CreateGroupModal.vue
-UserProfileForm.vue
+GroupListView.vue
+GroupDetailView.vue
 ```
 
 ---
@@ -101,14 +86,13 @@ UserProfileForm.vue
 
 ### Rule
 
-- Use `useXxx.ts`
-- File must start with `use`
+- Use `useXxx.ts` — file must start with `use`
 
 ### Examples
 
 ```txt
 useCreateGroup.ts
-useAuth.ts
+useGroupDetail.ts
 useInfiniteScroll.ts
 ```
 
@@ -118,7 +102,7 @@ useInfiniteScroll.ts
 
 ### Rule
 
-- Use `feature.api.ts`
+- Use `module.api.ts`
 
 ### Examples
 
@@ -134,15 +118,14 @@ payment.api.ts
 
 ### Rule
 
-- Use `feature.schema.ts` or `action-feature.schema.ts`
-- One schema per file when possible
+- Use `action-module.schema.ts`
+- Colocate inside the component folder when schema is component-specific (see [CODE_CONVENTION.md](./CODE_CONVENTION.md) §2)
 
 ### Examples
 
 ```txt
-create-group.schema.ts
+create-group.schema.ts     ← inside create-group-modal/
 login.schema.ts
-user-profile.schema.ts
 ```
 
 ---
@@ -151,15 +134,14 @@ user-profile.schema.ts
 
 ### Rule
 
-- Use `feature.types.ts`
-- Store only shared/domain types
+- Use `module.types.ts`
+- Domain entities only — API request/response types belong in `module.api.ts`
 
 ### Examples
 
 ```txt
 group.types.ts
-auth.types.ts
-api.types.ts
+expense.types.ts
 ```
 
 ### Avoid
@@ -176,7 +158,7 @@ types.ts
 
 ### Rule
 
-- Use `feature.store.ts`
+- Use `module.store.ts`
 
 ### Examples
 
@@ -191,7 +173,7 @@ group.store.ts
 
 ### Rule
 
-- Use `feature.constants.ts`
+- Use `module.constants.ts`
 
 ### Examples
 
@@ -202,11 +184,26 @@ auth.constants.ts
 
 ---
 
+## Helpers
+
+### Rule
+
+- Use `ComponentName.helpers.ts` — colocated inside the component folder
+- Pure functions only (no reactivity)
+
+### Examples
+
+```txt
+expense-split-card/ExpenseSplitCard.helpers.ts
+```
+
+---
+
 ## Mappers / Transformers
 
 ### Rule
 
-- Use `feature.mapper.ts`
+- Use `module.mapper.ts`
 
 ### Examples
 
@@ -221,14 +218,13 @@ user.mapper.ts
 
 ### Rule
 
-- Use `feature.util.ts` or `feature.utils.ts`
+- Use `domain.util.ts`
 
 ### Examples
 
 ```txt
 date.util.ts
 string.util.ts
-group.utils.ts
 ```
 
 ---
@@ -237,13 +233,14 @@ group.utils.ts
 
 ### Rule
 
-- Use `feature.routes.ts`
+- One `router.ts` per module — default-exports the route array, merged in `src/router/index.ts`
+- See [CODE_CONVENTION.md](./CODE_CONVENTION.md) §6
 
 ### Examples
 
 ```txt
-group.routes.ts
-auth.routes.ts
+modules/group/router.ts
+modules/auth/router.ts
 ```
 
 ---
@@ -256,15 +253,11 @@ auth.routes.ts
 export const createGroupSchema
 ```
 
----
-
 ## Form Types
 
 ```ts
 export type CreateGroupForm
 ```
-
----
 
 ## API Request
 
@@ -272,9 +265,7 @@ export type CreateGroupForm
 export interface CreateGroupRequest
 ```
 
----
-
-## API Responses
+## API Response
 
 ```ts
 export interface GroupResponse
@@ -284,28 +275,28 @@ export interface GroupResponse
 
 # Architecture Rules
 
-## Prefer Feature-Based Structure
+## Prefer Module-Based Structure
 
 ✅ Good
 
 ```txt
-features/group/api
-features/group/components
+modules/group/api/
+modules/group/components/create-group-modal/
 ```
 
 ❌ Avoid
 
 ```txt
-global/apis
-global/types
-global/schemas
+global/apis/
+global/types/
+global/schemas/
 ```
 
 ---
 
 ## Avoid Dump Files
 
-Avoid generic files such as:
+Avoid generic file names:
 
 ```txt
 helpers.ts
@@ -319,7 +310,5 @@ Prefer domain-specific names:
 ```txt
 group.mapper.ts
 date.util.ts
-auth.constants.ts
+group.constants.ts
 ```
-
----

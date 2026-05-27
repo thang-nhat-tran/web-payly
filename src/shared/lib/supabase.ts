@@ -1,6 +1,9 @@
 import { createClient, PostgrestError } from '@supabase/supabase-js'
 import { toCamelCase, toSnakeCase } from '@/shared/lib/case-converter'
 
+// Re-export SDK types so modules never import `@supabase/supabase-js` directly (Hard Rule 1).
+export type { User, Session, AuthChangeEvent } from '@supabase/supabase-js'
+
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 

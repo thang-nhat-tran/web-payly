@@ -4,7 +4,7 @@
 
 <template>
   <header class="sticky top-0 z-50 bg-surface-white shadow-float">
-    <div class="mx-auto max-w-screen-lg px-3 h-24 flex items-center gap-4">
+    <div class="mx-auto px-3 h-24 flex items-center gap-4">
       <div class="flex shrink-0 items-center">
         <slot name="left" />
       </div>

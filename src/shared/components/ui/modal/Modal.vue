@@ -37,7 +37,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
             v-if="open"
             role="dialog"
             aria-modal="true"
-            class="w-full max-w-140 overflow-hidden rounded-consent bg-surface-white shadow-feature"
+            class="w-full max-w-200 overflow-hidden rounded-consent bg-surface-white shadow-feature"
             v-bind="$attrs"
           >
             <slot />

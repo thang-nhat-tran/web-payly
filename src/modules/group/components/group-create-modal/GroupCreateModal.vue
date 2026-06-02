@@ -1,13 +1,6 @@
 <script setup lang="ts">
 import { useForm, useField } from 'vee-validate'
-import {
-  Modal,
-  ModalHeader,
-  ModalTitle,
-  ModalClose,
-  ModalBody,
-  ModalFooter,
-} from '@/shared/components/ui/modal'
+import { Modal, ModalHeader, ModalTitle, ModalClose, ModalBody, ModalFooter } from '@/shared/components/ui/modal'
 import Label from '@/shared/components/ui/Label.vue'
 import Input from '@/shared/components/ui/Input.vue'
 import { useAuthStore } from '@/shared/stores/auth.store'
@@ -19,6 +12,7 @@ defineProps<{ open: boolean }>()
 const emit = defineEmits<{
   close: []
   success: [Group]
+  error: [Error]
 }>()
 
 const auth = useAuthStore()
@@ -39,6 +33,8 @@ const handleSubmitForm = handleSubmit(async ({ name, description }) => {
   if (createGroup.isSuccess.value) {
     resetForm()
     emit('success', createGroup.data.value!)
+  } else if (createGroup.isError.value) {
+    emit('error', createGroup.error.value!)
   }
 })
 

@@ -25,6 +25,10 @@ function handleCreateSuccess(group: Group) {
   toast.success(GROUP_MESSAGES.CREATE_SUCCESS, { description: group.name })
 }
 
+function handleCreateError(error: Error) {
+  toast.error('Có lỗi xảy ra khi tạo nhóm', { description: error.message })
+}
+
 onMounted(() => {
   groups.query()
 })
@@ -60,7 +64,12 @@ onMounted(() => {
 
     <AppFab :icon="HousePlus" aria-label="Tạo nhóm mới" @click="showCreateModal = true" />
 
-    <GroupCreateModal :open="showCreateModal" @close="showCreateModal = false" @success="handleCreateSuccess" />
+    <GroupCreateModal
+      :open="showCreateModal"
+      @close="showCreateModal = false"
+      @success="handleCreateSuccess"
+      @error="handleCreateError"
+    />
   </div>
 </template>
 

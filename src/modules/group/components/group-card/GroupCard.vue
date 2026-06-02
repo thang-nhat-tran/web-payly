@@ -1,17 +1,11 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import { Wallet } from 'lucide-vue-next'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/shared/components/ui/card'
-import UserAvatar from '@/shared/components/ui/Avatar.vue'
+import MemberAvatarStack from '@/modules/group-member/components/MemberAvatarStack.vue'
 import type { GroupWithStats } from '@/modules/group/types/group.types'
 
-const props = defineProps<{ group: GroupWithStats }>()
+defineProps<{ group: GroupWithStats }>()
 const emit = defineEmits<{ open: [] }>()
-
-const MAX_VISIBLE = 4
-
-const visibleMembers = computed(() => props.group.members.slice(0, MAX_VISIBLE))
-const extraCount = computed(() => Math.max(0, props.group.members.length - MAX_VISIBLE))
 
 function formatAmount(amount: number) {
   return new Intl.NumberFormat('vi-VN', {
@@ -41,13 +35,7 @@ function formatAmount(amount: number) {
     </CardContent>
 
     <CardFooter>
-      <!-- Stacked member avatars -->
-      <div class="avatar-stack">
-        <div v-for="(member, i) in visibleMembers" :key="i" class="avatar-ring">
-          <UserAvatar :name="member.name" :src="member.avatarUrl" size="sm" />
-        </div>
-        <div v-if="extraCount > 0" class="avatar-ring avatar-extra">+{{ extraCount }}</div>
-      </div>
+      <MemberAvatarStack :avatar-urls="group.memberAvatarUrls" />
       <button class="btn-primary open-btn" @click.stop="emit('open')">Mở →</button>
     </CardFooter>
   </Card>
@@ -85,34 +73,6 @@ function formatAmount(amount: number) {
   font-weight: 450;
   color: var(--color-text-muted);
   margin-top: 2px;
-}
-
-/* Stacked avatars */
-.avatar-stack {
-  display: flex;
-  align-items: center;
-}
-
-.avatar-ring {
-  border-radius: var(--radius-round);
-  border: 2px solid var(--color-bg-surface);
-  flex-shrink: 0;
-}
-
-.avatar-ring + .avatar-ring {
-  margin-left: -8px;
-}
-
-.avatar-extra {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  background-color: var(--color-bg-base);
-  color: var(--color-text-muted);
-  font-size: 1.1rem;
-  font-weight: 600;
 }
 
 .icon-members {

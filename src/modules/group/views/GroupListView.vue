@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/shared/stores/auth.store'
-import { useListGroup } from '@/modules/group/composables/useListGroup'
+import { useGroupList } from '@/modules/group/composables/useGroupList'
 import AppHeader from '@/shared/components/app/AppHeader.vue'
 import UserAvatar from '@/shared/components/ui/Avatar.vue'
 import GroupCard from '@/modules/group/components/group-card/GroupCard.vue'
@@ -16,7 +16,7 @@ import { GROUP_MESSAGES } from '@/modules/group/components/group-detail/group.co
 
 const router = useRouter()
 const auth = useAuthStore()
-const groups = useListGroup()
+const groups = useGroupList()
 const showCreateModal = ref(false)
 
 function handleCreateSuccess(group: Group) {

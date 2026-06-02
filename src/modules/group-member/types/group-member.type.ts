@@ -1,7 +1,9 @@
+export type GroupMemberRole = 'admin' | 'member'
+
 export interface GroupMember {
-  id: number
+  id: string
   name: string
-  avatarUrl?: string
   email: string
-  role: 'admin' | 'member'
+  avatarUrl?: string
+  role: GroupMemberRole
 }

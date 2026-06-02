@@ -3,17 +3,13 @@ export interface Group {
   name: string
   description?: string | null
   coverImageUrl?: string | null
+  inviteToken: string
   createdBy: string
   createdAt: string
 }
 
-export interface GroupMember {
-  name: string
-  avatarUrl?: string
-}
-
 /** Extended with UI-only fields not stored in the DB */
 export interface GroupWithStats extends Group {
-  members: GroupMember[]
+  memberAvatarUrls: string[]
   totalAmount: number
 }

@@ -27,7 +27,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <GroupMemberModal :open="showGroupMemberModal" @close="showGroupMemberModal = false" />
+  <GroupMemberModal
+    v-if="group"
+    :open="showGroupMemberModal"
+    :group-id="group.id"
+    :invite-token="group.inviteToken"
+    @close="showGroupMemberModal = false"
+  />
   <GroupDetailSkeleton v-if="groupDetail.isPending.value || !group" />
 
   <div v-else-if="groupDetail.data.value" class="page">

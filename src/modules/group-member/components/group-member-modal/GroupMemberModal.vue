@@ -17,7 +17,7 @@ defineEmits<{
 
 const { data: members, isPending, isError, query } = useGroupMemberList()
 
-const inviteLink = computed(() => `${window.location.origin}/join/${props.inviteToken}`)
+const inviteLink = computed(() => `${window.location.origin}/join-group/${props.inviteToken}`)
 
 async function handleCopyInvite() {
   await navigator.clipboard.writeText(inviteLink.value)

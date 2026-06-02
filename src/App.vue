@@ -16,5 +16,5 @@ const toastOptions = {
 
 <template>
   <RouterView />
-  <Toaster position="top-right" :duration="30500" rich-colors :toast-options="toastOptions" />
+  <Toaster position="top-right" :duration="3500" rich-colors :toast-options="toastOptions" />
 </template>

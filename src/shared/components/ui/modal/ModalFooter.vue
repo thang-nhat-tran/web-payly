@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-end gap-1 p-3">
+  <div class="flex items-center justify-end gap-xs p-md">
     <slot />
   </div>
 </template>

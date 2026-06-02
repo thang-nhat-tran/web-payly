@@ -16,6 +16,6 @@ const { signInWithGoogle, signInLoading, signInError } = useSignInWithGoogle()
       <span>{{ signInLoading ? 'Redirecting…' : 'Continue with Google' }}</span>
     </button>
 
-    <p v-if="signInError" class="mt-4 text-xs text-red-600 text-center">{{ signInError }}</p>
+    <p v-if="signInError" class="mt-lg text-xs text-red-600 text-center">{{ signInError }}</p>
   </div>
 </template>

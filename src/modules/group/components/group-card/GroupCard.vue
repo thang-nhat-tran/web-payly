@@ -44,7 +44,7 @@ function formatAmount(amount: number) {
       <!-- Stacked member avatars -->
       <div class="avatar-stack">
         <div v-for="(member, i) in visibleMembers" :key="i" class="avatar-ring">
-          <UserAvatar :name="member.name" :src="member.avatarUrl" size="xs" />
+          <UserAvatar :name="member.name" :src="member.avatarUrl" size="sm" />
         </div>
         <div v-if="extraCount > 0" class="avatar-ring avatar-extra">+{{ extraCount }}</div>
       </div>
@@ -57,7 +57,7 @@ function formatAmount(amount: number) {
 .amount-row {
   display: flex;
   align-items: center;
-  gap: var(--spacing-2);
+  gap: var(--spacing-sm);
 }
 
 .amount-icon {
@@ -66,24 +66,24 @@ function formatAmount(amount: number) {
   justify-content: center;
   width: 40px;
   height: 40px;
-  border-radius: var(--radius-circle);
-  background-color: var(--color-canvas);
-  color: var(--color-ink);
+  border-radius: var(--radius-round);
+  background-color: var(--color-bg-base);
+  color: var(--color-text-main);
   flex-shrink: 0;
 }
 
 .amount {
-  font-size: var(--text-h3);
+  font-size: var(--text-md);
   font-weight: 500;
-  letter-spacing: var(--tracking-headline);
-  color: var(--color-ink);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-text-main);
   line-height: 1.2;
 }
 
 .amount-label {
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   font-weight: 450;
-  color: var(--color-slate);
+  color: var(--color-text-muted);
   margin-top: 2px;
 }
 
@@ -94,8 +94,8 @@ function formatAmount(amount: number) {
 }
 
 .avatar-ring {
-  border-radius: var(--radius-circle);
-  border: 2px solid var(--color-surface-white);
+  border-radius: var(--radius-round);
+  border: 2px solid var(--color-bg-surface);
   flex-shrink: 0;
 }
 
@@ -109,26 +109,26 @@ function formatAmount(amount: number) {
   justify-content: center;
   width: 28px;
   height: 28px;
-  background-color: var(--color-canvas);
-  color: var(--color-slate);
+  background-color: var(--color-bg-base);
+  color: var(--color-text-muted);
   font-size: 1.1rem;
   font-weight: 600;
 }
 
 .icon-members {
-  color: var(--color-slate);
+  color: var(--color-text-muted);
   flex-shrink: 0;
 }
 
 .meta {
-  font-size: var(--text-sm);
-  color: var(--color-slate);
-  margin-left: var(--spacing-1);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  margin-left: var(--spacing-xs);
 }
 
 .open-btn {
   margin-left: auto;
   padding: 4px 18px;
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
 }
 </style>

@@ -27,7 +27,7 @@ const statusLabel: Record<ExpenseSplitStatus, string> = {
 
       <!-- Payer info -->
       <div class="payer-row">
-        <UserAvatar :name="expense.paidBy.name" :src="expense.paidBy.avatarUrl" size="sm" />
+        <UserAvatar :name="expense.paidBy.name" :src="expense.paidBy.avatarUrl" size="md" />
         <div class="payer-meta">
           <p class="payer-name">{{ expense.paidBy.name }}</p>
           <p class="payer-date">{{ formatDate(expense.paidAt) }}</p>
@@ -50,32 +50,32 @@ const statusLabel: Record<ExpenseSplitStatus, string> = {
 
 <style scoped>
 .split-card {
-  padding: var(--spacing-2);
+  padding: var(--spacing-sm);
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-1);
+  gap: var(--spacing-xs);
 }
 
 .top-row {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: var(--spacing-1);
+  gap: var(--spacing-xs);
 }
 
 .title {
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   font-weight: 600;
-  color: var(--color-ink);
-  letter-spacing: var(--tracking-headline);
+  color: var(--color-text-main);
+  letter-spacing: var(--tracking-normal);
   line-height: 1.3;
 }
 
 .badge {
   flex-shrink: 0;
-  font-size: var(--text-eyebrow);
+  font-size: var(--text-xs);
   font-weight: 700;
-  letter-spacing: var(--tracking-eyebrow);
+  letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
   padding: 3px 10px;
   border-radius: var(--radius-pill);
@@ -93,13 +93,13 @@ const statusLabel: Record<ExpenseSplitStatus, string> = {
 
 .badge--overdue {
   background-color: #fff0ec;
-  color: var(--color-signal);
+  color: var(--color-danger-main);
 }
 
 .payer-row {
   display: flex;
   align-items: center;
-  gap: var(--spacing-1);
+  gap: var(--spacing-xs);
   margin-top: 2px;
 }
 
@@ -110,23 +110,23 @@ const statusLabel: Record<ExpenseSplitStatus, string> = {
 }
 
 .payer-name {
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   font-weight: 500;
-  color: var(--color-charcoal);
+  color: var(--color-text-secondary);
   line-height: 1.2;
 }
 
 .payer-date {
-  font-size: var(--text-eyebrow);
-  color: var(--color-slate);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
   line-height: 1.2;
 }
 
 .amount {
-  font-size: var(--text-h3);
+  font-size: var(--text-md);
   font-weight: 600;
-  letter-spacing: var(--tracking-headline);
-  color: var(--color-ink);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-text-main);
   margin-top: 4px;
   text-align: right;
 }
@@ -135,7 +135,7 @@ const statusLabel: Record<ExpenseSplitStatus, string> = {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: var(--spacing-1);
+  gap: var(--spacing-xs);
   margin-top: 4px;
 }
 
@@ -143,23 +143,23 @@ const statusLabel: Record<ExpenseSplitStatus, string> = {
   display: inline-flex;
   align-items: center;
   padding: 6px 16px;
-  border-radius: var(--radius-cta);
+  border-radius: var(--radius-md);
   background: none;
-  color: var(--color-ink);
-  border: 1.5px solid var(--color-dust);
-  font-size: var(--text-sm);
+  color: var(--color-text-main);
+  border: 1.5px solid var(--color-text-disabled);
+  font-size: var(--text-xs);
   font-weight: 500;
-  letter-spacing: var(--tracking-nav);
+  letter-spacing: var(--tracking-tight);
   cursor: pointer;
   transition: border-color 0.15s var(--ease-standard);
 }
 
 .btn-detail:hover {
-  border-color: var(--color-slate);
+  border-color: var(--color-text-muted);
 }
 
 .btn-pay {
   padding: 6px 20px;
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
 }
 </style>

@@ -8,8 +8,8 @@
 .card-footer {
   display: flex;
   align-items: center;
-  gap: var(--spacing-1);
-  padding: var(--spacing-3) var(--spacing-4);
-  border-top: 1px solid var(--color-dust);
+  gap: var(--spacing-xs);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-top: 1px solid var(--color-text-disabled);
 }
 </style>

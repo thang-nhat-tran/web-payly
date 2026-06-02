@@ -57,7 +57,7 @@ onMounted(() => {
 <style scoped>
 .page {
   min-height: 100svh;
-  background-color: var(--color-canvas);
+  background-color: var(--color-bg-base);
   display: flex;
   flex-direction: column;
 }
@@ -80,11 +80,11 @@ onMounted(() => {
   justify-content: center;
   height: 100%;
   flex-grow: 1;
-  padding: var(--spacing-7) var(--spacing-3);
+  padding: var(--spacing-3xl) var(--spacing-md);
 }
 
 .empty-text {
-  font-size: var(--text-base);
-  color: var(--color-slate);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
 }
 </style>

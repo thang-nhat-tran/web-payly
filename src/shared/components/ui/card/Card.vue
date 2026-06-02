@@ -11,9 +11,9 @@ withDefaults(defineProps<{ clickable?: boolean }>(), { clickable: false })
 
 <style scoped>
 .card-shell {
-  background-color: var(--color-surface-white);
-  border-radius: var(--radius-consent);
-  box-shadow: var(--shadow-card);
+  background-color: var(--color-bg-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -28,7 +28,7 @@ withDefaults(defineProps<{ clickable?: boolean }>(), { clickable: false })
 
 .card-shell--clickable:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-feature);
+  box-shadow: var(--shadow-lg);
 }
 
 .card-shell--clickable:active {

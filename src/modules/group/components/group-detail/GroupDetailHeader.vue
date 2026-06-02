@@ -36,7 +36,7 @@ defineEmits<{ back: []; selectMembers: [] }>()
 .hero {
   position: relative;
   height: 200px;
-  background-color: var(--color-ink);
+  background-color: var(--color-text-main);
   background-size: cover;
   background-position: center;
   overflow: hidden;
@@ -55,7 +55,7 @@ defineEmits<{ back: []; selectMembers: [] }>()
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: var(--spacing-2) var(--spacing-2) var(--spacing-3);
+  padding: var(--spacing-sm) var(--spacing-sm) var(--spacing-md);
 }
 
 .top-row {
@@ -70,7 +70,7 @@ defineEmits<{ back: []; selectMembers: [] }>()
   justify-content: center;
   width: 36px;
   height: 36px;
-  border-radius: var(--radius-circle);
+  border-radius: var(--radius-round);
   background: rgba(255, 255, 255, 0.18);
   border: none;
   color: #fff;
@@ -90,14 +90,14 @@ defineEmits<{ back: []; selectMembers: [] }>()
 
 .name {
   color: #fff;
-  font-size: var(--text-h3);
+  font-size: var(--text-md);
   font-weight: 600;
-  letter-spacing: var(--tracking-headline);
+  letter-spacing: var(--tracking-normal);
   margin: 0;
 }
 
 .subtitle {
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   color: rgba(255, 255, 255, 0.7);
   margin: 0;
 }

@@ -18,14 +18,14 @@ defineEmits<{ action: [] }>()
 </script>
 
 <template>
-  <div class="flex items-center gap-3 rounded-cta bg-gray-100 px-2 py-3 shadow-card">
+  <div class="flex items-center gap-md rounded-md bg-gray-100 px-sm py-md shadow-md">
     <div class="min-w-0 flex-1">
-      <p class="text-md font-medium">{{ title }}</p>
-      <p v-if="description" class="truncate text-sm text-slate">
+      <p class="text-sm font-medium">{{ title }}</p>
+      <p v-if="description" class="truncate text-xs text-text-muted">
         {{ description }}
       </p>
     </div>
-    <button type="button" class="btn-primary px-2 text-md" @click="$emit('action')">
+    <button type="button" class="btn-primary px-sm text-sm" @click="$emit('action')">
       <Link :size="18" :stroke-width="1.5" />
     </button>
   </div>

@@ -17,18 +17,18 @@ defineEmits<{ click: [] }>()
 <style scoped>
 .fab {
   position: fixed;
-  bottom: var(--spacing-4);
-  right: var(--spacing-4);
+  bottom: var(--spacing-lg);
+  right: var(--spacing-lg);
   width: 56px;
   height: 56px;
-  border-radius: var(--radius-circle);
-  background-color: var(--color-ink);
-  color: var(--color-canvas);
+  border-radius: var(--radius-round);
+  background-color: var(--color-text-main);
+  color: var(--color-bg-base);
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--shadow-md);
   cursor: pointer;
   transition:
     transform 0.15s var(--ease-standard),

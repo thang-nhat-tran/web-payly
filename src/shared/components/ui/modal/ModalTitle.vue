@@ -1,5 +1,5 @@
 <template>
-  <span class="text-h3 font-medium tracking-headline text-ink">
+  <span class="text-md font-medium tracking-normal text-text-main">
     <slot />
   </span>
 </template>

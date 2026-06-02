@@ -56,7 +56,7 @@ const mockExpenses: ExpenseSplit[] = [
 .split-list {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-2);
-  padding: var(--spacing-2) var(--spacing-2) var(--spacing-7);
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-sm) var(--spacing-3xl);
 }
 </style>

@@ -38,11 +38,11 @@ onMounted(() => {
       </template>
 
       <template #right>
-        <UserAvatar :src="auth.user?.user_metadata?.avatar_url" :name="auth.user?.email" size="lg" />
+        <UserAvatar :src="auth.user?.user_metadata?.avatar_url" :name="auth.user?.email" size="sm" />
       </template>
     </AppHeader>
 
-    <main class="mx-auto px-3 py-3">
+    <main class="mx-auto px-md py-md">
       <div class="groups-grid">
         <template v-if="groups.isPending.value">
           <GroupCardSkeleton v-for="i in 6" :key="i" />
@@ -68,7 +68,7 @@ onMounted(() => {
 .groups-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--spacing-3);
+  gap: var(--spacing-md);
 }
 
 @media (min-width: 768px) {

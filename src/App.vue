@@ -4,12 +4,12 @@ import { Toaster } from 'vue-sonner'
 const toastOptions = {
   style: {
     fontFamily:   'var(--font-sans)',
-    fontSize:     'var(--text-sm)',
-    borderRadius: 'var(--radius-cta)',
-    boxShadow:    'var(--shadow-card)',
-    border:       '1.5px solid var(--color-dust)',
-    background:   'var(--color-surface-white)',
-    color:        'var(--color-ink)',
+    fontSize:     'var(--text-xs)',
+    borderRadius: 'var(--radius-md)',
+    boxShadow:    'var(--shadow-md)',
+    border:       '1.5px solid var(--color-text-disabled)',
+    background:   'var(--color-bg-surface)',
+    color:        'var(--color-text-main)',
   },
   classes: {
     description: 'toast-description',

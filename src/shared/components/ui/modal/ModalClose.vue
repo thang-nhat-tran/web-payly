@@ -11,7 +11,7 @@ const close = inject(MODAL_CLOSE_KEY, () => {})
   <button
     type="button"
     aria-label="Đóng"
-    class="flex h-[32px] w-[32px] shrink-0 cursor-pointer items-center justify-center rounded-circle border-0 bg-canvas text-slate transition-opacity duration-150 ease-standard hover:opacity-[0.72]"
+    class="flex h-[32px] w-[32px] shrink-0 cursor-pointer items-center justify-center rounded-round border-0 bg-bg-base text-text-muted transition-opacity duration-150 ease-standard hover:opacity-[0.72]"
     @click="close()"
   >
     <slot>

@@ -6,8 +6,8 @@
 
 <style scoped>
 .description {
-  font-size: var(--text-base);
-  color: var(--color-slate);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
   line-height: 1.4;
 }
 </style>

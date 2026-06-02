@@ -22,9 +22,9 @@ withDefaults(
 .skeleton {
   background: linear-gradient(
     90deg,
-    var(--color-dust) 25%,
-    var(--color-surface-soft) 50%,
-    var(--color-dust) 75%
+    var(--color-text-disabled) 25%,
+    var(--color-bg-soft) 50%,
+    var(--color-text-disabled) 75%
   );
   background-size: 200% 100%;
   animation: shimmer 1.6s ease-in-out infinite;

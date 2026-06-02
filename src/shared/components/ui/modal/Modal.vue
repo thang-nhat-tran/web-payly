@@ -29,7 +29,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
     <Transition name="backdrop">
       <div
         v-if="open"
-        class="fixed inset-0 z-100 flex items-center justify-center bg-[rgba(20,20,19,0.48)] p-3"
+        class="fixed inset-0 z-100 flex items-center justify-center bg-[rgba(20,20,19,0.48)] p-md"
         @click.self="close"
       >
         <Transition name="panel" appear>
@@ -37,7 +37,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
             v-if="open"
             role="dialog"
             aria-modal="true"
-            class="w-full max-w-200 overflow-hidden rounded-consent bg-surface-white shadow-feature"
+            class="w-full max-w-200 overflow-hidden rounded-lg bg-bg-surface shadow-lg"
             v-bind="$attrs"
           >
             <slot />

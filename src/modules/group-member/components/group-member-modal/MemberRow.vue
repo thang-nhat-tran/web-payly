@@ -7,12 +7,12 @@ const { member } = defineProps<{
 }>()
 </script>
 <template>
-  <div class="flex items-center gap-2">
-    <Avatar :src="member.avatarUrl" :name="member.name" size="xs" />
+  <div class="flex items-center gap-sm">
+    <Avatar :src="member.avatarUrl" :name="member.name" size="lg" />
     <div class="flex flex-col">
-      <span class="text-md font-medium">{{ member.name }}</span>
-      <span class="text-sm text-slate">{{ member.email }}</span>
+      <span class="text-sm font-medium">{{ member.name }}</span>
+      <span class="text-xs text-text-muted">{{ member.email }}</span>
     </div>
-    <EllipsisVerticalIcon class="ml-auto text-slate cursor-pointer" />
+    <EllipsisVerticalIcon class="ml-auto text-text-muted cursor-pointer" />
   </div>
 </template>

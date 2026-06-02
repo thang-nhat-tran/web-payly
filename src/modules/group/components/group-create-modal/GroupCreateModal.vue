@@ -8,6 +8,8 @@ import {
   ModalBody,
   ModalFooter,
 } from '@/shared/components/ui/modal'
+import Label from '@/shared/components/ui/Label.vue'
+import Input from '@/shared/components/ui/Input.vue'
 import { useAuthStore } from '@/shared/stores/auth.store'
 import { useCreateGroup } from './useCreateGroup'
 import { groupCreateSchema } from './group-create.schema'
@@ -56,27 +58,23 @@ function handleClose() {
     <ModalBody>
       <form class="form" @submit.prevent="handleSubmitForm">
         <div class="field">
-          <label class="label" for="group-name">Tên nhóm <span class="required">*</span></label>
-          <input
+          <Label for="group-name" required>Tên nhóm</Label>
+          <Input
             id="group-name"
             v-model="name"
-            class="input"
-            :class="{ 'input--error': nameError }"
+            :error="nameError"
             type="text"
             placeholder="VD: Đi biển Đà Nẵng 2025"
             autocomplete="off"
           />
-          <span v-if="nameError" class="error-msg">{{ nameError }}</span>
         </div>
 
         <div class="field">
-          <label class="label" for="group-desc">
-            Mô tả <span class="optional">(tuỳ chọn)</span>
-          </label>
-          <textarea
+          <Label for="group-desc" optional>Mô tả</Label>
+          <Input
             id="group-desc"
             v-model="description"
-            class="input textarea"
+            multiline
             placeholder="Ghi chú về mục đích của nhóm..."
             rows="3"
           />
@@ -97,56 +95,12 @@ function handleClose() {
 .form {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-2);
+  gap: var(--spacing-sm);
 }
 
 .field {
   display: flex;
   flex-direction: column;
   gap: 6px;
-}
-
-.label {
-  font-size: var(--text-sm);
-  font-weight: 600;
-  color: var(--color-ink);
-}
-
-.required {
-  color: var(--color-signal);
-}
-.optional {
-  font-weight: 400;
-  color: var(--color-slate);
-}
-
-.input {
-  width: 100%;
-  padding: 10px 14px;
-  border: 1.5px solid var(--color-dust);
-  border-radius: var(--radius-cta);
-  background-color: var(--color-canvas);
-  color: var(--color-ink);
-  font-family: var(--font-sans);
-  font-size: var(--text-base);
-  outline: none;
-  transition: border-color 0.15s var(--ease-standard);
-  box-sizing: border-box;
-}
-.input:focus {
-  border-color: var(--color-ink);
-}
-.input--error {
-  border-color: var(--color-signal);
-}
-
-.textarea {
-  resize: vertical;
-  min-height: 80px;
-}
-
-.error-msg {
-  font-size: var(--text-sm);
-  color: var(--color-signal);
 }
 </style>

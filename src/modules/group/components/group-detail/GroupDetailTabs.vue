@@ -30,8 +30,8 @@ const tabs: {
 <style scoped>
 .tab-list {
   display: flex;
-  border-bottom: 1px solid var(--color-dust);
-  padding: 0 var(--spacing-1);
+  border-bottom: 1px solid var(--color-text-disabled);
+  padding: 0 var(--spacing-xs);
 }
 
 .tab {
@@ -40,11 +40,11 @@ const tabs: {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 0 var(--spacing-2);
+  padding: 0 var(--spacing-sm);
   height: 48px;
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   font-weight: 450;
-  color: var(--color-slate);
+  color: var(--color-text-muted);
   background: none;
   border: none;
   cursor: pointer;
@@ -55,8 +55,8 @@ const tabs: {
 }
 
 .tab--active {
-  color: var(--color-ink);
+  color: var(--color-text-main);
   font-weight: 600;
-  box-shadow: inset 0 -2px 0 0 var(--color-ink);
+  box-shadow: inset 0 -2px 0 0 var(--color-text-main);
 }
 </style>

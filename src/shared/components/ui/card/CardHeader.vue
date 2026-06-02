@@ -9,6 +9,6 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: var(--spacing-4) var(--spacing-4) 0;
+  padding: var(--spacing-lg) var(--spacing-lg) 0;
 }
 </style>

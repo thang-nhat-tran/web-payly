@@ -40,9 +40,9 @@ const mockMembers = ref<GroupMember[]>([
       <ModalTitle>Thành viên nhóm</ModalTitle>
       <ModalClose />
     </ModalHeader>
-    <ModalBody class="pb-3 space-y-3">
+    <ModalBody class="pb-md space-y-md">
       <GroupMemberActionBanner />
-      <MemberRow v-for="mockMember in mockMembers" :key="mockMember.id" :member="mockMember" class="mb-2" />
+      <MemberRow v-for="mockMember in mockMembers" :key="mockMember.id" :member="mockMember" class="mb-sm" />
     </ModalBody>
   </Modal>
 </template>

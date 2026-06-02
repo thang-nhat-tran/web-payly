@@ -3,7 +3,7 @@ import { useForm, useField } from 'vee-validate'
 import Modal from '@/shared/components/ui/Modal.vue'
 import { useAuthStore } from '@/shared/stores/auth.store'
 import { useCreateGroup } from './useCreateGroup'
-import { createGroupSchema } from './create-group.schema'
+import { groupCreateSchema } from './group-create.schema'
 import type { Group } from '@/modules/group/types/group.types'
 
 defineProps<{ open: boolean }>()
@@ -16,7 +16,7 @@ const auth = useAuthStore()
 const createGroup = useCreateGroup()
 
 const { handleSubmit, resetForm } = useForm({
-  validationSchema: createGroupSchema,
+  validationSchema: groupCreateSchema,
 })
 const { value: name, errorMessage: nameError } = useField<string>('name')
 const { value: description } = useField<string>('description')
@@ -43,9 +43,7 @@ function handleClose() {
   <Modal :open="open" title="Tạo nhóm mới" @close="handleClose">
     <form class="form" @submit.prevent="handleSubmitForm">
       <div class="field">
-        <label class="label" for="group-name"
-          >Tên nhóm <span class="required">*</span></label
-        >
+        <label class="label" for="group-name">Tên nhóm <span class="required">*</span></label>
         <input
           id="group-name"
           v-model="name"
@@ -59,9 +57,7 @@ function handleClose() {
       </div>
 
       <div class="field">
-        <label class="label" for="group-desc">
-          Mô tả <span class="optional">(tuỳ chọn)</span>
-        </label>
+        <label class="label" for="group-desc"> Mô tả <span class="optional">(tuỳ chọn)</span> </label>
         <textarea
           id="group-desc"
           v-model="description"
@@ -73,9 +69,7 @@ function handleClose() {
     </form>
 
     <template #footer>
-      <button class="btn-secondary" type="button" @click="handleClose">
-        Huỷ
-      </button>
+      <button class="btn-secondary" type="button" @click="handleClose">Huỷ</button>
       <button class="btn-primary" :disabled="createGroup.isPending.value" @click="handleSubmitForm">
         {{ createGroup.isPending.value ? 'Đang tạo…' : 'Tạo nhóm' }}
       </button>

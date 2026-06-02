@@ -1,5 +1,5 @@
 import { createClient, PostgrestError } from '@supabase/supabase-js'
-import { toCamelCase, toSnakeCase } from '@/shared/lib/case-converter'
+import { toCamelCase, toSnakeCase } from '@/shared/utils/case-converter.util'
 
 // Re-export SDK types so modules never import `@supabase/supabase-js` directly (Hard Rule 1).
 export type { User, Session, AuthChangeEvent } from '@supabase/supabase-js'
@@ -23,9 +23,7 @@ function wrapFrom(builder: QueryBuilder): QueryBuilder {
           )
       }
       const val = target[prop as keyof QueryBuilder]
-      return typeof val === 'function'
-        ? (val as (...args: unknown[]) => unknown).bind(target)
-        : val
+      return typeof val === 'function' ? (val as (...args: unknown[]) => unknown).bind(target) : val
     },
   })
 }

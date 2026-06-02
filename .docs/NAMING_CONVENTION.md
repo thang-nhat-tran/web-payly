@@ -1,314 +1,202 @@
-# Vue + TypeScript File Naming Convention
+# Vue + TypeScript Naming Conventions
 
-## Table of Contents
+This document defines the naming standards for files, folders, and exports in our Vue + TypeScript architecture.
 
-- [General Rules](#general-rules)
-- [Naming Conventions](#naming-conventions)
-  - [Folders](#folders)
-  - [Vue Components & Views](#vue-components--views)
-  - [Composables](#composables)
-  - [API Layer](#api-layer)
-  - [Validation Schemas](#validation-schemas)
-  - [Types](#types)
-  - [Stores](#stores)
-  - [Constants](#constants)
-  - [Helpers](#helpers)
-  - [Mappers / Transformers](#mappers--transformers)
-  - [Utilities](#utilities)
-  - [Routes](#routes)
-- [Naming Inside Files](#naming-inside-files)
-- [Architecture Rules](#architecture-rules)
+The core philosophy is **Predictability & IDE Grouping**: file names should describe their purpose and automatically sort related features together in your code editor.
 
 ---
 
-## General Rules
+# 1. The Grammatical Rules (Entity vs. Action)
 
-> This doc governs **names only**. For folder structure & architecture, see [CODE_CONVENTION.md](./CODE_CONVENTION.md).
+To keep the file tree organized, we separate static UI (Things) from logic (Actions) using strict grammatical patterns.
 
-| Target | Convention |
-| --- | --- |
-| **Folders** | `kebab-case` |
-| **Vue component & view files** | `PascalCase.vue` |
-| **All other files** | `kebab-case` with a domain-specific suffix (see sections below) |
+## 🟢 UI & Colocated Files: `[Entity] + [Action] + [Element]`
 
-File names should describe the **purpose**, not the syntax.
+UI components and their directly associated files are static "Things". Always lead with the Entity (Domain) so that all related files are clustered together alphabetically in the file tree.
 
----
+### Components
 
-# Naming Conventions
-
-## Folders
-
-### Rule
-
-- All folders use `kebab-case` — no exceptions
-- Colocated component folders follow the component name in kebab-case
-
-### Examples
-
-```txt
-modules/group/
-modules/group/components/create-group-modal/
-modules/expense/components/expense-split-card/
-shared/stores/
+```text
+GroupCreateModal.vue
 ```
 
-### Avoid
+### Folders
 
-```txt
-modules/Group/
-components/CreateGroupModal/   ❌ PascalCase folder
-components/expenseSplitCard/   ❌ camelCase folder
+```text
+group-create-modal/
+```
+
+### Colocated
+
+```text
+group-create.schema.ts
+group-create.type.ts
+group-create.helper.ts
 ```
 
 ---
 
-## Vue Components & Views
+## 🔵 Pure Logic (Composables & Functions): `[Action] + [Entity]`
 
-### Rule
+Logic files represent "Actions" running in the system.
 
-- File name must be `PascalCase.vue`
-- Component name and file name must match
-- Applies to both `components/` and `views/`
+Because they live in isolated folders (`composables/`, `api/`, etc.), they will not break component sorting. Therefore, they should read like natural English commands.
 
-### Examples
+### Composables
 
-```txt
-GroupCard.vue
-CreateGroupModal.vue
-GroupListView.vue
-GroupDetailView.vue
-```
-
----
-
-## Composables
-
-### Rule
-
-- Use `useXxx.ts` — file must start with `use`
-
-### Examples
-
-```txt
+```text
 useCreateGroup.ts
-useGroupDetail.ts
-useInfiniteScroll.ts
+```
+
+### API Calls
+
+```ts
+createGroup()
 ```
 
 ---
 
-## API Layer
+# 2. File & Folder Casing Matrix
 
-### Rule
+Use this matrix to instantly know how to name a file based on its type.
 
-- Use `module.api.ts`
-
-### Examples
-
-```txt
-group.api.ts
-auth.api.ts
-payment.api.ts
-```
+| Target Type           | Casing Rule | Pattern / Suffix     | Examples                                |
+| --------------------- | ----------- | -------------------- | --------------------------------------- |
+| Folders               | kebab-case  | N/A                  | `modules/group/`, `group-create-modal/` |
+| Vue Components        | PascalCase  | `.vue`               | `GroupCreateModal.vue`, `UserList.vue`  |
+| Vue Composables       | camelCase   | `use[Name].ts`       | `useCreateGroup.ts`                     |
+| Colocated Files       | kebab-case  | `[name].[role].ts`   | `group-create-modal.helper.ts`          |
+| Domain Infrastructure | kebab-case  | `[domain].[role].ts` | `group.api.ts`, `auth.store.ts`         |
 
 ---
+
+# 3. Infrastructure Files (The Suffix Rule)
+
+For all non-UI and non-composable TypeScript files, use:
+
+```text
+[domain].[layer].ts
+```
+
+This keeps the architecture predictable and domain-driven.
+
+| Purpose             | Pattern                 | Example                |
+| ------------------- | ----------------------- | ---------------------- |
+| API & Networking    | `[domain].api.ts`       | `group.api.ts`         |
+| State Management    | `[domain].store.ts`     | `expense.store.ts`     |
+| Type Definitions    | `[domain].types.ts`     | `group.types.ts`       |
+| Data Transformation | `[domain].mapper.ts`    | `user.mapper.ts`       |
+| Constants           | `[domain].constants.ts` | `payment.constants.ts` |
+| Utilities           | `[concept].util.ts`     | `date.util.ts`         |
+| Colocated Helpers   | `[name].helper.ts`      | `group-card.helper.ts` |
+
+---
+
+# 4. Code Exports (Inside the Files)
+
+How you name exported symbols is just as important as the file name.
+
+| Construct             | Rule             | Example                             |
+| --------------------- | ---------------- | ----------------------------------- |
+| Interfaces & Types    | PascalCase       | `GroupCreateRequest`, `GroupStatus` |
+| Validation Schemas    | camelCase        | `groupCreateSchema`                 |
+| Constants             | UPPER_SNAKE_CASE | `MAX_GROUP_MEMBERS`                 |
+| Functions / Variables | camelCase        | `parseGroupData`                    |
+
+## Interfaces & Types
+
+```ts
+export interface GroupCreateRequest {}
+
+export type GroupStatus = 'active' | 'inactive'
+```
 
 ## Validation Schemas
 
-### Rule
-
-- Use `action-module.schema.ts`
-- Colocate inside the component folder when schema is component-specific (see [CODE_CONVENTION.md](./CODE_CONVENTION.md) §2)
-
-### Examples
-
-```txt
-create-group.schema.ts     ← inside create-group-modal/
-login.schema.ts
+```ts
+export const groupCreateSchema = z.object({})
 ```
-
----
-
-## Types
-
-### Rule
-
-- Use `module.types.ts`
-- Domain entities only — API request/response types belong in `module.api.ts`
-
-### Examples
-
-```txt
-group.types.ts
-expense.types.ts
-```
-
-### Avoid
-
-```txt
-groupType.ts
-typesGroup.ts
-types.ts
-```
-
----
-
-## Stores
-
-### Rule
-
-- Use `module.store.ts`
-
-### Examples
-
-```txt
-auth.store.ts
-group.store.ts
-```
-
----
 
 ## Constants
 
-### Rule
-
-- Use `module.constants.ts`
-
-### Examples
-
-```txt
-group.constants.ts
-auth.constants.ts
+```ts
+export const MAX_GROUP_MEMBERS = 50
 ```
 
----
-
-## Helpers
-
-### Rule
-
-- Use `ComponentName.helpers.ts` — colocated inside the component folder
-- Pure functions only (no reactivity)
-
-### Examples
-
-```txt
-expense-split-card/ExpenseSplitCard.helpers.ts
-```
-
----
-
-## Mappers / Transformers
-
-### Rule
-
-- Use `module.mapper.ts`
-
-### Examples
-
-```txt
-group.mapper.ts
-user.mapper.ts
-```
-
----
-
-## Utilities
-
-### Rule
-
-- Use `domain.util.ts`
-
-### Examples
-
-```txt
-date.util.ts
-string.util.ts
-```
-
----
-
-## Routes
-
-### Rule
-
-- One `router.ts` per module — default-exports the route array, merged in `src/router/index.ts`
-- See [CODE_CONVENTION.md](./CODE_CONVENTION.md) §6
-
-### Examples
-
-```txt
-modules/group/router.ts
-modules/auth/router.ts
-```
-
----
-
-# Naming Inside Files
-
-## Schemas
+## Functions & Variables
 
 ```ts
-export const createGroupSchema
-```
-
-## Form Types
-
-```ts
-export type CreateGroupForm
-```
-
-## API Request
-
-```ts
-export interface CreateGroupRequest
-```
-
-## API Response
-
-```ts
-export interface GroupResponse
+export const parseGroupData = () => {}
 ```
 
 ---
 
-# Architecture Rules
+# 5. Architectural Anti-Patterns (What to Avoid)
 
-## Prefer Module-Based Structure
+## ❌ Avoid Generic "Dump Files"
+
+Never create files such as:
+
+```text
+types.ts
+helpers.ts
+common.ts
+```
+
+Instead, always prefix them with the domain they belong to.
+
+✅ Good:
+
+```text
+group.types.ts
+user.types.ts
+payment.constants.ts
+```
+
+---
+
+## ❌ Avoid PascalCase or camelCase for Folders
+
+Even if a folder contains exactly one PascalCase component, the folder itself must remain kebab-case.
+
+❌ Bad
+
+```text
+components/
+└── GroupCard/
+    └── GroupCard.vue
+```
 
 ✅ Good
 
-```txt
-modules/group/api/
-modules/group/components/create-group-modal/
-```
-
-❌ Avoid
-
-```txt
-global/apis/
-global/types/
-global/schemas/
+```text
+components/
+└── group-card/
+    └── GroupCard.vue
 ```
 
 ---
 
-## Avoid Dump Files
+## ❌ Avoid Global Router Dumping
 
-Avoid generic file names:
+Do not place all routes inside a single global router file.
 
-```txt
-helpers.ts
-utils.ts
-common.ts
-types.ts
+❌ Bad
+
+```text
+src/router/index.ts
 ```
 
-Prefer domain-specific names:
+Containing every route in the application.
 
-```txt
-group.mapper.ts
-date.util.ts
-group.constants.ts
+✅ Good
+
+```text
+modules/group/router.ts
+modules/auth/router.ts
+modules/expense/router.ts
 ```
+
+Each module owns its routes and exports them to the root router for composition.
+
+---

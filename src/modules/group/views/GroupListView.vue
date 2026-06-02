@@ -7,7 +7,7 @@ import AppHeader from '@/shared/components/app/AppHeader.vue'
 import UserAvatar from '@/shared/components/ui/Avatar.vue'
 import GroupCard from '@/modules/group/components/group-card/GroupCard.vue'
 import GroupCardSkeleton from '@/modules/group/components/group-card/GroupCardSkeleton.vue'
-import CreateGroupModal from '@/modules/group/components/create-group-modal/CreateGroupModal.vue'
+import GroupCreateModal from '@/modules/group/components/group-create-modal/GroupCreateModal.vue'
 import AppFab from '@/shared/components/app/AppFab.vue'
 import { HousePlus } from 'lucide-vue-next'
 import { toast } from 'vue-sonner'
@@ -60,7 +60,7 @@ onMounted(() => {
 
     <AppFab :icon="HousePlus" aria-label="Tạo nhóm mới" @click="showCreateModal = true" />
 
-    <CreateGroupModal :open="showCreateModal" @close="showCreateModal = false" @success="handleCreateSuccess" />
+    <GroupCreateModal :open="showCreateModal" @close="showCreateModal = false" @success="handleCreateSuccess" />
   </div>
 </template>
 

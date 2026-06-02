@@ -201,33 +201,31 @@
     cursor: pointer;
   }
 
-  .btn-satellite {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 56px;
-    height: 56px;
-    border-radius: var(--radius-round);
-    background-color: var(--color-bg-surface);
-    color: var(--color-text-main);
-    cursor: pointer;
-  }
-
+  /* ── Icon-only Circle Button ─────────────────────────────────
+     Circular, icon-only sibling of the secondary button.        */
   .btn-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    flex-shrink: 0;
+    width: var(--spacing-xl); /* 48px */
+    height: var(--spacing-xl);
     border-radius: var(--radius-round);
-    border: 1px solid var(--color-text-main);
-    background-color: transparent;
+    border: 1px solid var(--color-gray-300);
+    background-color: var(--color-white);
     color: var(--color-text-main);
     cursor: pointer;
     transition: opacity 0.15s var(--ease-standard);
   }
   .btn-icon:hover {
     opacity: 0.72;
+  }
+  .btn-icon:active {
+    transform: scale(0.92);
+  }
+  .btn-icon:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
   }
 
   .nav-pill {

@@ -5,7 +5,7 @@ import { computed } from 'vue'
 type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
 const sizeMap: Record<AvatarSize, string> = {
-  xs: 'w-4 h-4 text-xs',
+  xs: 'w-5 h-5 text-xs',
   sm: 'w-6 h-6 text-xs',
   md: 'w-8 h-8 text-sm',
   lg: 'w-12 h-12 text-base',

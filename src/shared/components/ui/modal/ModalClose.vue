@@ -1,0 +1,21 @@
+<script setup lang="ts">
+import { inject } from 'vue'
+import { X } from 'lucide-vue-next'
+import { MODAL_CLOSE_KEY } from './context'
+
+// Falls back to a no-op when used outside <Modal>.
+const close = inject(MODAL_CLOSE_KEY, () => {})
+</script>
+
+<template>
+  <button
+    type="button"
+    aria-label="Đóng"
+    class="flex h-[32px] w-[32px] shrink-0 cursor-pointer items-center justify-center rounded-circle border-0 bg-canvas text-slate transition-opacity duration-150 ease-standard hover:opacity-[0.72]"
+    @click="close()"
+  >
+    <slot>
+      <X :size="18" :stroke-width="2" />
+    </slot>
+  </button>
+</template>

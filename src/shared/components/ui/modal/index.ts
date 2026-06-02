@@ -1,0 +1,7 @@
+export { default as Modal } from './Modal.vue'
+export { default as ModalHeader } from './ModalHeader.vue'
+export { default as ModalTitle } from './ModalTitle.vue'
+export { default as ModalBody } from './ModalBody.vue'
+export { default as ModalFooter } from './ModalFooter.vue'
+export { default as ModalClose } from './ModalClose.vue'
+export { MODAL_CLOSE_KEY } from './context'

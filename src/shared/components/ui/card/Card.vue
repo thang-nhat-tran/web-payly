@@ -12,7 +12,7 @@ withDefaults(defineProps<{ clickable?: boolean }>(), { clickable: false })
 <style scoped>
 .card-shell {
   background-color: var(--color-surface-white);
-  border-radius: var(--radius-hero);
+  border-radius: var(--radius-consent);
   box-shadow: var(--shadow-card);
   overflow: hidden;
   display: flex;

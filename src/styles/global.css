@@ -53,7 +53,7 @@
   --radius-xs: 4px; /* tiny decorative chips */
   --radius-sm: 6px; /* small decorative elements */
   --radius-cta: 20px; /* primary & secondary pill CTAs */
-  --radius-consent: 24px; /* consent / signal orange pills */
+  --radius-consent: 36px; /* consent / signal orange pills */
   --radius-hero: 40px; /* hero media frames, stadium containers */
   --radius-circle: 50%; /* circular portraits, icon buttons, satellite CTAs */
   --radius-pill: 999px; /* full pill — nav, carousel, chips, selectors */

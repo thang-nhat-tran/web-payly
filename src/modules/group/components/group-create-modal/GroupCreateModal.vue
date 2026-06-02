@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { useForm, useField } from 'vee-validate'
-import Modal from '@/shared/components/ui/Modal.vue'
+import {
+  Modal,
+  ModalHeader,
+  ModalTitle,
+  ModalClose,
+  ModalBody,
+  ModalFooter,
+} from '@/shared/components/ui/modal'
 import { useAuthStore } from '@/shared/stores/auth.store'
 import { useCreateGroup } from './useCreateGroup'
 import { groupCreateSchema } from './group-create.schema'
@@ -40,40 +47,49 @@ function handleClose() {
 </script>
 
 <template>
-  <Modal :open="open" title="Tạo nhóm mới" @close="handleClose">
-    <form class="form" @submit.prevent="handleSubmitForm">
-      <div class="field">
-        <label class="label" for="group-name">Tên nhóm <span class="required">*</span></label>
-        <input
-          id="group-name"
-          v-model="name"
-          class="input"
-          :class="{ 'input--error': nameError }"
-          type="text"
-          placeholder="VD: Đi biển Đà Nẵng 2025"
-          autocomplete="off"
-        />
-        <span v-if="nameError" class="error-msg">{{ nameError }}</span>
-      </div>
+  <Modal :open="open" @close="handleClose">
+    <ModalHeader>
+      <ModalTitle>Tạo nhóm mới</ModalTitle>
+      <ModalClose />
+    </ModalHeader>
 
-      <div class="field">
-        <label class="label" for="group-desc"> Mô tả <span class="optional">(tuỳ chọn)</span> </label>
-        <textarea
-          id="group-desc"
-          v-model="description"
-          class="input textarea"
-          placeholder="Ghi chú về mục đích của nhóm..."
-          rows="3"
-        />
-      </div>
-    </form>
+    <ModalBody>
+      <form class="form" @submit.prevent="handleSubmitForm">
+        <div class="field">
+          <label class="label" for="group-name">Tên nhóm <span class="required">*</span></label>
+          <input
+            id="group-name"
+            v-model="name"
+            class="input"
+            :class="{ 'input--error': nameError }"
+            type="text"
+            placeholder="VD: Đi biển Đà Nẵng 2025"
+            autocomplete="off"
+          />
+          <span v-if="nameError" class="error-msg">{{ nameError }}</span>
+        </div>
 
-    <template #footer>
+        <div class="field">
+          <label class="label" for="group-desc">
+            Mô tả <span class="optional">(tuỳ chọn)</span>
+          </label>
+          <textarea
+            id="group-desc"
+            v-model="description"
+            class="input textarea"
+            placeholder="Ghi chú về mục đích của nhóm..."
+            rows="3"
+          />
+        </div>
+      </form>
+    </ModalBody>
+
+    <ModalFooter>
       <button class="btn-secondary" type="button" @click="handleClose">Huỷ</button>
       <button class="btn-primary" :disabled="createGroup.isPending.value" @click="handleSubmitForm">
         {{ createGroup.isPending.value ? 'Đang tạo…' : 'Tạo nhóm' }}
       </button>
-    </template>
+    </ModalFooter>
   </Modal>
 </template>
 

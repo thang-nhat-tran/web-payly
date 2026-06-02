@@ -9,24 +9,25 @@ import AppFab from '@/shared/components/app/AppFab.vue'
 import ExpenseSplitList from '@/modules/expense/components/ExpenseSplitList.vue'
 import { Receipt } from 'lucide-vue-next'
 import { TAB_EMPTY_MESSAGE, type GroupDetailTab } from '@/modules/group/components/group-detail/group.constants'
-
+import GroupMemberModal from '@/modules/group-member/components/group-member-modal/GroupMemberModal.vue'
 const router = useRouter()
 const route = useRoute()
 const groupDetail = useGroupDetail()
+const group = computed(() => groupDetail.data.value)
 
 const activeTab = ref<GroupDetailTab>('expenses')
 const handleTabSelect = (tab: GroupDetailTab) => {
   activeTab.value = tab
 }
 
-const group = computed(() => groupDetail.data.value)
-
+const showGroupMemberModal = ref(false)
 onMounted(() => {
   groupDetail.query(route.params.id as string)
 })
 </script>
 
 <template>
+  <GroupMemberModal :open="showGroupMemberModal" @close="showGroupMemberModal = false" />
   <GroupDetailSkeleton v-if="groupDetail.isPending.value || !group" />
 
   <div v-else-if="groupDetail.data.value" class="page">
@@ -35,6 +36,7 @@ onMounted(() => {
       :subtitle="group.description"
       :cover-url="group.coverImageUrl"
       @back="router.back()"
+      @selectMembers="showGroupMemberModal = true"
     />
 
     <div class="body">

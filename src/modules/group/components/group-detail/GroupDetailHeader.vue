@@ -12,10 +12,7 @@ defineEmits<{ back: []; selectMembers: [] }>()
 </script>
 
 <template>
-  <div
-    class="hero"
-    :style="{ backgroundImage: `url(${coverUrl || defaultCover})` }"
-  >
+  <div class="hero" :style="{ backgroundImage: `url(${coverUrl || defaultCover})` }">
     <div class="overlay" />
     <div class="hero-inner">
       <div class="top-row">
@@ -48,11 +45,7 @@ defineEmits<{ back: []; selectMembers: [] }>()
 .overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(20, 20, 19, 0.3) 0%,
-    rgba(20, 20, 19, 0.72) 100%
-  );
+  background: linear-gradient(to bottom, rgba(20, 20, 19, 0.3) 0%, rgba(20, 20, 19, 0.72) 100%);
 }
 
 .hero-inner {

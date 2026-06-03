@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Modal, ModalHeader, ModalTitle, ModalClose, ModalBody } from '@/shared/components/ui/modal'
 import MemberRow from './MemberRow.vue'
+import MemberListSkeleton from './MemberListSkeleton.vue'
 import { computed, watch } from 'vue'
 import { toast } from 'vue-sonner'
 import GroupMemberActionBanner from './GroupMemberActionBanner.vue'
@@ -39,7 +40,7 @@ watch(
     </ModalHeader>
     <ModalBody class="pb-md space-y-md">
       <GroupMemberActionBanner :description="inviteLink" @action="handleCopyInvite" />
-      <p v-if="isPending" class="text-xs text-text-muted">Đang tải thành viên...</p>
+      <MemberListSkeleton v-if="isPending" />
       <p v-else-if="isError" class="text-xs text-danger-main">Không thể tải danh sách thành viên.</p>
       <template v-else>
         <MemberRow v-for="member in members ?? []" :key="member.id" :member="member" class="mb-sm" />

@@ -20,6 +20,10 @@ const handleTabSelect = (tab: GroupDetailTab) => {
   activeTab.value = tab
 }
 
+const handleBack = () => {
+  router.push('/groups')
+}
+
 const showGroupMemberModal = ref(false)
 onMounted(() => {
   groupDetail.query(route.params.id as string)
@@ -41,7 +45,7 @@ onMounted(() => {
       :name="group.name"
       :subtitle="group.description"
       :cover-url="group.coverImageUrl"
-      @back="router.back()"
+      @back="handleBack"
       @selectMembers="showGroupMemberModal = true"
     />
 

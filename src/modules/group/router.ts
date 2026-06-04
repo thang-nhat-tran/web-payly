@@ -8,6 +8,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/groups/:id',
+    name: 'GroupDetail',
     component: () => import('./views/GroupDetailView.vue'),
     meta: { requiresAuth: true },
   },

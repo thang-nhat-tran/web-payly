@@ -1,13 +1,21 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/shared/stores/auth.store'
+import { safeInternalPath } from '@/shared/utils/url.util'
 
+const route = useRoute()
 const router = useRouter()
 const auth = useAuthStore()
 
 onMounted(() => {
-  router.replace(auth.isAuthenticated ? '/' : '/sign-in')
+  if (!auth.isAuthenticated) {
+    router.replace('/sign-in')
+    return
+  }
+
+  const redirect = safeInternalPath(route.query.redirect)
+  router.replace(redirect ?? '/')
 })
 </script>
 

@@ -21,7 +21,7 @@ router.beforeEach(async (to) => {
   }
 
   if (to.meta.requiresAuth && !auth.isAuthenticated) {
-    return '/sign-in'
+    return { path: '/sign-in', query: { redirect: to.fullPath } }
   }
 
   if (to.path === '/sign-in' && auth.isAuthenticated) {

@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
+    "gen:types": "supabase gen types typescript --project-id ygawceobwycmnsfjkpmm > src/shared/lib/database.types.ts",
     "lint": "run-s lint:*",
     "lint:oxlint": "oxlint . --fix",
     "lint:eslint": "eslint . --fix --cache",

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { Toaster } from 'vue-sonner'
+import { QueryClient } from './shared/lib/query/core/query-client'
+import { provideQueryClient } from './shared/lib/query/vue/useQueryClient'
 
 const toastOptions = {
   style: {
@@ -12,6 +14,9 @@ const toastOptions = {
     description: 'toast-description',
   },
 }
+
+const queryClient = new QueryClient()
+provideQueryClient(queryClient)
 </script>
 
 <template>

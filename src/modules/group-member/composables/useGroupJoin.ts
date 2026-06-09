@@ -1,4 +1,4 @@
-import { useMutation } from '@/shared/composables/useMutation'
+import { useMutation } from '@/shared/lib/query/vue/useMutation'
 import { groupMemberApi } from '../api/group-member.api'
 
 export function useGroupJoin() {

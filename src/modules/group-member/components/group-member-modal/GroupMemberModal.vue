@@ -16,7 +16,7 @@ defineEmits<{
   close: []
 }>()
 
-const { data: members, isPending, isError, query } = useGroupMemberList()
+const { data: members, isPending, isError, query } = useGroupMemberList(props.groupId)
 
 const inviteLink = computed(() => `${window.location.origin}/join-group/${props.inviteToken}`)
 
@@ -28,7 +28,7 @@ async function handleCopyInvite() {
 watch(
   () => props.open,
   (open) => {
-    if (open && props.groupId) query(props.groupId)
+    if (open && props.groupId) query()
   },
 )
 </script>

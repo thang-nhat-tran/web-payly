@@ -1,8 +1,9 @@
 import { groupApi } from '@/modules/group/api/group.api'
-import { useQuery } from '@/shared/composables/useQuery'
+import { useQuery } from '@/shared/lib/query/vue/useQuery'
 
-export function useGroupDetail() {
+export function useGroupDetail(id: string) {
   return useQuery({
-    queryFn: (id: string) => groupApi.fetchGroupById(id),
+    queryKey: ['group-detail', id],
+    queryFn: () => groupApi.fetchGroupById(id),
   })
 }

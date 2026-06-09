@@ -12,7 +12,7 @@ import { TAB_EMPTY_MESSAGE, type GroupDetailTab } from '@/modules/group/componen
 import GroupMemberModal from '@/modules/group-member/components/group-member-modal/GroupMemberModal.vue'
 const router = useRouter()
 const route = useRoute()
-const groupDetail = useGroupDetail()
+const groupDetail = useGroupDetail(route.params.id as string)
 const group = computed(() => groupDetail.data.value)
 
 const activeTab = ref<GroupDetailTab>('expenses')
@@ -26,7 +26,7 @@ const handleBack = () => {
 
 const showGroupMemberModal = ref(false)
 onMounted(() => {
-  groupDetail.query(route.params.id as string)
+  groupDetail.query()
 })
 </script>
 

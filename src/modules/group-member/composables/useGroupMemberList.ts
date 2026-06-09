@@ -1,8 +1,9 @@
 import { groupMemberApi } from '@/modules/group-member/api/group-member.api'
-import { useQuery } from '@/shared/composables/useQuery'
+import { useQuery } from '@/shared/lib/query/vue/useQuery'
 
-export function useGroupMemberList() {
+export function useGroupMemberList(groupId: string) {
   return useQuery({
-    queryFn: (groupId: string) => groupMemberApi.fetchGroupMembers(groupId),
+    queryKey: ['group-member-list', groupId],
+    queryFn: () => groupMemberApi.fetchGroupMembers(groupId),
   })
 }

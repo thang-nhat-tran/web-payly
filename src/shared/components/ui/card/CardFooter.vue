@@ -1,15 +1,13 @@
+<script setup lang="ts">
+import { useMergedAttrs } from '@/shared/composables/useMergedAttrs'
+
+defineOptions({ inheritAttrs: false })
+// Defaults are utilities (not scoped CSS) so consumer overrides like `p-0` win.
+const { rootClass, attrs } = useMergedAttrs('flex items-center gap-xs px-lg py-sm')
+</script>
+
 <template>
-  <div class="card-footer">
+  <div :class="rootClass" v-bind="attrs">
     <slot />
   </div>
 </template>
-
-<style scoped>
-.card-footer {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
-  padding: var(--spacing-md) var(--spacing-lg);
-  border-top: 1px solid var(--color-text-disabled);
-}
-</style>

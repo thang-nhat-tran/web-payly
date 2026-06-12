@@ -12,7 +12,6 @@ export const authApi = {
 
   signOut: () => supabase.auth.signOut(),
 
-  onAuthStateChange: (
-    cb: (event: AuthChangeEvent, session: Session | null) => void,
-  ) => supabase.auth.onAuthStateChange(cb),
+  onAuthStateChange: (cb: (event: AuthChangeEvent, session: Session | null) => void) =>
+    supabase.auth.onAuthStateChange(cb),
 }

@@ -1,37 +1,19 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-withDefaults(defineProps<{ clickable?: boolean }>(), { clickable: false })
+import { useMergedAttrs } from '@/shared/composables/useMergedAttrs'
+
+const props = withDefaults(defineProps<{ clickable?: boolean }>(), { clickable: false })
+
+defineOptions({ inheritAttrs: false })
+const { rootClass, attrs } = useMergedAttrs(() => [
+  'flex flex-col overflow-hidden rounded-md bg-bg-surface shadow-md',
+  props.clickable &&
+    'cursor-pointer transition-[transform,box-shadow] duration-150 ease-standard hover:-translate-y-[2px] hover:shadow-lg active:scale-[0.98]',
+])
 </script>
 
 <template>
-  <div class="card-shell" :class="{ 'card-shell--clickable': clickable }">
+  <div :class="rootClass" v-bind="attrs">
     <slot />
   </div>
 </template>
-
-<style scoped>
-.card-shell {
-  background-color: var(--color-bg-surface);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.card-shell--clickable {
-  cursor: pointer;
-  transition:
-    transform 0.15s var(--ease-standard),
-    box-shadow 0.15s var(--ease-standard);
-}
-
-.card-shell--clickable:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-}
-
-.card-shell--clickable:active {
-  transform: scale(0.98);
-}
-</style>

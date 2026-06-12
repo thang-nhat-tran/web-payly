@@ -3,6 +3,7 @@ import { useForm, useField } from 'vee-validate'
 import { Modal, ModalHeader, ModalTitle, ModalClose, ModalBody, ModalFooter } from '@/shared/components/ui/modal'
 import Label from '@/shared/components/ui/Label.vue'
 import Input from '@/shared/components/ui/Input.vue'
+import Button from '@/shared/components/ui/Button.vue'
 import { useAuthStore } from '@/shared/stores/auth.store'
 import { useCreateGroup } from './useCreateGroup'
 import { groupCreateSchema } from './group-create.schema'
@@ -79,10 +80,10 @@ function handleClose() {
     </ModalBody>
 
     <ModalFooter>
-      <button class="btn-secondary" type="button" @click="handleClose">Huỷ</button>
-      <button class="btn-primary" :disabled="createGroup.isPending.value" @click="handleSubmitForm">
+      <Button variant="secondary" @click="handleClose">Huỷ</Button>
+      <Button :loading="createGroup.isPending.value" @click="handleSubmitForm">
         {{ createGroup.isPending.value ? 'Đang tạo…' : 'Tạo nhóm' }}
-      </button>
+      </Button>
     </ModalFooter>
   </Modal>
 </template>

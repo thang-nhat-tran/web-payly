@@ -1,24 +1,22 @@
 <script setup lang="ts">
+import { formatMoney } from '@/shared/utils/currency.util'
+
 defineProps<{
   pendingAmount: number
   totalAmount: number
 }>()
-
-function formatVND(amount: number) {
-  return new Intl.NumberFormat('vi-VN').format(amount)
-}
 </script>
 
 <template>
   <div class="stat-cards">
     <div class="stat-card">
       <span class="stat-label">Chờ thanh toán</span>
-      <span class="stat-value stat-value--pending">{{ formatVND(pendingAmount) }}</span>
+      <span class="stat-value stat-value--pending">{{ formatMoney(pendingAmount) }}</span>
     </div>
     <div class="divider" />
     <div class="stat-card">
       <span class="stat-label">Tổng chi tiêu của nhóm</span>
-      <span class="stat-value stat-value--total">{{ formatVND(totalAmount) }}</span>
+      <span class="stat-value stat-value--total">{{ formatMoney(totalAmount) }}</span>
     </div>
   </div>
 </template>

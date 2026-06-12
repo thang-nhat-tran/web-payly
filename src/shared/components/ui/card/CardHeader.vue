@@ -1,14 +1,13 @@
+<script setup lang="ts">
+import { useMergedAttrs } from '@/shared/composables/useMergedAttrs'
+
+defineOptions({ inheritAttrs: false })
+// Defaults are utilities (not scoped CSS) so consumer overrides like `p-0` win.
+const { rootClass, attrs } = useMergedAttrs('flex flex-col gap-[6px] px-lg pt-lg')
+</script>
+
 <template>
-  <div class="card-header">
+  <div :class="rootClass" v-bind="attrs">
     <slot />
   </div>
 </template>
-
-<style scoped>
-.card-header {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: var(--spacing-lg) var(--spacing-lg) 0;
-}
-</style>

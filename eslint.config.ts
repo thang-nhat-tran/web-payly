@@ -3,6 +3,7 @@ import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescri
 import pluginVue from 'eslint-plugin-vue'
 import pluginOxlint from 'eslint-plugin-oxlint'
 import skipFormatting from 'eslint-config-prettier/flat'
+import pluginPrettier from 'eslint-plugin-prettier'
 
 // To allow more languages other than `ts` in `.vue` files, uncomment the following lines:
 // import { configureVueProject } from '@vue/eslint-config-typescript'
@@ -25,6 +26,10 @@ export default defineConfigWithVueTs(
   skipFormatting,
 
   {
+    name: 'prettier-integration',
+    plugins: {
+      prettier: pluginPrettier,
+    },
     rules: {
       'vue/multi-word-component-names': ['error', { ignores: ['Card'] }],
     },

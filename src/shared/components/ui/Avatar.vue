@@ -1,6 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useMergedAttrs } from '@/shared/composables/useMergedAttrs'
 
 type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
 
@@ -22,12 +23,17 @@ const props = withDefaults(
   { size: 'md' },
 )
 
-const sizeClass = computed(() => sizeMap[props.size])
 const fallback = computed(() => (props.name?.[0] ?? '?').toUpperCase())
+
+defineOptions({ inheritAttrs: false })
+const { rootClass, attrs } = useMergedAttrs(() => [
+  'portrait shrink-0 overflow-hidden bg-bg-soft flex items-center justify-center rounded-full',
+  sizeMap[props.size],
+])
 </script>
 
 <template>
-  <div class="portrait shrink-0 overflow-hidden bg-bg-soft flex items-center justify-center" :class="sizeClass">
+  <div :class="rootClass" v-bind="attrs">
     <img v-if="src" :src="src" :alt="name" class="w-full h-full object-cover" />
     <span v-else class="font-medium text-text-main">{{ fallback }}</span>
   </div>

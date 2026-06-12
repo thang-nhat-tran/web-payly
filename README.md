@@ -1,48 +1,90 @@
-# scrimba-project
+# Payly
 
-This template should help get you started developing with Vue 3 in Vite.
+Payly is a group expense–splitting web app.
 
-## Recommended IDE Setup
+Built with **Vue 3 + Vite + TypeScript**, **Pinia** (state), **Vue Router**,
+**Supabase** (backend/auth), **Tailwind CSS v4**, **vee-validate + Zod** (forms),
+and **Vitest** (unit tests).
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Requirements
 
-## Recommended Browser Setup
+- Node `^20.19.0 || >=22.12.0`
+- npm
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+## Setup
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+## Development
+
+Start the dev server with hot-reload:
 
 ```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+## Build
+
+Type-check, compile, and minify for production:
 
 ```sh
 npm run build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+Preview the production build locally:
 
 ```sh
-npm run lint
+npm run preview
 ```
+
+## Testing
+
+Run the full unit-test suite once:
+
+```sh
+npm test
+```
+
+Watch mode (re-runs affected tests on change):
+
+```sh
+npm run test:watch
+```
+
+Run a single test file — pass the path after `--`:
+
+```sh
+npm test -- src/shared/utils/currency.util.test.ts
+```
+
+You can also filter by a filename substring:
+
+```sh
+npm test -- currency
+```
+
+## Lint & Format
+
+```sh
+npm run lint           # oxlint + eslint, with --fix
+npm run format         # format src/ with Prettier (writes changes)
+npm run format:check   # verify formatting without writing (used in CI)
+```
+
+The generated `src/shared/lib/database.types.ts` is excluded from Prettier via
+`.prettierignore`.
+
+## Database Types
+
+Regenerate the Supabase database types (writes to
+`src/shared/lib/database.types.ts`):
+
+```sh
+npm run gen:types
+```
+
+## Recommended IDE Setup
+
+[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).

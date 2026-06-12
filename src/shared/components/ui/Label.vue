@@ -1,5 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
+import { useMergedAttrs } from '@/shared/composables/useMergedAttrs'
+
 withDefaults(
   defineProps<{
     /** Show a red asterisk to mark the field as required. */
@@ -9,10 +11,13 @@ withDefaults(
   }>(),
   { required: false, optional: false },
 )
+
+defineOptions({ inheritAttrs: false })
+const { rootClass, attrs } = useMergedAttrs('text-xs font-semibold text-text-main')
 </script>
 
 <template>
-  <label class="label">
+  <label :class="rootClass" v-bind="attrs">
     <slot />
     <span v-if="required" class="label__required"> *</span>
     <span v-else-if="optional" class="label__optional"></span>
@@ -20,12 +25,6 @@ withDefaults(
 </template>
 
 <style scoped>
-.label {
-  font-size: var(--text-xs);
-  font-weight: 600;
-  color: var(--color-text-main);
-}
-
 .label__required {
   color: var(--color-danger-main);
 }

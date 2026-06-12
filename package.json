@@ -16,14 +16,28 @@
     "lint:oxlint": "oxlint . --fix",
     "lint:eslint": "eslint . --fix --cache",
     "lint:check": "oxlint . && eslint .",
-    "format": "prettier --write --experimental-cli src/"
+    "format": "prettier --write --experimental-cli src/",
+    "format:check": "prettier --check --experimental-cli src/",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,vue,js,cjs,mjs}": [
+      "oxlint --fix",
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,css,html}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.105.4",
     "@tailwindcss/vite": "^4.3.0",
     "@vee-validate/zod": "^4.15.1",
+    "clsx": "^2.1.1",
     "lucide-vue-next": "^1.0.0",
     "pinia": "^3.0.4",
+    "tailwind-merge": "^3.6.0",
     "vee-validate": "^4.15.1",
     "vue": "^3.5.32",
     "vue-router": "^5.0.4",
@@ -41,9 +55,12 @@
     "eslint": "^10.2.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-oxlint": "~1.60.0",
+    "eslint-plugin-prettier": "^5.5.6",
     "eslint-plugin-vue": "~10.8.0",
     "happy-dom": "^20.10.2",
+    "husky": "^9.1.7",
     "jiti": "^2.6.1",
+    "lint-staged": "^17.0.7",
     "npm-run-all2": "^8.0.4",
     "oxlint": "~1.60.0",
     "postcss": "^8.5.14",

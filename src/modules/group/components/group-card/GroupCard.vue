@@ -1,18 +1,13 @@
 <script setup lang="ts">
 import { Wallet } from 'lucide-vue-next'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/shared/components/ui/card'
+import Button from '@/shared/components/ui/Button.vue'
 import MemberAvatarStack from '@/modules/group-member/components/MemberAvatarStack.vue'
 import type { GroupWithStats } from '@/modules/group/types/group.types'
+import { formatVNDtoK } from '@/shared/utils/currency.util'
 
 defineProps<{ group: GroupWithStats }>()
 const emit = defineEmits<{ open: [] }>()
-
-function formatAmount(amount: number) {
-  return new Intl.NumberFormat('vi-VN', {
-    style: 'currency',
-    currency: 'VND',
-  }).format(amount)
-}
 </script>
 
 <template>
@@ -28,15 +23,15 @@ function formatAmount(amount: number) {
           <Wallet :size="18" :stroke-width="1.5" />
         </div>
         <div>
-          <p class="amount">{{ formatAmount(group.totalAmount) }}</p>
+          <p class="amount">{{ formatVNDtoK(group.totalAmount) }}</p>
           <p class="amount-label">Tổng chi tiêu</p>
         </div>
       </div>
     </CardContent>
 
-    <CardFooter>
+    <CardFooter class="border-t border-gray-300">
       <MemberAvatarStack :avatar-urls="group.memberAvatarUrls" />
-      <button class="btn-primary open-btn" @click.stop="emit('open')">Mở →</button>
+      <Button size="sm" class="open-btn" @click.stop="emit('open')">Mở →</Button>
     </CardFooter>
   </Card>
 </template>
@@ -88,7 +83,5 @@ function formatAmount(amount: number) {
 
 .open-btn {
   margin-left: auto;
-  padding: 4px 18px;
-  font-size: var(--text-xs);
 }
 </style>

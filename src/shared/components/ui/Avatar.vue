@@ -3,7 +3,7 @@
 import { computed } from 'vue'
 import { useMergedAttrs } from '@/shared/composables/useMergedAttrs'
 
-type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
 
 const sizeMap: Record<AvatarSize, string> = {
   xs: 'w-8 h-8 text-xs',

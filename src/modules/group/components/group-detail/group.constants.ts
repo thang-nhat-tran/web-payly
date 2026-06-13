@@ -5,12 +5,12 @@ export const GROUP_MESSAGES = {
 
 export const GROUP_DETAIL_TABS = {
   EXPENSES: 'expenses',
-  SETTLEMENT: 'settlement',
+  DEBT: 'debt',
 } as const
 
 export type GroupDetailTab = (typeof GROUP_DETAIL_TABS)[keyof typeof GROUP_DETAIL_TABS]
 
 export const TAB_EMPTY_MESSAGE: Record<GroupDetailTab, string> = {
   [GROUP_DETAIL_TABS.EXPENSES]: 'Chưa có khoản chi nào.',
-  [GROUP_DETAIL_TABS.SETTLEMENT]: 'Chưa có thanh toán nào.',
+  [GROUP_DETAIL_TABS.DEBT]: 'Chưa có khoản nợ nào.',
 }

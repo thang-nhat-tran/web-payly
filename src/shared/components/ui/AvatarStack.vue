@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import UserAvatar from '@/shared/components/ui/Avatar.vue'
+import UserAvatar, { type AvatarSize } from '@/shared/components/ui/Avatar.vue'
 
 const props = withDefaults(
   defineProps<{
     avatarUrls: string[]
     max?: number
+    size?: AvatarSize
   }>(),
-  { max: 4 },
+  { max: 4, size: 'sm' },
 )
 
 const visibleUrls = computed(() => props.avatarUrls.slice(0, props.max))
@@ -17,7 +18,7 @@ const extraCount = computed(() => Math.max(0, props.avatarUrls.length - props.ma
 <template>
   <div class="avatar-stack">
     <div v-for="(url, i) in visibleUrls" :key="i" class="avatar-ring">
-      <UserAvatar :src="url" size="sm" />
+      <UserAvatar :src="url" :size="props.size" />
     </div>
     <div v-if="extraCount > 0" class="avatar-ring avatar-extra">+{{ extraCount }}</div>
   </div>

@@ -9,7 +9,7 @@ const tabs: {
   label: string
 }[] = [
   { value: 'expenses', label: 'Khoản chi' },
-  { value: 'settlement', label: 'Thanh toán' },
+  { value: 'debt', label: 'Khoản nợ' },
 ]
 </script>
 

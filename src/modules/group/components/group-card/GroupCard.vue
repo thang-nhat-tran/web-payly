@@ -2,7 +2,7 @@
 import { Wallet } from 'lucide-vue-next'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/shared/components/ui/card'
 import Button from '@/shared/components/ui/Button.vue'
-import MemberAvatarStack from '@/modules/group-member/components/MemberAvatarStack.vue'
+import AvatarStack from '@/shared/components/ui/AvatarStack.vue'
 import type { GroupWithStats } from '@/modules/group/types/group.types'
 import { formatVNDtoK } from '@/shared/utils/currency.util'
 
@@ -30,7 +30,7 @@ const emit = defineEmits<{ open: [] }>()
     </CardContent>
 
     <CardFooter class="border-t border-gray-300">
-      <MemberAvatarStack :avatar-urls="group.memberAvatarUrls" />
+      <AvatarStack :avatar-urls="group.memberAvatarUrls" />
       <Button size="sm" class="open-btn" @click.stop="emit('open')">Mở →</Button>
     </CardFooter>
   </Card>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link } from 'lucide-vue-next'
-import Button from '@/shared/components/ui/Button.vue'
+import { Button } from '@/shared/components/ui/button'
 
 withDefaults(
   defineProps<{
@@ -26,7 +26,7 @@ defineEmits<{ action: [] }>()
         {{ description }}
       </p>
     </div>
-    <Button variant="icon" @click="$emit('action')">
+    <Button variant="outline" size="icon" class="rounded-round" @click="$emit('action')">
       <Link :size="18" :stroke-width="2.0" />
     </Button>
   </div>

@@ -2,7 +2,7 @@
 import { useSignInWithGoogle } from '@/modules/auth/composables/useSignInWithGoogle'
 import IconGoogle from '@/shared/components/icons/IconGoogle.vue'
 import AppLogo from '@/shared/components/app/AppLogo.vue'
-import Button from '@/shared/components/ui/Button.vue'
+import { Button } from '@/shared/components/ui/button'
 
 const { signInWithGoogle, signInLoading, signInError } = useSignInWithGoogle()
 </script>

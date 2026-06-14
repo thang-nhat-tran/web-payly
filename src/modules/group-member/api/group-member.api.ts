@@ -17,7 +17,7 @@ function mapGroupMember(row: GroupMemberRow): GroupMember {
     id: row.user_id,
     name: row.users?.full_name ?? '',
     email: row.users?.email ?? '',
-    avatarUrl: row.users?.avatar_url ?? undefined,
+    avatarUrl: row.users?.avatar_url,
     role: row.role,
   }
 }

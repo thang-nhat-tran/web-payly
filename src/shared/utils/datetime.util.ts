@@ -1,4 +1,4 @@
-import type { SupportedLocale } from '@/shared/types/locale.type'
+import type { SupportedLocale } from '@/shared/types/app-setting.type'
 import { createCachedInstance } from './cached-instance-factory.util'
 
 type DateTimeFormatOptions = Intl.DateTimeFormatOptions & { locale: SupportedLocale }
@@ -43,8 +43,12 @@ const DATE_FORMAT_OPTIONS: Record<DateFormatStyle, Intl.DateTimeFormatOptions> =
 
 export function formatDate(
   value: string | number | Date,
-  locale: SupportedLocale = 'vi-VN',
+  locale: SupportedLocale,
   style: DateFormatStyle = 'longDate',
 ): string {
   return `${getDateTimeFormat({ locale, ...DATE_FORMAT_OPTIONS[style] }).format(new Date(value))}`
+}
+
+export function getToday(locale: SupportedLocale, style: DateFormatStyle = 'longDate'): string {
+  return `${getDateTimeFormat({ locale, ...DATE_FORMAT_OPTIONS[style] }).format(new Date())}`
 }

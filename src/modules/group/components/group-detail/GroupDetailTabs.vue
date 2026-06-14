@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { GroupDetailTab } from '@/modules/group/components/group-detail/group.constants'
+import type { GroupDetailTab } from '@/modules/group/components/group-detail/group-detail.constants'
 
 defineProps<{ active: GroupDetailTab }>()
 defineEmits<{ select: [GroupDetailTab] }>()

@@ -6,9 +6,10 @@ import GroupDetailHeader from '@/modules/group/components/group-detail/GroupDeta
 import GroupDetailTabs from '@/modules/group/components/group-detail/GroupDetailTabs.vue'
 import GroupDetailSkeleton from '@/modules/group/components/group-detail/GroupDetailSkeleton.vue'
 import AppFab from '@/shared/components/app/AppFab.vue'
-import ExpenseSplitList from '@/modules/expense/components/ExpenseSplitList.vue'
+import ExpenseList from '@/modules/expense/components/ExpenseList.vue'
+import DebtList from '@/modules/expense/components/DebtList.vue'
 import { Receipt } from 'lucide-vue-next'
-import { TAB_EMPTY_MESSAGE, type GroupDetailTab } from '@/modules/group/components/group-detail/group.constants'
+import { type GroupDetailTab } from '@/modules/group/components/group-detail/group-detail.constants'
 import GroupMemberModal from '@/modules/group-member/components/group-member-modal/GroupMemberModal.vue'
 const router = useRouter()
 const route = useRoute()
@@ -25,6 +26,11 @@ const handleBack = () => {
 }
 
 const showGroupMemberModal = ref(false)
+
+const goToCreateExpense = () => {
+  router.push(`/groups/${route.params.id}/expenses/new`)
+}
+
 onMounted(() => {
   groupDetail.query()
 })
@@ -53,15 +59,13 @@ onMounted(() => {
       <GroupDetailTabs :active="activeTab" @select="handleTabSelect" />
 
       <div class="tab-content">
-        <ExpenseSplitList v-if="activeTab === 'expenses'" @pay="() => {}" @detail="() => {}" />
-        <div v-else class="empty-state">
-          <p class="empty-text">{{ TAB_EMPTY_MESSAGE[activeTab] }}</p>
-        </div>
+        <ExpenseList v-if="activeTab === 'expenses'" />
+        <DebtList v-else />
       </div>
     </div>
   </div>
 
-  <AppFab v-if="group && activeTab === 'expenses'" :icon="Receipt" @click="() => {}" />
+  <AppFab v-if="group && activeTab === 'expenses'" :icon="Receipt" @click="goToCreateExpense" />
 </template>
 
 <style scoped>
@@ -82,19 +86,5 @@ onMounted(() => {
   flex: 1;
   display: flex;
   flex-direction: column;
-}
-
-.empty-state {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  flex-grow: 1;
-  padding: var(--spacing-3xl) var(--spacing-md);
-}
-
-.empty-text {
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
 }
 </style>

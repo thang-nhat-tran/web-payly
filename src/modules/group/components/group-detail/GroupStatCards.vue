@@ -1,22 +1,29 @@
 <script setup lang="ts">
-import { formatMoney } from '@/shared/utils/currency.util'
+import { formatMoney } from '@/shared/utils/money.util'
+import { useAppSettingStore } from '@/shared/stores/app-setting.store'
 
 defineProps<{
   pendingAmount: number
   totalAmount: number
 }>()
+
+const appSetting = useAppSettingStore()
 </script>
 
 <template>
   <div class="stat-cards">
     <div class="stat-card">
       <span class="stat-label">Chờ thanh toán</span>
-      <span class="stat-value stat-value--pending">{{ formatMoney(pendingAmount) }}</span>
+      <span class="stat-value stat-value--pending">
+        {{ formatMoney(pendingAmount, appSetting.locale, appSetting.currency) }}
+      </span>
     </div>
     <div class="divider" />
     <div class="stat-card">
       <span class="stat-label">Tổng chi tiêu của nhóm</span>
-      <span class="stat-value stat-value--total">{{ formatMoney(totalAmount) }}</span>
+      <span class="stat-value stat-value--total">
+        {{ formatMoney(totalAmount, appSetting.locale, appSetting.currency) }}
+      </span>
     </div>
   </div>
 </template>

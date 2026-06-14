@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { formatMoney, formatVNDtoK } from './currency.util'
+import { formatMoney, formatVNDtoK, getCurrencySymbol } from './money.util'
 
 // ICU separates the amount from the currency symbol with a non-breaking space
 // whose exact code point varies by ICU version (U+00A0 vs U+202F). Normalize it
@@ -7,29 +7,25 @@ import { formatMoney, formatVNDtoK } from './currency.util'
 const norm = (s: string): string => s.replace(/[  ]/g, ' ')
 
 describe('formatMoney', () => {
-  it('formats a VND amount with grouping and symbol by default', () => {
-    expect(norm(formatMoney(150000))).toBe('150.000 ₫')
+  it('formats a VND amount with grouping and symbol', () => {
+    expect(norm(formatMoney(150000, 'vi-VN', 'VND'))).toBe('150.000 ₫')
   })
 
   it('formats zero', () => {
-    expect(norm(formatMoney(0))).toBe('0 ₫')
+    expect(norm(formatMoney(0, 'vi-VN', 'VND'))).toBe('0 ₫')
   })
 
   it('groups large amounts with dots', () => {
-    expect(norm(formatMoney(1000000))).toBe('1.000.000 ₫')
+    expect(norm(formatMoney(1000000, 'vi-VN', 'VND'))).toBe('1.000.000 ₫')
   })
 
   it('keeps the sign for negative amounts', () => {
-    expect(norm(formatMoney(-2000))).toBe('-2.000 ₫')
+    expect(norm(formatMoney(-2000, 'vi-VN', 'VND'))).toBe('-2.000 ₫')
   })
 
   it('shows at most one decimal digit, rounding when needed', () => {
-    expect(norm(formatMoney(1500.5))).toBe('1.500,5 ₫') // single decimal kept
-    expect(norm(formatMoney(150000.25))).toBe('150.000,3 ₫') // 0.25 → 0.3
-  })
-
-  it('honours an explicit locale and currency argument', () => {
-    expect(norm(formatMoney(150000, 'vi-VN', 'VND'))).toBe('150.000 ₫')
+    expect(norm(formatMoney(1500.5, 'vi-VN', 'VND'))).toBe('1.500,5 ₫') // single decimal kept
+    expect(norm(formatMoney(150000.25, 'vi-VN', 'VND'))).toBe('150.000,3 ₫') // 0.25 → 0.3
   })
 })
 
@@ -62,5 +58,11 @@ describe('formatVNDtoK', () => {
   it('groups thousands with a dot for large values', () => {
     expect(formatVNDtoK(1000000)).toBe('1.000K')
     expect(formatVNDtoK(2500000)).toBe('2.500K')
+  })
+})
+
+describe('getCurrencySymbol', () => {
+  it('returns the VND symbol for vi-VN', () => {
+    expect(getCurrencySymbol('vi-VN', 'VND')).toBe('₫')
   })
 })

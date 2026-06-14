@@ -1,15 +1,15 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import { onMounted, onUnmounted, provide } from 'vue'
+import { onMounted, onUnmounted, provide, type HTMLAttributes } from 'vue'
 import { MODAL_CLOSE_KEY } from './context'
-import { useMergedAttrs } from '@/shared/composables/useMergedAttrs'
+import { cn } from '@/shared/utils/cn.util'
 
-const props = defineProps<{ open: boolean }>()
+const props = defineProps<{
+  open: boolean
+  /** Consumer classes — tailwind-merged onto the panel (not the backdrop) via cn(). */
+  class?: HTMLAttributes['class']
+}>()
 const emit = defineEmits<{ close: [] }>()
-
-// Consumer-injected classes land on the panel, not the backdrop.
-defineOptions({ inheritAttrs: false })
-const { rootClass, attrs } = useMergedAttrs('w-full max-w-200 overflow-hidden rounded-md bg-bg-surface shadow-lg')
 
 function close() {
   emit('close')
@@ -35,7 +35,12 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
         @click.self="close"
       >
         <Transition name="panel" appear>
-          <div v-if="open" role="dialog" aria-modal="true" :class="rootClass" v-bind="attrs">
+          <div
+            v-if="open"
+            role="dialog"
+            aria-modal="true"
+            :class="cn('w-full max-w-200 overflow-hidden rounded-md bg-bg-base shadow-lg', props.class)"
+          >
             <slot />
           </div>
         </Transition>

@@ -12,7 +12,7 @@ import AppFab from '@/shared/components/app/AppFab.vue'
 import { HousePlus } from 'lucide-vue-next'
 import { toast } from 'vue-sonner'
 import type { Group } from '@/modules/group/types/group.types'
-import { GROUP_MESSAGES } from '@/modules/group/components/group-detail/group.constants'
+import { GROUP_MESSAGES } from '@/modules/group/components/group-detail/group-detail.constants'
 
 const router = useRouter()
 const auth = useAuthStore()
@@ -36,7 +36,7 @@ onMounted(() => {
 
 <template>
   <div class="min-h-screen">
-    <AppHeader>
+    <AppHeader class="px-sm">
       <template #left>
         <h3>Nhóm chi tiêu</h3>
       </template>
@@ -46,7 +46,7 @@ onMounted(() => {
       </template>
     </AppHeader>
 
-    <main class="mx-auto px-md py-md">
+    <main class="mx-auto px-sm py-md">
       <div class="groups-grid">
         <template v-if="groups.isPending.value">
           <GroupCardSkeleton v-for="i in 6" :key="i" />

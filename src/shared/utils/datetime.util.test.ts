@@ -7,8 +7,8 @@ import { formatDate } from './datetime.util'
 const localInstant = new Date(2026, 4, 10, 18, 30)
 
 describe('formatDate', () => {
-  it('defaults to the longDate style in vi-VN', () => {
-    expect(formatDate(localInstant)).toBe('10 tháng 5, 2026')
+  it('uses the longDate style by default', () => {
+    expect(formatDate(localInstant, 'vi-VN')).toBe('10 tháng 5, 2026')
   })
 
   it('formats each supported style', () => {
@@ -20,12 +20,12 @@ describe('formatDate', () => {
   })
 
   it('accepts a timestamp (number)', () => {
-    expect(formatDate(localInstant.getTime())).toBe('10 tháng 5, 2026')
+    expect(formatDate(localInstant.getTime(), 'vi-VN')).toBe('10 tháng 5, 2026')
   })
 
   it('accepts an ISO string with an explicit local time', () => {
     // A mid-day time avoids the date rolling over across timezone offsets.
-    expect(formatDate('2026-05-10T12:00:00')).toBe('10 tháng 5, 2026')
+    expect(formatDate('2026-05-10T12:00:00', 'vi-VN')).toBe('10 tháng 5, 2026')
   })
 
   it('pads single-digit day and month in shortDate', () => {

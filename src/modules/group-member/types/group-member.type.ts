@@ -4,6 +4,6 @@ export interface GroupMember {
   id: string
   name: string
   email: string
-  avatarUrl?: string
+  avatarUrl: string | null
   role: GroupMemberRole
 }

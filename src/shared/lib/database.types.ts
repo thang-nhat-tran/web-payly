@@ -14,6 +14,52 @@ export type Database = {
   }
   public: {
     Tables: {
+      expense_splits: {
+        Row: {
+          expense_id: string
+          id: string
+          settlement_id: string | null
+          share_amount: number
+          user_id: string
+        }
+        Insert: {
+          expense_id: string
+          id?: string
+          settlement_id?: string | null
+          share_amount: number
+          user_id: string
+        }
+        Update: {
+          expense_id?: string
+          id?: string
+          settlement_id?: string | null
+          share_amount?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expense_splits_expense_id_fkey"
+            columns: ["expense_id"]
+            isOneToOne: false
+            referencedRelation: "expenses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expense_splits_settlement_id_fkey"
+            columns: ["settlement_id"]
+            isOneToOne: false
+            referencedRelation: "settlements"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expense_splits_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       expenses: {
         Row: {
           amount: number
@@ -21,7 +67,6 @@ export type Database = {
           group_id: string
           id: string
           paid_by: string
-          split_type: string
           title: string
         }
         Insert: {
@@ -30,7 +75,6 @@ export type Database = {
           group_id: string
           id?: string
           paid_by: string
-          split_type: string
           title: string
         }
         Update: {
@@ -39,7 +83,6 @@ export type Database = {
           group_id?: string
           id?: string
           paid_by?: string
-          split_type?: string
           title?: string
         }
         Relationships: [
@@ -133,6 +176,61 @@ export type Database = {
           },
         ]
       }
+      settlements: {
+        Row: {
+          amount: number
+          from_user: string
+          group_id: string
+          id: string
+          note: string | null
+          settled_at: string
+          title: string
+          to_user: string
+        }
+        Insert: {
+          amount: number
+          from_user: string
+          group_id: string
+          id?: string
+          note?: string | null
+          settled_at?: string
+          title: string
+          to_user: string
+        }
+        Update: {
+          amount?: number
+          from_user?: string
+          group_id?: string
+          id?: string
+          note?: string | null
+          settled_at?: string
+          title?: string
+          to_user?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "settlements_from_user_fkey"
+            columns: ["from_user"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "settlements_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "groups"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "settlements_to_user_fkey"
+            columns: ["to_user"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       users: {
         Row: {
           avatar_url: string | null
@@ -162,6 +260,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_expense_with_splits: {
+        Args: {
+          p_amount: number
+          p_group_id: string
+          p_paid_by: string
+          p_splits: Json
+          p_title: string
+        }
+        Returns: string
+      }
       join_group_by_token: { Args: { p_invite_token: string }; Returns: string }
     }
     Enums: {

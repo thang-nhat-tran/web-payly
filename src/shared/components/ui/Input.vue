@@ -1,83 +1,41 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import { useMergedAttrs } from '@/shared/composables/useMergedAttrs'
+import { computed, type HTMLAttributes } from 'vue'
+import { cn } from '@/shared/utils/cn.util'
+
+const model = defineModel<string>({ required: true })
 
 const props = defineProps<{
-  modelValue?: string
+  /** `default` is a bordered field; `ghost` is borderless/transparent for inline editing. */
+  variant?: 'default' | 'ghost'
   /** Error message — when set, shows the error state and renders the text below. */
   error?: string
   /** Render a <textarea> instead of an <input>. */
   multiline?: boolean
+  /** Consumer classes — tailwind-merged onto the control via cn(). */
+  class?: HTMLAttributes['class']
 }>()
 
-defineEmits<{ 'update:modelValue': [value: string] }>()
-
+// Non-class attrs (placeholder, type, inputmode, …) fall through to the control.
 defineOptions({ inheritAttrs: false })
 
-// Consumer-passed classes merge onto the control; `attrs` is shared (class-stripped).
-const { rootClass: inputClass, attrs } = useMergedAttrs(() => ['input', { 'input--error': props.error }])
-const { rootClass: textareaClass } = useMergedAttrs(() => ['input textarea', { 'input--error': props.error }])
+const controlClass = computed(() =>
+  cn(
+    'w-full font-sans text-sm text-text-main outline-none transition-[border-color] duration-150 ease-standard placeholder:text-text-muted',
+    props.variant === 'ghost'
+      ? 'border-0 bg-transparent p-0'
+      : 'rounded-md border-[1.5px] border-text-disabled bg-bg-surface px-[14px] py-[10px] focus:border-text-main',
+    props.error && 'border-danger-main focus:border-danger-main',
+    props.multiline && 'min-h-[40px] resize-y',
+    props.class,
+  ),
+)
 </script>
 
 <template>
-  <div class="field">
-    <textarea
-      v-if="multiline"
-      :class="textareaClass"
-      :value="modelValue"
-      v-bind="attrs"
-      @input="$emit('update:modelValue', ($event.target as HTMLTextAreaElement).value)"
-    />
-    <input
-      v-else
-      :class="inputClass"
-      :value="modelValue"
-      v-bind="attrs"
-      @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
-    />
-    <span v-if="error" class="error-msg">{{ error }}</span>
+  <div class="flex flex-col gap-1.5">
+    <textarea v-if="multiline" v-model="model" :class="controlClass" v-bind="$attrs" />
+    <input v-else v-model="model" :class="controlClass" v-bind="$attrs" />
+    <span v-if="error" class="text-xs text-danger-main">{{ error }}</span>
   </div>
 </template>
-
-<style scoped>
-/* Defaults live in the `components` layer so consumer utility classes
-   (emitted in Tailwind's later `utilities` layer) always win. */
-@layer components {
-  .field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .input {
-    width: 100%;
-    padding: 10px 14px;
-    border: 1.5px solid var(--color-text-disabled);
-    border-radius: var(--radius-md);
-    background-color: var(--color-bg-base);
-    color: var(--color-text-main);
-    font-family: var(--font-sans);
-    font-size: var(--text-sm);
-    outline: none;
-    transition: border-color 0.15s var(--ease-standard);
-    box-sizing: border-box;
-  }
-  .input:focus {
-    border-color: var(--color-text-main);
-  }
-  .input--error,
-  .input--error:focus {
-    border-color: var(--color-danger-main);
-  }
-
-  .textarea {
-    resize: vertical;
-    min-height: 80px;
-  }
-
-  .error-msg {
-    font-size: var(--text-xs);
-    color: var(--color-danger-main);
-  }
-}
-</style>

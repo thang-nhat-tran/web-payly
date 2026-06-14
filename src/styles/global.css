@@ -20,6 +20,7 @@
   /* ── Actions & Signals ────────────────────────────────────── */
   --color-danger-main: #cf4500; /* Destructive actions / Legal warnings */
   --color-danger-light: #f37338; /* Decorative accent for warnings */
+  --color-success: #166534;
   --color-action-secondary: #9a3a0a; /* Secondary action (Rust tone) */
   --color-link: #3860be; /* Default link color */
 
@@ -92,7 +93,7 @@
 
   h1 {
     font-size: var(--text-xl);
-    font-weight: 500;
+    font-weight: 700;
     line-height: 1;
     letter-spacing: var(--tracking-normal);
     color: var(--color-text-main);
@@ -100,7 +101,7 @@
 
   h2 {
     font-size: var(--text-lg);
-    font-weight: 500;
+    font-weight: 700;
     line-height: 1.22;
     letter-spacing: var(--tracking-normal);
     color: var(--color-text-main);
@@ -108,8 +109,16 @@
 
   h3 {
     font-size: var(--text-md);
-    font-weight: 500;
+    font-weight: 700;
     line-height: 1.2;
+    letter-spacing: var(--tracking-normal);
+    color: var(--color-text-main);
+  }
+
+  h4 {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    line-height: 1.3;
     letter-spacing: var(--tracking-normal);
     color: var(--color-text-main);
   }
@@ -160,7 +169,7 @@
   /* Success */
   --success-bg: #f0faf4;
   --success-border: #bbe8cb;
-  --success-text: #166534;
+  --success-text: var(--color-success);
 
   /* Error */
   --error-bg: #fff4f0;
@@ -170,7 +179,7 @@
   /* Warning */
   --warning-bg: #fffbeb;
   --warning-border: #fde68a;
-  --warning-text: #92400e;
+  --warning-text: var(--color-danger-light);
 
   /* Info */
   --info-bg: #eff6ff;

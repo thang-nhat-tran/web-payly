@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Wallet } from 'lucide-vue-next'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/shared/components/ui/card'
-import Button from '@/shared/components/ui/Button.vue'
+import { Button } from '@/shared/components/ui/button'
 import AvatarStack from '@/shared/components/ui/AvatarStack.vue'
 import type { GroupWithStats } from '@/modules/group/types/group.types'
-import { formatVNDtoK } from '@/shared/utils/currency.util'
+import { formatVNDtoK } from '@/shared/utils/money.util'
 
 defineProps<{ group: GroupWithStats }>()
 const emit = defineEmits<{ open: [] }>()

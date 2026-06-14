@@ -16,7 +16,7 @@ const sizeMap: Record<AvatarSize, string> = {
 
 const props = withDefaults(
   defineProps<{
-    src?: string
+    src?: string | null
     name?: string
     size?: AvatarSize
   }>(),

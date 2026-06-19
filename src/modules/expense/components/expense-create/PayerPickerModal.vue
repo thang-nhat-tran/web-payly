@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import ModalPicker from '@/shared/components/ui/ModalPicker.vue'
 import UserAvatar from '@/shared/components/ui/Avatar.vue'
-import type { ExpenseParticipant } from '@/modules/expense/types/expense.types'
+import type { ExpenseParticipant } from '@/modules/expense/types/expense.type'
 
 defineProps<{ open: boolean; members: ExpenseParticipant[] }>()
 const payerId = defineModel<string>({ required: true })

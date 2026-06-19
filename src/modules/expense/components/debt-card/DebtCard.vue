@@ -2,7 +2,7 @@
 import { Card, CardContent } from '@/shared/components/ui/card'
 import UserAvatar from '@/shared/components/ui/Avatar.vue'
 import StatusBadge from '@/modules/expense/components/StatusBadge.vue'
-import type { OwedDebt } from '@/modules/expense/types/expense.types'
+import type { OwedDebt } from '@/modules/expense/types/expense.type'
 import { formatMoney } from '@/shared/utils/money.util'
 import { formatDate } from '@/shared/utils/datetime.util'
 import { useAppSettingStore } from '@/shared/stores/app-setting.store'

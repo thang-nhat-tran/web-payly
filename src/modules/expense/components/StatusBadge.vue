@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { SettlementStatus } from '@/modules/expense/types/expense.types'
+import type { SettlementStatus } from '@/modules/expense/types/expense.type'
 
 const props = defineProps<{ status: SettlementStatus }>()
 

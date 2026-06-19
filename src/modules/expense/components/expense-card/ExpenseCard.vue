@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { Card, CardContent } from '@/shared/components/ui/card'
 import AvatarStack from '@/shared/components/ui/AvatarStack.vue'
-import type { PaidExpense } from '@/modules/expense/types/expense.types'
+import type { PaidExpense } from '@/modules/expense/types/expense.type'
 import { formatMoney } from '@/shared/utils/money.util'
 import { formatDate } from '@/shared/utils/datetime.util'
 import { useAppSettingStore } from '@/shared/stores/app-setting.store'

@@ -1,4 +1,4 @@
-import type { PaidExpense, OwedDebt, ExpenseParticipant } from '@/modules/expense/types/expense.types'
+import type { PaidExpense, OwedDebt, ExpenseParticipant } from '@/modules/expense/types/expense.type'
 
 const avatar = (u: number) => `https://img.heroui.chat/image/avatar?w=100&h=100&u=${u}`
 

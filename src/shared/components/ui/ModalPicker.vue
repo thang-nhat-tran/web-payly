@@ -35,8 +35,12 @@ function onSelect(item: T) {
   if (isLocked(key)) return
 
   if (props.multiple) {
-    if (isSelected(key)) selected.value.filter((k) => k !== key)
+    console.log('item', item)
+    console.log('isSelected', isSelected(key))
+    console.log('b selected', selected.value)
+    if (isSelected(key)) selected.value = selected.value.filter((k) => k !== key)
     else selected.value = [...selected.value, key]
+    console.log('a selected', selected.value)
   } else {
     selected.value = [key]
     emit('close')

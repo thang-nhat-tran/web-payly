@@ -1,5 +1,8 @@
 import type { GroupMember } from '@/modules/group-member/types/group-member.type'
 
+/** How an expense's total is divided among its payees. */
+export type { SplitMethod } from './expense-split.type'
+
 /** Settlement state of a debt or a single participant's share. */
 export type SettlementStatus = 'pending' | 'paid' | 'overdue'
 
@@ -10,7 +13,7 @@ export interface ExpenseParticipant {
   avatarUrl: string | null
 }
 
-export function mapGroupMemberToExpenseParticipant(member: GroupMember): ExpenseParticipant {
+export function groupMemberToExpenseParticipant(member: GroupMember): ExpenseParticipant {
   return {
     id: member.id,
     name: member.name,

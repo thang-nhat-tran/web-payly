@@ -16,12 +16,7 @@ const appSetting = useAppSettingStore()
 
 <template>
   <Label>Tổng số tiền</Label>
-  <MoneyInput
-    v-model="amount"
-    :locale="appSetting.locale"
-    :currency="appSetting.currency"
-    variant="ghost"
-    class="text-md text-brand-secondary font-bold rounded-md bg-bg-surface px-5 py-2 shadow-sm"
-    input-class="placeholder:text-brand-secondary"
-  />
+  <div class="rounded-md bg-bg-surface px-5 py-2 shadow-sm">
+    <MoneyInput v-model="amount" :locale="appSetting.locale" :currency="appSetting.currency" size="md" />
+  </div>
 </template>

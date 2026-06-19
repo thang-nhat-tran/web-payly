@@ -12,12 +12,18 @@ import PayerSelectRow from '@/modules/expense/components/expense-create/PayerSel
 import PayerPickerModal from '@/modules/expense/components/expense-create/PayerPickerModal.vue'
 import PayeeSelectRow from '@/modules/expense/components/expense-create/PayeeSelectRow.vue'
 import PayeePickerModal from '@/modules/expense/components/expense-create/PayeePickerModal.vue'
-import ExpenseSplitBreakdown from '@/modules/expense/components/expense-create/ExpenseSplitBreakdown.vue'
-import { mapGroupMemberToExpenseParticipant, type ExpenseParticipant } from '@/modules/expense/types/expense.types'
+import ExpenseSplitBreakdown from '@/modules/expense/components/expense-create/expense-split-breakdown/ExpenseSplitBreakdown.vue'
+import {
+  groupMemberToExpenseParticipant,
+  type ExpenseParticipant,
+  type SplitMethod,
+} from '@/modules/expense/types/expense.type'
 import { expenseCreateSchema, type ExpenseSplit } from '@/modules/expense/schema/expense-create.schema'
 import { useCreateExpense } from '@/modules/expense/composables/useCreateExpense'
 import { useGroupMemberList } from '@/modules/group-member/composables/useGroupMemberList'
 import { useAuthStore } from '@/shared/stores/auth.store'
+import { calculateSplits } from '../utils/expense-split.util'
+import type { SplitAmountMap, SplitPercentageMap, SplitConfig } from '../types/expense-split.type'
 
 const route = useRoute()
 const router = useRouter()
@@ -36,27 +42,27 @@ const { handleSubmit: handleCreateExpense, errors } = useForm({
   },
 })
 
-const allMembers = computed<ExpenseParticipant[]>(
-  () => members.value?.map((m) => mapGroupMemberToExpenseParticipant(m)) ?? [],
+const participants = computed<ExpenseParticipant[]>(
+  () => members.value?.map((m) => groupMemberToExpenseParticipant(m)) ?? [],
 )
-function getMemberById(id: string): ExpenseParticipant | undefined {
-  return allMembers.value.find((member) => member.id === id)
+function getParticipantById(id: string): ExpenseParticipant | undefined {
+  return participants.value.find((member) => member.id === id)
 }
 
 const { value: title } = useField<string>('title')
-const { value: amount } = useField<number>('amount')
-const { value: splits } = useField<ExpenseSplit[]>('splits')
+const { value: totalAmount } = useField<number>('amount')
+const { value: splitsField } = useField<ExpenseSplit[]>('splits')
 
 const { value: payerId } = useField<string>('paidBy')
 const payer = computed<ExpenseParticipant | undefined>(() => {
   if (!payerId.value) return undefined
-  return getMemberById(payerId.value)
+  return getParticipantById(payerId.value)
 })
 
 const payeeIds = ref<string[]>([])
 const payees = computed<ExpenseParticipant[]>(() =>
   payeeIds.value.flatMap((id) => {
-    const member = getMemberById(id)
+    const member = getParticipantById(id)
     return member ? [member] : []
   }),
 )
@@ -80,6 +86,8 @@ const onSubmit = handleCreateExpense(async (values) => {
     title: values.title.trim(),
     amount: values.amount,
     paidBy: values.paidBy,
+    splitMethod: splitMethod.value,
+    splitConfig: splitConfig.value,
     splits: values.splits,
   })
 
@@ -91,6 +99,46 @@ const onSubmit = handleCreateExpense(async (values) => {
   }
 })
 
+const customAmountMap = ref<SplitAmountMap>({})
+const percentageMap = ref<SplitPercentageMap>({})
+const splitMethod = ref<SplitMethod>('equal')
+
+const splitConfig = computed<SplitConfig>(() => {
+  switch (splitMethod.value) {
+    case 'equal':
+      return {
+        method: 'equal',
+      }
+    case 'custom':
+      return {
+        method: 'custom',
+        amounts: customAmountMap.value,
+      }
+    case 'percentage':
+      return {
+        method: 'percentage',
+        percentages: percentageMap.value,
+      }
+    default:
+      throw Error('Not split method supported')
+  }
+})
+
+const splitAmount = computed<ExpenseSplit[]>(() => {
+  return calculateSplits({
+    totalAmount: totalAmount.value,
+    payeeIds: payeeIds.value,
+    config: splitConfig.value,
+  })
+})
+
+watch(
+  splitAmount,
+  (newExpenseSplit) => {
+    splitsField.value = newExpenseSplit
+  },
+  { immediate: true },
+)
 onMounted(() => fetchMembers())
 </script>
 
@@ -116,7 +164,7 @@ onMounted(() => fetchMembers())
 
       <!-- Amount -->
       <div>
-        <ExpenseAmountField v-model="amount" />
+        <ExpenseAmountField v-model="totalAmount" />
         <p v-if="errors.amount" class="mt-1 px-1 text-xs text-danger-main">{{ errors.amount }}</p>
       </div>
 
@@ -128,7 +176,14 @@ onMounted(() => fetchMembers())
 
       <!-- Split breakdown (equal / custom) -->
       <div>
-        <ExpenseSplitBreakdown v-model="splits" :members="payees" :total="amount || 0" />
+        <ExpenseSplitBreakdown
+          :expense-participant="payees"
+          :total-amount="totalAmount"
+          :split-amount="splitAmount"
+          v-model:split-method="splitMethod"
+          v-model:custom-amount-map="customAmountMap"
+          v-model:percentage-map="percentageMap"
+        />
         <p v-if="errors.splits" class="mt-1 px-1 text-xs text-danger-main">{{ errors.splits }}</p>
       </div>
 
@@ -138,14 +193,14 @@ onMounted(() => fetchMembers())
     <PayerPickerModal
       :model-value="payerId"
       :open="showPayerPicker"
-      :members="allMembers"
+      :members="participants"
       @update:model-value="(selectedPayerId) => (payerId = selectedPayerId)"
       @close="showPayerPicker = false"
     />
     <PayeePickerModal
       v-model="payeeIds"
       :open="showPayeePicker"
-      :members="allMembers"
+      :members="participants"
       @close="showPayeePicker = false"
     />
   </div>

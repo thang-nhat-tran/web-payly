@@ -67,6 +67,8 @@ export type Database = {
           group_id: string
           id: string
           paid_by: string
+          split_config: Json | null
+          split_method: Database["public"]["Enums"]["expense_split_method_enum"]
           title: string
         }
         Insert: {
@@ -75,6 +77,8 @@ export type Database = {
           group_id: string
           id?: string
           paid_by: string
+          split_config?: Json | null
+          split_method: Database["public"]["Enums"]["expense_split_method_enum"]
           title: string
         }
         Update: {
@@ -83,6 +87,8 @@ export type Database = {
           group_id?: string
           id?: string
           paid_by?: string
+          split_config?: Json | null
+          split_method?: Database["public"]["Enums"]["expense_split_method_enum"]
           title?: string
         }
         Relationships: [
@@ -260,19 +266,33 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      create_expense_with_splits: {
-        Args: {
-          p_amount: number
-          p_group_id: string
-          p_paid_by: string
-          p_splits: Json
-          p_title: string
-        }
-        Returns: string
-      }
+      create_expense_with_splits:
+        | {
+            Args: {
+              p_amount: number
+              p_expense_splits: Json
+              p_group_id: string
+              p_paid_by: string
+              p_split_config: Json
+              p_split_method: Database["public"]["Enums"]["expense_split_method_enum"]
+              p_title: string
+            }
+            Returns: string
+          }
+        | {
+            Args: {
+              p_amount: number
+              p_group_id: string
+              p_paid_by: string
+              p_splits: Json
+              p_title: string
+            }
+            Returns: string
+          }
       join_group_by_token: { Args: { p_invite_token: string }; Returns: string }
     }
     Enums: {
+      expense_split_method_enum: "equal" | "custom" | "percentage"
       group_member_role_enum: "admin" | "member"
     }
     CompositeTypes: {
@@ -401,6 +421,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      expense_split_method_enum: ["equal", "custom", "percentage"],
       group_member_role_enum: ["admin", "member"],
     },
   },

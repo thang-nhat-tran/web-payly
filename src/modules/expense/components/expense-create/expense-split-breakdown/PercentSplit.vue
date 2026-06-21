@@ -1,56 +1,51 @@
 <script setup lang="ts">
-import UserAvatar from '@/shared/components/ui/Avatar.vue'
-import type { ExpenseParticipant } from '@/modules/expense/types/expense.type'
-import type { SplitAmountMap, SplitPercentageMap } from '@/modules/expense/types/expense-split.type'
 import { useAppSettingStore } from '@/shared/stores/app-setting.store'
-import { formatMoney } from '@/shared/utils/money.util'
+import MoneyInput from '@/shared/components/ui/MoneyInput.vue'
+import Input from '@/shared/components/ui/Input.vue'
+import SplitMemberList from './SplitMemberList.vue'
+import type { SplitPercentageMap } from '@/modules/expense/types/expense-split.type'
+import type { ExpenseParticipantMap } from '@/modules/expense/types/expense-participant.type'
+import type { ExpenseSplit } from '@/modules/expense/schema/expense-create.schema'
 
 const { locale, currency } = useAppSettingStore()
 
-const props = defineProps<{
-  expenseParticipant: ExpenseParticipant[]
-  /** Computed money shares (derived from the percentages) shown alongside each input. */
-  splitAmountMap: SplitAmountMap
+defineProps<{
+  expenseParticipantMap: ExpenseParticipantMap
+  splits: ExpenseSplit[]
 }>()
 
-// Editable percentage per member.
 const percentageMap = defineModel<SplitPercentageMap>({ required: true, default: () => ({}) })
 
-function setPercent(id: string, event: Event) {
-  const el = event.target as HTMLInputElement
-  const value = Math.max(0, Number(el.value.replace(/[^\d.]/g, '')) || 0)
-  percentageMap.value = { ...percentageMap.value, [id]: value }
+function setPercent(id: string, percent: number) {
+  percentageMap.value = { ...percentageMap.value, [id]: percent }
 }
 </script>
 
 <template>
-  <div class="flex flex-col gap-3">
-    <div
-      v-for="participant in props.expenseParticipant"
-      :key="participant.id"
-      class="flex items-center justify-between gap-3"
-    >
-      <span class="flex min-w-0 items-center gap-2">
-        <UserAvatar :name="participant.name" :src="participant.avatarUrl" size="xs" />
-        <span class="truncate text-sm">{{ participant.name }}</span>
-      </span>
-
+  <SplitMemberList :expense-participant-map="expenseParticipantMap" :splits="splits">
+    <template #default="{ split }">
       <span class="flex items-center gap-2">
-        <span class="text-xs text-text-muted">
-          {{ formatMoney(splitAmountMap[participant.id] ?? 0, locale, currency) }}
-        </span>
-        <span class="flex items-center gap-0.5 text-sm font-semibold text-text-main">
-          <input
-            :value="percentageMap[participant.id] || ''"
-            type="text"
-            inputmode="decimal"
+        <MoneyInput
+          :model-value="split.shareAmount"
+          :locale="locale"
+          :currency="currency"
+          readonly
+          class="w-40 justify-start"
+          size="sm"
+        />
+        <span class="flex items-center gap-0.5">
+          <Input
+            :model-value="percentageMap[split.userId]?.toString() ?? '0'"
+            variant="ghost"
             placeholder="0"
-            class="w-12 min-w-[1ch] border-0 bg-transparent p-0 text-right field-sizing-content outline-none"
-            @input="(event) => setPercent(participant.id, event)"
+            type="number"
+            weight="semibold"
+            class="w-12 text-right"
+            @update:model-value="(newPercent) => setPercent(split.userId, Number(newPercent))"
           />
-          <span class="shrink-0 select-none">%</span>
+          <span class="shrink-0 select-none text-sm font-semibold text-text-main">%</span>
         </span>
       </span>
-    </div>
-  </div>
+    </template>
+  </SplitMemberList>
 </template>

@@ -2,8 +2,7 @@ import type { ExpenseSplit } from '../schema/expense-create.schema'
 import type { SplitConfig } from '../types/expense-split.type'
 
 function calculateEqualSplits(totalAmount: number, payeeIds: string[]): ExpenseSplit[] {
-  if (payeeIds.length === 0) return []
-  const shareAmount = totalAmount / payeeIds.length
+  const shareAmount = totalAmount === 0 ? 0 : totalAmount / payeeIds.length
   return payeeIds.map((id) => ({
     userId: id,
     shareAmount,
@@ -21,10 +20,10 @@ function calculatePercentageSplits(
   }))
 }
 
-function calculateCustomSplits(amounts: Record<string, number>): ExpenseSplit[] {
-  return Object.entries(amounts).map(([userId, shareAmount]) => ({
-    userId,
-    shareAmount,
+function calculateCustomSplits(payeeIds: string[], amounts: Record<string, number>): ExpenseSplit[] {
+  return payeeIds.map((id) => ({
+    userId: id,
+    shareAmount: amounts[id] ?? 0,
   }))
 }
 
@@ -43,7 +42,7 @@ export function calculateSplits(input: CalculateSplitInput): ExpenseSplit[] {
       return calculatePercentageSplits(totalAmount, memberIds, config.percentages)
 
     case 'custom':
-      return calculateCustomSplits(config.amounts)
+      return calculateCustomSplits(memberIds, config.amounts)
 
     default:
       throw new Error(`Unhandled split config: ${JSON.stringify(config)}`)

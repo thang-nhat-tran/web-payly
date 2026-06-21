@@ -1,4 +1,4 @@
-import type { GroupMember } from '@/modules/group-member/types/group-member.type'
+import type { ExpenseParticipant } from './expense-participant.type'
 
 /** How an expense's total is divided among its payees. */
 export type { SplitMethod } from './expense-split.type'
@@ -7,19 +7,6 @@ export type { SplitMethod } from './expense-split.type'
 export type SettlementStatus = 'pending' | 'paid' | 'overdue'
 
 /** A group member referenced on an expense — the payer or a participant. */
-export interface ExpenseParticipant {
-  id: string
-  name: string
-  avatarUrl: string | null
-}
-
-export function groupMemberToExpenseParticipant(member: GroupMember): ExpenseParticipant {
-  return {
-    id: member.id,
-    name: member.name,
-    avatarUrl: member.avatarUrl,
-  }
-}
 
 /** One participant's portion of an expense, and whether they've settled it. */
 export interface ExpenseShare {

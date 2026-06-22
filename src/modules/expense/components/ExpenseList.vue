@@ -1,19 +1,24 @@
 <script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router'
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import ExpenseCard from './expense-card/ExpenseCard.vue'
-import { mockPaidExpenses } from '@/modules/expense/mocks/expense.mock'
+import { useExpenseList } from '@/modules/expense/composables/useExpenseList'
 
-const route = useRoute()
+const props = defineProps<{ groupId: string }>()
 const router = useRouter()
 
+const { data: expenses, query: fetchExpenses } = useExpenseList(props.groupId)
+
 function openDetail(expenseId: string) {
-  router.push(`/groups/${route.params.id}/expenses/${expenseId}`)
+  router.push(`/groups/${props.groupId}/expenses/${expenseId}`)
 }
+
+onMounted(() => fetchExpenses())
 </script>
 
 <template>
   <div class="list">
-    <ExpenseCard v-for="e in mockPaidExpenses" :key="e.id" :expense="e" @detail="openDetail" />
+    <ExpenseCard v-for="e in expenses ?? []" :key="e.id" :expense="e" @detail="openDetail" />
   </div>
 </template>
 

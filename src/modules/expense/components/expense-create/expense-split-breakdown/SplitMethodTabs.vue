@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SplitMethod } from '@/modules/expense/types/expense.type'
+import type { SplitMethod } from '@/modules/expense/types/expense-split.type'
 
 const splitMethod = defineModel<SplitMethod>({ required: true, default: 'equal' })
 

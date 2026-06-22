@@ -2,7 +2,7 @@
 import ActionRow from '@/shared/components/ui/ActionRow.vue'
 import Label from '@/shared/components/ui/Label.vue'
 import UserAvatar from '@/shared/components/ui/Avatar.vue'
-import type { ExpenseParticipant } from '@/modules/expense/types/expense.type'
+import type { ExpenseParticipant } from '@/modules/expense/types/expense-participant.type'
 
 defineProps<{ payer: ExpenseParticipant | undefined }>()
 defineEmits<{ click: [] }>()

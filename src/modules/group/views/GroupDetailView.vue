@@ -59,8 +59,8 @@ onMounted(() => {
       <GroupDetailTabs :active="activeTab" @select="handleTabSelect" />
 
       <div class="tab-content">
-        <ExpenseList v-if="activeTab === 'expenses'" />
-        <DebtList v-else />
+        <ExpenseList v-if="activeTab === 'expenses'" :group-id="group.id" />
+        <DebtList v-else :group-id="group.id" />
       </div>
     </div>
   </div>

@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import { type SplitMethod } from '@/modules/expense/types/expense.type'
-import { type SplitAmountMap, type SplitPercentageMap } from '@/modules/expense/types/expense-split.type'
+import {
+  type SplitMethod,
+  type SplitAmountMap,
+  type SplitPercentageMap,
+} from '@/modules/expense/types/expense-split.type'
 import type { ExpenseSplit } from '@/modules/expense/schema/expense-create.schema'
 import SplitMethodTabs from './SplitMethodTabs.vue'
 import EqualSplit from './EqualSplit.vue'

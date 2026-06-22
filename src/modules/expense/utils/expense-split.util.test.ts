@@ -68,7 +68,7 @@ describe('calculateSplits — percentage', () => {
 })
 
 describe('calculateSplits — custom', () => {
-  it('maps the explicit amounts to splits', () => {
+  it('maps the explicit amounts to splits, defaulting missing payees to 0', () => {
     const splits = calculateSplits({
       totalAmount: 100000,
       payeeIds: members,
@@ -77,12 +77,15 @@ describe('calculateSplits — custom', () => {
     expect(splits).toEqual([
       { userId: 'a', shareAmount: 60000 },
       { userId: 'b', shareAmount: 40000 },
+      { userId: 'c', shareAmount: 0 },
     ])
   })
 
-  it('returns an empty array for no amounts', () => {
-    expect(calculateSplits({ totalAmount: 0, payeeIds: members, config: { method: 'custom', amounts: {} } })).toEqual(
-      [],
-    )
+  it('gives every payee 0 when no amounts are provided', () => {
+    expect(calculateSplits({ totalAmount: 0, payeeIds: members, config: { method: 'custom', amounts: {} } })).toEqual([
+      { userId: 'a', shareAmount: 0 },
+      { userId: 'b', shareAmount: 0 },
+      { userId: 'c', shareAmount: 0 },
+    ])
   })
 })

@@ -1,4 +1,5 @@
-import type { PaidExpense, OwedDebt, ExpenseParticipant } from '@/modules/expense/types/expense.type'
+import type { PaidExpense, OwedDebt } from '@/modules/expense/types/expense.type'
+import type { ExpenseParticipant } from '@/modules/expense/types/expense-participant.type'
 
 const avatar = (u: number) => `https://img.heroui.chat/image/avatar?w=100&h=100&u=${u}`
 
@@ -25,7 +26,7 @@ export const mockPaidExpenses: PaidExpense[] = [
     debtors: [
       { participant: { id: 'u4', name: 'Trần Thị Lan', avatarUrl: avatar(4) }, amount: 150000, status: 'pending' },
       { participant: { id: 'u5', name: 'Nguyễn Văn Hùng', avatarUrl: avatar(5) }, amount: 150000, status: 'paid' },
-      { participant: { id: 'u6', name: 'Lê Minh Khoa', avatarUrl: avatar(6) }, amount: 150000, status: 'overdue' },
+      { participant: { id: 'u6', name: 'Lê Minh Khoa', avatarUrl: avatar(6) }, amount: 150000, status: 'pending' },
     ],
   },
   {
@@ -73,7 +74,7 @@ export const mockOwedDebts: OwedDebt[] = [
     paidAt: '2026-05-15T10:15:00',
     paidBy: { id: 'u7', name: 'Phạm Bảo Ngọc', avatarUrl: avatar(7) },
     amountIOwe: 200000,
-    status: 'overdue',
+    status: 'paid',
     dueAt: '2026-05-20T00:00:00',
   },
   {

@@ -1,19 +1,24 @@
 <script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router'
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import DebtCard from './debt-card/DebtCard.vue'
-import { mockOwedDebts } from '@/modules/expense/mocks/expense.mock'
+import { useDebtList } from '@/modules/expense/composables/useDebtList'
 
-const route = useRoute()
+const props = defineProps<{ groupId: string }>()
 const router = useRouter()
 
+const { data: debts, query: fetchDebts } = useDebtList(props.groupId)
+
 function openDetail(debtId: string) {
-  router.push(`/groups/${route.params.id}/debts/${debtId}`)
+  router.push(`/groups/${props.groupId}/debts/${debtId}`)
 }
+
+onMounted(() => fetchDebts())
 </script>
 
 <template>
   <div class="list">
-    <DebtCard v-for="d in mockOwedDebts" :key="d.id" :debt="d" @detail="openDetail" />
+    <DebtCard v-for="d in debts ?? []" :key="d.id" :debt="d" @detail="openDetail" />
   </div>
 </template>
 

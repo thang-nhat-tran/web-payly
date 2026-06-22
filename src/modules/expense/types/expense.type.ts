@@ -1,10 +1,7 @@
 import type { ExpenseParticipant } from './expense-participant.type'
 
-/** How an expense's total is divided among its payees. */
-export type { SplitMethod } from './expense-split.type'
-
 /** Settlement state of a debt or a single participant's share. */
-export type SettlementStatus = 'pending' | 'paid' | 'overdue'
+export type SettlementStatus = 'pending' | 'paid'
 
 /** A group member referenced on an expense — the payer or a participant. */
 

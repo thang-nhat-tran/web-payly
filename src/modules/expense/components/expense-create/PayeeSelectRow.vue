@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import ActionRow from '@/shared/components/ui/ActionRow.vue'
 import Label from '@/shared/components/ui/Label.vue'
 import AvatarStack from '@/shared/components/ui/AvatarStack.vue'
-import type { ExpenseParticipant } from '@/modules/expense/types/expense.type'
+import type { ExpenseParticipant } from '@/modules/expense/types/expense-participant.type'
 
 const props = defineProps<{ members: ExpenseParticipant[] }>()
 defineEmits<{ click: [] }>()

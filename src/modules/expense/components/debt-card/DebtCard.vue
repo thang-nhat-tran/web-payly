@@ -2,8 +2,8 @@
 import { Card, CardContent } from '@/shared/components/ui/card'
 import UserAvatar from '@/shared/components/ui/Avatar.vue'
 import StatusBadge from '@/modules/expense/components/StatusBadge.vue'
+import MoneyText from '@/shared/components/ui/MoneyText.vue'
 import type { OwedDebt } from '@/modules/expense/types/expense.type'
-import { formatMoney } from '@/shared/utils/money.util'
 import { formatDate } from '@/shared/utils/datetime.util'
 import { useAppSettingStore } from '@/shared/stores/app-setting.store'
 
@@ -25,9 +25,14 @@ const appSetting = useAppSettingStore()
             <p class="text-xs text-text-muted">{{ formatDate(debt.paidAt, appSetting.locale) }}</p>
           </div>
         </div>
-        <p class="text-md font-bold text-danger-main">
-          {{ formatMoney(debt.amountIOwe, appSetting.locale, appSetting.currency) }}
-        </p>
+        <MoneyText
+          :amount="debt.amountIOwe"
+          :locale="appSetting.locale"
+          :currency="appSetting.currency"
+          variant="danger"
+          size="lg"
+          weight="bold"
+        />
       </div>
 
       <!-- Footer: who you owe + status -->

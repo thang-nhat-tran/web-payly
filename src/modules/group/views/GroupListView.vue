@@ -42,7 +42,13 @@ onMounted(() => {
       </template>
 
       <template #right>
-        <UserAvatar :src="auth.user?.user_metadata?.avatar_url" :name="auth.user?.email" size="sm" />
+        <button class="rounded-full" aria-label="Trang cá nhân" @click="router.push('/profile')">
+          <UserAvatar
+            :src="auth.profile?.avatarUrl ?? auth.user?.user_metadata?.avatar_url"
+            :name="auth.profile?.fullName ?? auth.user?.email"
+            size="sm"
+          />
+        </button>
       </template>
     </AppHeader>
 

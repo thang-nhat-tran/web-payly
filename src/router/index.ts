@@ -4,8 +4,9 @@ import authRoutes from '@/modules/auth/router'
 import groupRoutes from '@/modules/group/router'
 import groupMemberRoutes from '@/modules/group-member/router'
 import expenseRoutes from '@/modules/expense/router'
+import userRoutes from '@/modules/user/router'
 
-const routes = [...authRoutes, ...groupRoutes, ...groupMemberRoutes, ...expenseRoutes]
+const routes = [...authRoutes, ...groupRoutes, ...groupMemberRoutes, ...expenseRoutes, ...userRoutes]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

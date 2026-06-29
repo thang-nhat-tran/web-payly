@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import { ChevronRight } from 'lucide-vue-next'
+import { ChevronDown } from 'lucide-vue-next'
 import type { HTMLAttributes } from 'vue'
 import { cn } from '@/shared/utils/cn.util'
 
@@ -28,7 +28,7 @@ defineEmits<{ click: [] }>()
     :disabled="disabled"
     :class="
       cn(
-        'flex w-full items-center justify-between gap-3 rounded-md bg-bg-surface p-3 text-left shadow-sm transition-opacity hover:opacity-80 disabled:pointer-events-none disabled:opacity-60',
+        'flex w-full items-center justify-between gap-3 rounded-md bg-bg-surface py-4 px-6 text-left shadow-sm transition-opacity hover:opacity-80 disabled:pointer-events-none disabled:opacity-60',
         props.class,
       )
     "
@@ -42,6 +42,6 @@ defineEmits<{ click: [] }>()
       <slot name="trailing" />
     </span>
 
-    <ChevronRight v-if="chevron" :size="18" class="shrink-0 text-text-muted" />
+    <ChevronDown v-if="chevron" :size="18" class="shrink-0 text-text-muted" />
   </button>
 </template>

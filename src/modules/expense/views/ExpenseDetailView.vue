@@ -7,10 +7,11 @@ import { Button } from '@/shared/components/ui/button'
 import { Card, CardContent } from '@/shared/components/ui/card'
 import ParticipantLabel from '@/modules/expense/components/ParticipantLabel.vue'
 import StatusBadge from '@/modules/expense/components/StatusBadge.vue'
-import MoneyText from '@/shared/components/ui/MoneyText.vue'
 import { useExpenseDetail } from '@/modules/expense/composables/useExpenseDetail'
 import { formatDate } from '@/shared/utils/datetime.util'
 import { useAppSettingStore } from '@/shared/stores/app-setting.store'
+import { formatMoney } from '@/shared/utils/money.util'
+import Typography from '@/shared/components/ui/typography/Typography.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -44,31 +45,24 @@ function back() {
       <Card>
         <CardContent class="flex flex-col gap-4 p-6">
           <div>
-            <p class="text-md font-bold text-text-main">{{ expense.title }}</p>
-            <p class="text-xs text-text-muted">Bạn đã trả · {{ formatDate(expense.paidAt, appSetting.locale) }}</p>
+            <Typography size="md" weight="bold" as="div">{{ expense.title }}</Typography>
+            <Typography size="xs" color="muted"
+              >Bạn đã trả · {{ formatDate(expense.paidAt, appSetting.locale) }}</Typography
+            >
           </div>
 
           <div class="flex items-end justify-between">
             <div>
-              <p class="text-xs text-text-muted">Tổng đã trả</p>
-              <MoneyText
-                :amount="expense.totalAmount"
-                :locale="appSetting.locale"
-                :currency="appSetting.currency"
-                weight="bold"
-                size="lg"
-              />
+              <Typography size="xs" color="muted" as="div">Tổng đã trả</Typography>
+              <Typography size="lg" weight="bold">
+                {{ formatMoney(expense.totalAmount, appSetting.locale, appSetting.currency) }}
+              </Typography>
             </div>
             <div class="text-right">
-              <p class="text-xs text-text-muted">Còn được nợ</p>
-              <MoneyText
-                :amount="expense.amountOwedToMe"
-                :locale="appSetting.locale"
-                :currency="appSetting.currency"
-                variant="success"
-                size="lg"
-                weight="bold"
-              />
+              <Typography size="xs" color="muted" as="div">Còn được nợ</Typography>
+              <Typography size="lg" weight="bold" color="success">
+                {{ formatMoney(expense.amountOwedToMe, appSetting.locale, appSetting.currency) }}
+              </Typography>
             </div>
           </div>
         </CardContent>
@@ -77,9 +71,9 @@ function back() {
       <!-- Breakdown -->
       <Card>
         <CardContent class="flex flex-col p-6">
-          <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-text-muted">
+          <Typography size="xs" weight="semibold" color="muted" class="mb-2 uppercase tracking-wide">
             Chia cho · {{ settledCount }}/{{ expense.debtors.length }} đã trả
-          </p>
+          </Typography>
           <div
             v-for="(share, i) in expense.debtors"
             :key="share.participant.id"
@@ -89,18 +83,15 @@ function back() {
             <ParticipantLabel :name="share.participant.name" :avatar-url="share.participant.avatarUrl" />
             <div class="flex shrink-0 items-center gap-3">
               <StatusBadge :status="share.status" />
-              <MoneyText
-                :amount="share.amount"
-                :locale="appSetting.locale"
-                :currency="appSetting.currency"
-                weight="medium"
-              />
+              <Typography weight="semibold" as="div" color="danger">
+                {{ formatMoney(share.amount, appSetting.locale, appSetting.currency) }}
+              </Typography>
             </div>
           </div>
         </CardContent>
       </Card>
     </main>
 
-    <p v-else class="p-lg text-center text-sm text-text-muted">Không tìm thấy khoản chi.</p>
+    <Typography v-else size="sm" color="muted" align="center" class="p-lg">Không tìm thấy khoản chi.</Typography>
   </div>
 </template>

@@ -3,20 +3,23 @@
 import { computed, type HTMLAttributes, type InputHTMLAttributes } from 'vue'
 import { cn } from '@/shared/utils/cn.util'
 
-type InputVariant = 'default' | 'ghost'
-type InputSize = 'sm' | 'md' | 'lg' | 'xl'
+type InputVariant = 'outlined' | 'fill' | 'borderless'
+type InputSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 type InputWeight = 'normal' | 'medium' | 'semibold' | 'bold'
+type InputAlign = 'left' | 'center' | 'right'
 
 const model = defineModel<string>({ default: '' })
 
 const props = withDefaults(
   defineProps<{
-    /** `default` is a bordered field; `ghost` is borderless/transparent for inline editing. */
+    /** `outlined` — bordered + shadow; `fill` — no border, matches page background; `borderless` — transparent, no border, no padding (inline editing). */
     variant?: InputVariant
-    /** Typography (and, for `default`, padding) scale. */
+    /** Typography and padding scale — mirrors MoneyInput sizes. */
     size?: InputSize
     /** Font weight of the entered text. */
     weight?: InputWeight
+    /** Text alignment. */
+    align?: InputAlign
     /** Native input type (ignored when `multiline`). */
     type?: InputHTMLAttributes['type']
     /** On-screen keyboard hint for touch devices. */
@@ -31,9 +34,10 @@ const props = withDefaults(
     class?: HTMLAttributes['class']
   }>(),
   {
-    variant: 'default',
+    variant: 'outlined',
     size: 'md',
     weight: 'normal',
+    align: 'left',
     type: 'text',
   },
 )
@@ -43,22 +47,15 @@ defineOptions({ inheritAttrs: false })
 
 // Appearance shared across variants, using semantic design tokens.
 const baseClasses =
-  'w-full font-sans text-text-main outline-none transition-[border-color] duration-150 ease-standard placeholder:text-text-muted'
+  'w-full font-sans text-text-main outline-none transition-[border-color] duration-150 ease-standard placeholder:text-text-disabled focus:placeholder:text-transparent'
 
-// Typography variants — semantic sizes instead of low-level style props.
+// Typography + padding scale — mirrors MoneyInput (xs→text-xs, sm→text-sm, …).
 const sizeClasses: Record<InputSize, string> = {
-  sm: 'text-xs',
-  md: 'text-sm',
-  lg: 'text-md',
-  xl: 'text-lg',
-}
-
-// Inner spacing for the bordered `default` variant (the `ghost` variant is padding-free).
-const paddingClasses: Record<InputSize, string> = {
-  sm: 'px-3 py-2',
-  md: 'px-[14px] py-[10px]',
-  lg: 'px-4 py-3',
-  xl: 'px-5 py-4',
+  xs: 'p-4 text-xs',
+  sm: 'p-5 text-sm',
+  md: 'p-6 text-md',
+  lg: 'p-7 text-lg',
+  xl: 'p-8 text-xl',
 }
 
 // Font-weight variants.
@@ -69,17 +66,27 @@ const weightClasses: Record<InputWeight, string> = {
   bold: 'font-bold',
 }
 
+// Text alignment.
+const alignClasses: Record<InputAlign, string> = {
+  left: 'text-left',
+  center: 'text-center',
+  right: 'text-right',
+}
+
+const variantClasses: Record<InputVariant, string> = {
+  outlined: 'rounded-md bg-bg-base shadow-xs border border-text-disabled focus-within:border-text-muted',
+  fill: 'rounded-md bg-bg-surface shadow-md border border-transparent focus-within:border-text-disabled',
+  borderless: 'border-0 bg-transparent',
+}
+
 const controlClass = computed(() =>
   cn(
     baseClasses,
     sizeClasses[props.size],
     weightClasses[props.weight],
-    props.variant === 'ghost'
-      ? 'border-0 bg-transparent p-0'
-      : cn(
-          'rounded-md border-[1.5px] border-text-disabled bg-bg-surface focus:border-text-main',
-          paddingClasses[props.size],
-        ),
+    alignClasses[props.align],
+    variantClasses[props.variant],
+    props.variant === 'borderless' && 'p-0',
     props.error && 'border-danger-main focus:border-danger-main',
     props.multiline && 'min-h-[40px] resize-y',
     props.class,

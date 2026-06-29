@@ -1,51 +1,34 @@
 <script setup lang="ts">
-import { useAppSettingStore } from '@/shared/stores/app-setting.store'
-import MoneyInput from '@/shared/components/ui/MoneyInput.vue'
 import Input from '@/shared/components/ui/Input.vue'
-import SplitMemberList from './SplitMemberList.vue'
-import type { SplitPercentageMap } from '@/modules/expense/types/expense-split.type'
-import type { ExpenseParticipantMap } from '@/modules/expense/types/expense-participant.type'
 import type { ExpenseSplit } from '@/modules/expense/schema/expense-create.schema'
+import type { SupportedCurrency, SupportedLocale } from '@/shared/types/app-setting.type'
+import Typography from '@/shared/components/ui/typography/Typography.vue'
+import { formatMoney } from '@/shared/utils/money.util'
 
-const { locale, currency } = useAppSettingStore()
-
-defineProps<{
-  expenseParticipantMap: ExpenseParticipantMap
-  splits: ExpenseSplit[]
-}>()
-
-const percentageMap = defineModel<SplitPercentageMap>({ required: true, default: () => ({}) })
-
-function setPercent(id: string, percent: number) {
-  percentageMap.value = { ...percentageMap.value, [id]: percent }
-}
+defineProps<{ split: ExpenseSplit; percentage: number; locale: SupportedLocale; currency: SupportedCurrency }>()
+const emit = defineEmits<{ 'update:percentage': [value: number] }>()
 </script>
 
 <template>
-  <SplitMemberList :expense-participant-map="expenseParticipantMap" :splits="splits">
-    <template #default="{ split }">
-      <span class="flex items-center gap-2">
-        <MoneyInput
-          :model-value="split.shareAmount"
-          :locale="locale"
-          :currency="currency"
-          readonly
-          class="w-40 justify-start"
-          size="sm"
-        />
-        <span class="flex items-center gap-0.5">
-          <Input
-            :model-value="percentageMap[split.userId]?.toString() ?? '0'"
-            variant="ghost"
-            placeholder="0"
-            type="number"
-            weight="semibold"
-            class="w-12 text-right"
-            @update:model-value="(newPercent) => setPercent(split.userId, Number(newPercent))"
-          />
-          <span class="shrink-0 select-none text-sm font-semibold text-text-main">%</span>
-        </span>
-      </span>
-    </template>
-  </SplitMemberList>
+  <span class="flex items-center justify-end gap-2">
+    <span
+      class="flex items-center gap-2 rounded-md bg-bg-base px-5 py-2 border border-text-disabled focus-within:border-text-muted"
+    >
+      <Input
+        :model-value="percentage > 0 ? percentage.toString() : ''"
+        placeholder="0"
+        variant="borderless"
+        size="sm"
+        weight="semibold"
+        type="number"
+        class="w-12"
+        align="right"
+        @update:model-value="(v) => emit('update:percentage', Number(v))"
+      />
+      <span class="shrink-0 select-none text-sm font-normal text-text-muted">%</span>
+    </span>
+    <Typography size="md" weight="semibold" align="right" class="block w-48">
+      {{ formatMoney(split.shareAmount, locale, currency) }}
+    </Typography>
+  </span>
 </template>

@@ -13,9 +13,9 @@
   /* ── Text Colors ──────────────────────────────────────────── */
   --color-text-main: #141413; /* Main text (Headings, primary content) */
   --color-text-secondary: #262627; /* Secondary text (softer than main) */
-  --color-text-muted: #696969; /* Muted text, captions, footnotes */
+  --color-text-muted: #6c757d; /* Muted text, captions, footnotes */
   --color-text-accent: #555555; /* Inline accent text */
-  --color-text-disabled: #d1cdc7; /* Disabled text, faint outlines */
+  --color-text-disabled: #d1d0cf; /* Disabled text, faint outlines */
 
   /* ── Actions & Signals ────────────────────────────────────── */
   --color-danger-main: #cf4500; /* Destructive actions / Legal warnings */
@@ -41,7 +41,7 @@
   /* ── Border Radius ────────────────────────────────────────── */
   --radius-xs: 4px; /* Small chips */
   --radius-sm: 6px; /* Decorative elements */
-  --radius-md: 20px; /* Standard CTA buttons */
+  --radius-md: 24px; /* Standard CTA buttons */
   --radius-lg: 36px; /* Large consent buttons */
   --radius-xl: 40px; /* Hero frames, large cards */
   --radius-round: 50%; /* Fully rounded (Avatars, Icon buttons) */
@@ -57,9 +57,11 @@
 
   --text-xs: 1.4rem; /* 14px — Eyebrow, Footer links */
   --text-sm: 1.6rem; /* 16px — Body text, Nav links */
-  --text-md: 2.4rem; /* 24px — Sub-titles (H3) */
-  --text-lg: 3.6rem; /* 36px — Section headings (H2) */
-  --text-xl: 6.4rem; /* 64px — Hero headline (H1) */
+  --text-md: 2rem; /* 20px — Sub-titles (H3) */
+  --text-lg: 2.4rem; /* 24px — Section titles (H2) */
+  --text-xl: 2.8rem; /* 28px — Page titles (H1) */
+  --text-2xl: 3.2rem; /* 32px — Large headings */
+  --text-3xl: 4.8rem; /* 48px — Hero headings */
 
   /* Letter spacing */
   --tracking-tight: -0.03em;

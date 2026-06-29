@@ -4,13 +4,14 @@ import ActionRow from '@/shared/components/ui/ActionRow.vue'
 import Label from '@/shared/components/ui/Label.vue'
 import AvatarStack from '@/shared/components/ui/AvatarStack.vue'
 import type { ExpenseParticipant } from '@/modules/expense/types/expense-participant.type'
+import { getFirstWord } from '@/shared/utils/string.util'
 
 const props = defineProps<{ members: ExpenseParticipant[] }>()
 defineEmits<{ click: [] }>()
 
 const avatars = computed(() => props.members.map((m) => m.avatarUrl ?? ''))
 const summary = computed(() => {
-  const names = props.members.map((m) => m.name)
+  const names = props.members.map((m) => getFirstWord(m.name))
   if (names.length === 0) return 'Chọn thành viên'
   if (names.length <= 2) return names.join(', ')
   return `${names.slice(0, 2).join(', ')} & ${names.length - 2} người khác`

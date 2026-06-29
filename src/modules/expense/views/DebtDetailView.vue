@@ -6,12 +6,13 @@ import AppHeader from '@/shared/components/app/AppHeader.vue'
 import { Card, CardContent } from '@/shared/components/ui/card'
 import { Button } from '@/shared/components/ui/button'
 import StatusBadge from '@/modules/expense/components/StatusBadge.vue'
-import MoneyText from '@/shared/components/ui/MoneyText.vue'
 import { useDebtDetail } from '@/modules/expense/composables/useDebtDetail'
 import type { SettlementStatus } from '@/modules/expense/types/expense.type'
 import { formatDate } from '@/shared/utils/datetime.util'
 import { useAppSettingStore } from '@/shared/stores/app-setting.store'
+import { formatMoney } from '@/shared/utils/money.util'
 import ParticipantLabel from '../components/ParticipantLabel.vue'
+import Typography from '@/shared/components/ui/typography/Typography.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -49,15 +50,10 @@ function back() {
       <!-- Amount owed -->
       <Card>
         <CardContent class="flex flex-col items-center gap-2 p-8">
-          <p class="text-xs text-text-muted">Bạn nợ {{ debt.paidBy.name }}</p>
-          <MoneyText
-            :amount="debt.amountIOwe"
-            :locale="appSetting.locale"
-            :currency="appSetting.currency"
-            variant="danger"
-            weight="bold"
-            size="xl"
-          />
+          <Typography size="xs" color="muted">Bạn nợ {{ debt.paidBy.name }}</Typography>
+          <Typography size="xl" weight="bold" color="danger">
+            {{ formatMoney(debt.amountIOwe, appSetting.locale, appSetting.currency) }}
+          </Typography>
           <StatusBadge :status="status" />
         </CardContent>
       </Card>
@@ -66,25 +62,25 @@ function back() {
       <Card>
         <CardContent class="flex flex-col p-6">
           <div class="flex items-center justify-between gap-3 py-3">
-            <span class="text-sm text-text-muted">Khoản chi</span>
-            <span class="truncate text-sm font-medium text-text-main">{{ debt.title }}</span>
+            <Typography size="sm" color="muted">Khoản chi</Typography>
+            <Typography size="sm" weight="medium" truncate>{{ debt.title }}</Typography>
           </div>
           <div class="flex items-center justify-between gap-3 border-t border-bg-soft py-3">
-            <span class="text-sm text-text-muted">Người trả</span>
+            <Typography size="sm" color="muted">Người trả</Typography>
             <ParticipantLabel :name="debt.paidBy.name" :avatar-url="debt.paidBy.avatarUrl" size="sm" />
           </div>
           <div class="flex items-center justify-between gap-3 border-t border-bg-soft py-3">
-            <span class="text-sm text-text-muted">Ngày chi</span>
-            <span class="text-sm text-text-main">{{ formatDate(debt.paidAt, appSetting.locale) }}</span>
+            <Typography size="sm" color="muted">Ngày chi</Typography>
+            <Typography size="sm">{{ formatDate(debt.paidAt, appSetting.locale) }}</Typography>
           </div>
           <div v-if="debt.dueAt" class="flex items-center justify-between gap-3 border-t border-bg-soft py-3">
-            <span class="text-sm text-text-muted">Hạn trả</span>
-            <span class="text-sm text-text-main">{{ formatDate(debt.dueAt, appSetting.locale) }}</span>
+            <Typography size="sm" color="muted">Hạn trả</Typography>
+            <Typography size="sm">{{ formatDate(debt.dueAt, appSetting.locale) }}</Typography>
           </div>
         </CardContent>
       </Card>
     </main>
 
-    <p v-else class="p-lg text-center text-sm text-text-muted">Không tìm thấy khoản nợ.</p>
+    <Typography v-else size="sm" color="muted" align="center" class="p-lg">Không tìm thấy khoản nợ.</Typography>
   </div>
 </template>

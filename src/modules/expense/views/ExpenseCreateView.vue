@@ -3,9 +3,6 @@ import { ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { toast } from 'vue-sonner'
 import { useForm, useField } from 'vee-validate'
-import { Button } from '@/shared/components/ui/button'
-import ExpenseTitleField from '@/modules/expense/components/expense-create/ExpenseTitleField.vue'
-import ExpenseAmountField from '@/modules/expense/components/expense-create/ExpenseAmountField.vue'
 import PayerSelectRow from '@/modules/expense/components/expense-create/PayerSelectRow.vue'
 import PayerPickerModal from '@/modules/expense/components/expense-create/PayerPickerModal.vue'
 import PayeeSelectRow from '@/modules/expense/components/expense-create/PayeeSelectRow.vue'
@@ -16,10 +13,15 @@ import { useCreateExpense } from '@/modules/expense/composables/useCreateExpense
 import { useSplitExpense } from '../composables/useSplitExpense'
 import { useExpenseParticipants } from '../composables/useExpenseParticipant'
 import ExpenseCreateHeader from '../components/expense-create/ExpenseCreateHeader.vue'
+import { useAppSettingStore } from '@/shared/stores/app-setting.store.ts'
+import Label from '@/shared/components/ui/Label.vue'
+import MoneyInput from '@/shared/components/ui/MoneyInput.vue'
+import Input from '@/shared/components/ui/Input.vue'
 
 const route = useRoute()
 const router = useRouter()
 const groupId = route.params.id as string
+const appSetting = useAppSettingStore()
 
 const { handleSubmit: handleCreateExpense, errors } = useForm({
   validationSchema: expenseCreateSchema,
@@ -87,16 +89,24 @@ onMounted(() => fetchMembers())
 
 <template>
   <div class="min-h-svh">
-    <ExpenseCreateHeader title="Thêm khoản chi" @back="router.back()" />
-    <form class="flex flex-col gap-4 p-sm pb-3xl" @submit.prevent="onSubmit">
+    <ExpenseCreateHeader title="Thêm khoản chi" :is-saving="isExpenseCreating" @back="router.back()" @save="onSubmit" />
+    <form class="flex flex-col gap-8 p-sm" @submit.prevent="onSubmit">
       <div>
-        <ExpenseTitleField v-model="title" />
-        <p v-if="errors.title" class="mt-1 px-1 text-xs text-danger-main">{{ errors.title }}</p>
-      </div>
-
-      <div>
-        <ExpenseAmountField v-model="totalAmount" />
+        <Label>Tổng số tiền</Label>
+        <MoneyInput
+          v-model="totalAmount"
+          variant="fill"
+          :locale="appSetting.locale"
+          :currency="appSetting.currency"
+          align="center"
+          size="md"
+        />
         <p v-if="errors.amount" class="mt-1 px-1 text-xs text-danger-main">{{ errors.amount }}</p>
+      </div>
+      <div>
+        <Label>Tên khoản chi</Label>
+        <Input v-model="title" size="sm" variant="fill" placeholder="Poisidon thượng hạn" />
+        <p v-if="errors.title" class="mt-1 px-1 text-xs text-danger-main">{{ errors.title }}</p>
       </div>
 
       <PayerSelectRow :payer="payer" @click="showPayerPicker = true" />
@@ -115,8 +125,6 @@ onMounted(() => fetchMembers())
         />
         <p v-if="errors.splits" class="mt-1 px-1 text-xs text-danger-main">{{ errors.splits }}</p>
       </div>
-
-      <Button type="submit" :loading="isExpenseCreating" class="mt-2 w-full">Lưu khoản chi</Button>
     </form>
 
     <PayerPickerModal

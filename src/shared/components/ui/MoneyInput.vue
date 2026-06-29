@@ -1,49 +1,90 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import { computed, useAttrs } from 'vue'
+import { computed, ref, useAttrs } from 'vue'
 import { cn } from '@/shared/utils/cn.util'
 import { formatNumber } from '@/shared/utils/number.util'
 import { getCurrencySymbol } from '@/shared/utils/money.util'
 import type { SupportedLocale, SupportedCurrency } from '@/shared/types/app-setting.type'
 
-type MoneyInputSize = 'sm' | 'md' | 'lg' | 'xl'
+type MoneyInputVariant = 'outlined' | 'fill' | 'borderless'
+type MoneyInputSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+type MoneyInputAlign = 'left' | 'center' | 'right'
+type MoneyInputWeight = 'normal' | 'medium' | 'semibold' | 'bold'
 
 const props = withDefaults(
   defineProps<{
     locale: SupportedLocale
     currency: SupportedCurrency
+    variant?: MoneyInputVariant
     size?: MoneyInputSize
+    align?: MoneyInputAlign
+    weight?: MoneyInputWeight
     placeholderAmount?: number
-    readonly?: boolean
   }>(),
   {
+    variant: 'outlined',
     size: 'md',
+    align: 'left',
+    weight: 'semibold',
     placeholderAmount: 0,
-    readonly: false,
   },
 )
 
 const attrs = useAttrs()
-
+const inputRef = ref<HTMLInputElement | null>(null)
 const model = defineModel<number>({ default: 0 })
 const numberDisplay = computed(() => (model.value > 0 ? formatNumber(model.value, props.locale) : ''))
 const currencySymbol = computed(() => getCurrencySymbol(props.locale, props.currency))
 
-// Internal layout + appearance, using semantic design tokens.
-const baseClasses = 'flex items-center gap-1 text-text-main outline-none'
+const baseClasses =
+  'flex items-center gap-1 text-text-main outline-none transition-[border-color] duration-150 ease-standard cursor-text'
 
-// Typography variants — semantic sizes instead of low-level style props.
 const sizeClasses: Record<MoneyInputSize, string> = {
-  sm: 'text-sm font-semibold',
-  md: 'text-md font-semibold',
-  lg: 'text-lg font-semibold',
-  xl: 'text-xl font-semibold',
+  xs: 'text-xs p-1',
+  sm: 'text-sm p-2',
+  md: 'text-md p-3',
+  lg: 'text-lg p-4',
+  xl: 'text-xl p-5',
 }
 
-const wrapperClass = computed(() => cn(baseClasses, sizeClasses[props.size], attrs.class as string))
+const weightClasses: Record<MoneyInputWeight, string> = {
+  normal: 'font-normal',
+  medium: 'font-medium',
+  semibold: 'font-semibold',
+  bold: 'font-bold',
+}
+
+const variantClasses: Record<MoneyInputVariant, string> = {
+  outlined: 'rounded-md bg-bg-base shadow-xs border border-text-disabled focus-within:border-text-muted',
+  fill: 'rounded-md bg-bg-surface shadow-md border border-transparent focus-within:border-text-disabled',
+  borderless: 'border-0 bg-transparent',
+}
+
+const justifyClasses: Record<MoneyInputAlign, string> = {
+  left: 'justify-start',
+  center: 'justify-center',
+  right: 'justify-end',
+}
+
+const inputJustifyClasses: Record<MoneyInputAlign, string> = {
+  left: 'text-left',
+  center: 'text-center',
+  right: 'text-right',
+}
+
+const wrapperClass = computed(() =>
+  cn(
+    baseClasses,
+    sizeClasses[props.size],
+    variantClasses[props.variant],
+    justifyClasses[props.align],
+    weightClasses[props.weight],
+    props.variant === 'borderless' && 'p-0',
+    attrs.class as string,
+  ),
+)
 
 function onInput(event: Event) {
-  if (props.readonly) return
   const el = event.target as HTMLInputElement
   model.value = Math.max(0, Number(el.value.replace(/\D/g, '')) || 0)
   el.value = numberDisplay.value
@@ -57,16 +98,23 @@ export default {
 </script>
 
 <template>
-  <div :class="wrapperClass">
+  <div :class="wrapperClass" @click="inputRef?.focus()">
     <input
+      ref="inputRef"
       :value="numberDisplay"
       type="text"
       inputmode="numeric"
-      :readonly="readonly"
       :placeholder="String(placeholderAmount)"
-      class="min-w-[1ch] border-0 bg-transparent p-0 field-sizing-content text-inherit outline-none placeholder:text-inherit"
+      :class="
+        cn(
+          'min-w-[1ch] border-0 bg-transparent p-0 field-sizing-content text-inherit outline-none placeholder:text-text-muted focus:placeholder:text-transparent',
+          inputJustifyClasses[props.align],
+        )
+      "
       @input="onInput"
     />
-    <span class="shrink-0 select-none text-inherit">{{ currencySymbol }}</span>
+    <span :class="cn('shrink-0 select-none', model === 0 ? 'text-text-muted' : 'text-text-main')">{{
+      currencySymbol
+    }}</span>
   </div>
 </template>

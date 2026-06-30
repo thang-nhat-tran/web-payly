@@ -73,7 +73,7 @@ function back() {
             :class="{ 'border-t border-bg-soft': i > 1 }"
           >
             <div class="flex items-center gap-2">
-              <Skeleton width="2rem" height="2rem" border-radius="9999px" />
+              <Skeleton width="2rem" height="2rem" radius="round" />
               <Skeleton width="5rem" height="0.875rem" />
             </div>
             <Skeleton width="5rem" height="0.875rem" />

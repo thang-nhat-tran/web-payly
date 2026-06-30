@@ -1,26 +1,31 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div :class="rootClass" :style="{ width, height, borderRadius }" v-bind="attrs" />
+  <div :class="rootClass" :style="{ width, height, borderRadius: radiusValue }" v-bind="attrs" />
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useMergedAttrs } from '@/shared/composables/useMergedAttrs'
 
-withDefaults(
+type SkeletonRadius = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'round' | 'pill'
+
+const props = withDefaults(
   defineProps<{
     width?: string
     height?: string
-    borderRadius?: string
+    radius?: SkeletonRadius
   }>(),
   {
     width: '100%',
     height: '1.6rem',
-    borderRadius: 'var(--radius-sm)',
+    radius: 'sm',
   },
 )
 
 defineOptions({ inheritAttrs: false })
 const { rootClass, attrs } = useMergedAttrs('skeleton')
+
+const radiusValue = computed(() => `var(--radius-${props.radius})`)
 </script>
 
 <style scoped>

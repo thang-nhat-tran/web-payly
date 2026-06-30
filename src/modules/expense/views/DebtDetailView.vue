@@ -13,12 +13,13 @@ import { useAppSettingStore } from '@/shared/stores/app-setting.store'
 import { formatMoney } from '@/shared/utils/money.util'
 import ParticipantLabel from '../components/ParticipantLabel.vue'
 import Typography from '@/shared/components/ui/typography/Typography.vue'
+import Skeleton from '@/shared/components/ui/Skeleton.vue'
 
 const route = useRoute()
 const router = useRouter()
 const appSetting = useAppSettingStore()
 
-const { data: debt, query: fetchDebt } = useDebtDetail(route.params.debtId as string)
+const { data: debt, isPending, query: fetchDebt } = useDebtDetail(route.params.debtId as string)
 
 // Local status so paying updates the UI on this page.
 const status = ref<SettlementStatus>('pending')
@@ -46,7 +47,33 @@ function back() {
       </template>
     </AppHeader>
 
-    <main v-if="debt" class="flex flex-col gap-4 p-sm pb-3xl">
+    <main v-if="isPending" class="flex flex-col gap-4 p-sm pb-3xl">
+      <!-- Skeleton: amount owed -->
+      <Card>
+        <CardContent class="flex flex-col items-center gap-3 p-8">
+          <Skeleton width="6rem" height="0.875rem" />
+          <Skeleton width="10rem" height="2rem" />
+          <Skeleton width="4rem" height="1.5rem" border-radius="9999px" />
+        </CardContent>
+      </Card>
+
+      <!-- Skeleton: details -->
+      <Card>
+        <CardContent class="flex flex-col p-6">
+          <div
+            v-for="i in 3"
+            :key="i"
+            class="flex items-center justify-between gap-3 py-3"
+            :class="{ 'border-t border-bg-soft': i > 1 }"
+          >
+            <Skeleton width="4rem" height="0.875rem" />
+            <Skeleton width="8rem" height="0.875rem" />
+          </div>
+        </CardContent>
+      </Card>
+    </main>
+
+    <main v-else-if="debt" class="flex flex-col gap-4 p-sm pb-3xl">
       <!-- Amount owed -->
       <Card>
         <CardContent class="flex flex-col items-center gap-2 p-8">
@@ -81,6 +108,6 @@ function back() {
       </Card>
     </main>
 
-    <Typography v-else size="sm" color="muted" align="center" class="p-lg">Không tìm thấy khoản nợ.</Typography>
+    <Typography v-else size="sm" color="muted" align="center" class="p-lg block">Không tìm thấy khoản nợ.</Typography>
   </div>
 </template>

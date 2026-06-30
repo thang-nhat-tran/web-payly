@@ -74,7 +74,7 @@ const alignClasses: Record<InputAlign, string> = {
 }
 
 const variantClasses: Record<InputVariant, string> = {
-  outlined: 'rounded-md bg-bg-base shadow-xs border border-text-disabled focus-within:border-text-muted',
+  outlined: 'rounded-md bg-bg-soft shadow-xs border border-text-disabled focus-within:border-text-muted',
   fill: 'rounded-md bg-bg-surface shadow-md border border-transparent focus-within:border-text-disabled',
   borderless: 'border-0 bg-transparent',
 }

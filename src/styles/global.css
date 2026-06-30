@@ -13,9 +13,9 @@
   /* ── Text Colors ──────────────────────────────────────────── */
   --color-text-main: #141413; /* Main text (Headings, primary content) */
   --color-text-secondary: #262627; /* Secondary text (softer than main) */
+  --color-text-disabled: #b5b4b3; /* Disabled text, faint outlines */
   --color-text-muted: #6c757d; /* Muted text, captions, footnotes */
   --color-text-accent: #555555; /* Inline accent text */
-  --color-text-disabled: #d1d0cf; /* Disabled text, faint outlines */
 
   /* ── Actions & Signals ────────────────────────────────────── */
   --color-danger-main: #cf4500; /* Destructive actions / Legal warnings */

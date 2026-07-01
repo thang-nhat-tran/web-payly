@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { Wallet } from 'lucide-vue-next'
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/shared/components/ui/card'
-import { Button } from '@/shared/components/ui/button'
+import { HouseIcon } from 'lucide-vue-next'
+import { Card, CardDescription, CardContent } from '@/shared/components/ui/card'
 import AvatarStack from '@/shared/components/ui/AvatarStack.vue'
 import type { GroupWithStats } from '@/modules/group/types/group.types'
-import { formatVNDtoK } from '@/shared/utils/money.util'
+import Typography from '@/shared/components/ui/typography/Typography.vue'
 
 defineProps<{ group: GroupWithStats }>()
 const emit = defineEmits<{ open: [] }>()
@@ -12,27 +11,18 @@ const emit = defineEmits<{ open: [] }>()
 
 <template>
   <Card clickable @click="emit('open')">
-    <CardHeader>
-      <CardTitle>{{ group.name }}</CardTitle>
-      <CardDescription v-if="group.description">{{ group.description }}</CardDescription>
-    </CardHeader>
-
-    <CardContent>
-      <div class="amount-row">
-        <div class="amount-icon">
-          <Wallet :size="18" :stroke-width="1.5" />
+    <CardContent class="p-8">
+      <div class="flex items-center gap-4">
+        <div class="bg-bg-base p-6 rounded-md">
+          <HouseIcon :size="24" :stroke-width="2" />
         </div>
         <div>
-          <p class="amount">{{ formatVNDtoK(group.totalAmount) }}</p>
-          <p class="amount-label">Tổng chi tiêu</p>
+          <Typography size="md" weight="semibold">{{ group.name }}</Typography>
+          <AvatarStack :avatar-urls="group.memberAvatarUrls" size="xs" />
         </div>
       </div>
+      <CardDescription v-if="group.description">{{ group.description }}</CardDescription>
     </CardContent>
-
-    <CardFooter class="border-t border-gray-300">
-      <AvatarStack :avatar-urls="group.memberAvatarUrls" />
-      <Button size="sm" class="open-btn" @click.stop="emit('open')">Mở →</Button>
-    </CardFooter>
   </Card>
 </template>
 

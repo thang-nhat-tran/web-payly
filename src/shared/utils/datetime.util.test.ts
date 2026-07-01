@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { formatDate } from './datetime.util'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { formatDate, formatRelativeDateLabel, getToday } from './datetime.util'
 
 // Build the reference instant from LOCAL components: formatDate also formats in
 // the runtime's local timezone, so the two cancel out and assertions stay
@@ -37,5 +37,71 @@ describe('formatDate', () => {
     const a = formatDate(localInstant, 'vi-VN', 'time')
     const b = formatDate(localInstant, 'vi-VN', 'time')
     expect(a).toBe(b)
+  })
+})
+
+// Fix "today" as 2026-05-10 09:00 local for time-dependent tests
+const TODAY = new Date(2026, 4, 10, 9, 0)
+
+describe('getToday', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+    vi.setSystemTime(TODAY)
+  })
+  afterEach(() => vi.useRealTimers())
+
+  it('returns today formatted with longDate by default', () => {
+    expect(getToday('vi-VN')).toBe('10 tháng 5, 2026')
+  })
+
+  it('accepts an explicit style', () => {
+    expect(getToday('vi-VN', 'shortDate')).toBe('10/05/2026')
+    expect(getToday('vi-VN', 'time')).toBe('09:00')
+  })
+})
+
+describe('formatRelativeDateLabel', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+    vi.setSystemTime(TODAY)
+  })
+  afterEach(() => vi.useRealTimers())
+
+  it('returns "Hôm nay" for today', () => {
+    expect(formatRelativeDateLabel(TODAY, 'vi-VN')).toBe('Hôm nay')
+  })
+
+  it('returns "Hôm nay" regardless of the time within the same local day', () => {
+    const lateToday = new Date(2026, 4, 10, 23, 59)
+    expect(formatRelativeDateLabel(lateToday, 'vi-VN')).toBe('Hôm nay')
+  })
+
+  it('returns "Hôm qua" for yesterday', () => {
+    const yesterday = new Date(2026, 4, 9, 15, 0)
+    expect(formatRelativeDateLabel(yesterday, 'vi-VN')).toBe('Hôm qua')
+  })
+
+  it('omits the year for older dates within the same year', () => {
+    const sameYear = new Date(2026, 1, 15) // 15 Feb 2026
+    const label = formatRelativeDateLabel(sameYear, 'vi-VN')
+    expect(label).not.toContain('2026')
+    expect(label.length).toBeGreaterThan(0)
+  })
+
+  it('includes the year for dates in a different year', () => {
+    const lastYear = new Date(2025, 11, 25) // 25 Dec 2025
+    expect(formatRelativeDateLabel(lastYear, 'vi-VN')).toContain('2025')
+  })
+
+  it('formats a future date without a relative label', () => {
+    const tomorrow = new Date(2026, 4, 11)
+    const label = formatRelativeDateLabel(tomorrow, 'vi-VN')
+    expect(label).not.toBe('Hôm nay')
+    expect(label).not.toBe('Hôm qua')
+    expect(label.length).toBeGreaterThan(0)
+  })
+
+  it('returns an empty string for an invalid date', () => {
+    expect(formatRelativeDateLabel('not-a-date', 'vi-VN')).toBe('')
   })
 })

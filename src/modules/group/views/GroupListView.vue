@@ -13,6 +13,7 @@ import { HousePlus } from 'lucide-vue-next'
 import { toast } from 'vue-sonner'
 import type { Group } from '@/modules/group/types/group.types'
 import { GROUP_MESSAGES } from '@/modules/group/components/group-detail/group-detail.constants'
+import Typography from '@/shared/components/ui/typography/Typography.vue'
 
 const router = useRouter()
 const auth = useAuthStore()
@@ -35,24 +36,23 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen">
-    <AppHeader class="px-sm">
+  <div class="min-h-screen p-sm">
+    <AppHeader>
       <template #left>
-        <h3>Nhóm chi tiêu</h3>
-      </template>
-
-      <template #right>
-        <button class="rounded-full" aria-label="Trang cá nhân" @click="router.push('/profile')">
-          <UserAvatar
-            :src="auth.profile?.avatarUrl ?? auth.user?.user_metadata?.avatar_url"
-            :name="auth.profile?.fullName ?? auth.user?.email"
-            size="sm"
-          />
-        </button>
+        <div class="flex items-center gap-4">
+          <button class="rounded-full" aria-label="Trang cá nhân" @click="router.push('/profile')">
+            <UserAvatar
+              :src="auth.profile?.avatarUrl ?? auth.user?.user_metadata?.avatar_url"
+              :name="auth.profile?.fullName ?? auth.user?.email"
+              size="md"
+            />
+          </button>
+          <Typography weight="bold" size="xl">Nhóm của bạn</Typography>
+        </div>
       </template>
     </AppHeader>
 
-    <main class="mx-auto px-sm py-md">
+    <main class="mx-auto py-md">
       <div class="groups-grid">
         <template v-if="groups.isPending.value">
           <GroupCardSkeleton v-for="i in 6" :key="i" />

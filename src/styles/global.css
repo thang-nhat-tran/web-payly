@@ -24,6 +24,16 @@
   --color-action-secondary: #9a3a0a; /* Secondary action (Rust tone) */
   --color-link: #3860be; /* Default link color */
 
+  /* ── Semantic tints (filled backgrounds & borders for tags, toasts, badges) */
+  --color-success-bg: #f0faf4;
+  --color-success-border: #bbe8cb;
+  --color-danger-bg: #fff4f0;
+  --color-danger-border: #f5c4b2;
+  --color-warning-bg: #fffbeb;
+  --color-warning-border: #fde68a;
+  --color-info-bg: #eff6ff;
+  --color-info-border: #bfdbfe;
+
   /* ── Brand (Logo only) ────────────────────────────────────── */
   --color-brand-primary: #eb001b;
   --color-brand-secondary: #f79e1b;
@@ -169,22 +179,22 @@
   --description-color: var(--color-text-muted);
 
   /* Success */
-  --success-bg: #f0faf4;
-  --success-border: #bbe8cb;
+  --success-bg: var(--color-success-bg);
+  --success-border: var(--color-success-border);
   --success-text: var(--color-success);
 
   /* Error */
-  --error-bg: #fff4f0;
-  --error-border: #f5c4b2;
+  --error-bg: var(--color-danger-bg);
+  --error-border: var(--color-danger-border);
   --error-text: var(--color-danger-main);
 
   /* Warning */
-  --warning-bg: #fffbeb;
-  --warning-border: #fde68a;
+  --warning-bg: var(--color-warning-bg);
+  --warning-border: var(--color-warning-border);
   --warning-text: var(--color-danger-light);
 
   /* Info */
-  --info-bg: #eff6ff;
-  --info-border: #bfdbfe;
+  --info-bg: var(--color-info-bg);
+  --info-border: var(--color-info-border);
   --info-text: var(--color-link);
 }

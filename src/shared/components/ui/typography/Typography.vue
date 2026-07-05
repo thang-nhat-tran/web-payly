@@ -50,10 +50,10 @@ const weightClasses = {
 } satisfies Record<TypographyWeight, string>
 
 const colorClasses = {
-  main: 'text-text-main',
-  muted: 'text-text-muted',
-  disabled: 'text-text-disabled',
-  danger: 'text-danger-main',
+  main: 'text-text',
+  muted: 'text-secondary',
+  disabled: 'text-disabled',
+  danger: 'text-error',
   success: 'text-success',
   inherit: 'text-inherit',
 } satisfies Record<TypographyColor, string>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Card, CardContent } from '@/shared/components/ui/card'
+import { Card, CardBody } from '@/shared/components/ui/card'
 import UserAvatar from '@/shared/components/ui/Avatar.vue'
 import Tag, { type TagColor } from '@/shared/components/ui/Tag.vue'
 import type { OwedDebt } from '@/modules/expense/types/expense.type'
@@ -22,7 +22,7 @@ const statusConfig = computed<{ label: string; color: TagColor }>(() =>
 
 <template>
   <Card clickable @click="$emit('detail', debt.id)">
-    <CardContent class="flex gap-4 p-6">
+    <CardBody class="flex gap-4 p-6">
       <div class="min-w-0 flex-1 flex flex-col items-start gap-2">
         <div class="flex min-w-0 items-center gap-3 w-full">
           <UserAvatar :name="debt.paidBy.name" :src="debt.paidBy.avatarUrl" size="md" />
@@ -43,6 +43,6 @@ const statusConfig = computed<{ label: string; color: TagColor }>(() =>
         </Typography>
         <Tag :color="statusConfig.color" variant="filled">{{ statusConfig.label }}</Tag>
       </div>
-    </CardContent>
+    </CardBody>
   </Card>
 </template>

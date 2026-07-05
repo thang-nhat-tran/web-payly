@@ -28,7 +28,7 @@ defineEmits<{ click: [] }>()
     :disabled="disabled"
     :class="
       cn(
-        'flex w-full items-center justify-between gap-3 rounded-md bg-bg-surface py-4 px-6 text-left shadow-sm transition-opacity hover:opacity-80 disabled:pointer-events-none disabled:opacity-60',
+        'flex w-full items-center justify-between gap-3 rounded-md bg-bg-elevated py-4 px-6 text-left shadow-sm transition-opacity hover:opacity-80 disabled:pointer-events-none disabled:opacity-60',
         props.class,
       )
     "

@@ -3,7 +3,7 @@ import Skeleton from '@/shared/components/ui/Skeleton.vue'
 </script>
 
 <template>
-  <div class="flex overflow-hidden rounded-md bg-bg-surface shadow-sm">
+  <div class="flex overflow-hidden rounded-md bg-bg-elevated shadow-sm">
     <div class="flex w-full gap-4 p-6">
       <!-- Left: title + "Bạn đã trả" + date -->
       <div class="flex min-w-0 flex-col gap-1">

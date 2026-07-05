@@ -20,12 +20,13 @@ onMounted(() => fetchExpenses())
 </script>
 
 <template>
-  <div class="list">
+  <Typography size="md" weight="semibold" class="p-sm" as="div">Khoản chi</Typography>
+  <div class="flex flex-col gap-sm px-sm">
     <template v-if="isPending">
       <ExpenseCardSkeleton v-for="i in 4" :key="i" />
     </template>
     <template v-else-if="expenses?.length">
-      <ExpenseCard v-for="e in expenses" :key="e.id" :expense="e" @detail="openDetail" />
+      <ExpenseCard v-for="e in expenses" :key="e.id" :expense="e" @detail="openDetail" class="" />
     </template>
     <template v-else>
       <div class="flex flex-col items-center gap-2 py-48">
@@ -35,12 +36,3 @@ onMounted(() => fetchExpenses())
     </template>
   </div>
 </template>
-
-<style scoped>
-.list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-sm) var(--spacing-sm) var(--spacing-3xl);
-}
-</style>

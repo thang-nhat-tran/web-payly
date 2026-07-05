@@ -15,10 +15,10 @@ const activeIndex = computed(() => tabs.findIndex((t) => t.value === splitMethod
 </script>
 
 <template>
-  <div class="relative flex rounded-xl bg-bg-surface font-medium">
+  <div class="relative flex rounded-xl bg-bg-elevated font-medium">
     <!-- Sliding pill — translates to the active tab position -->
     <div
-      class="absolute inset-y-0 w-1/3 rounded-lg bg-text-main shadow-sm transition-transform duration-200 ease-standard"
+      class="absolute inset-y-0 w-1/3 rounded-lg bg-primary shadow-sm transition-transform duration-200 ease-standard"
       :style="{ transform: `translateX(${activeIndex * 100}%)` }"
     />
 
@@ -27,7 +27,7 @@ const activeIndex = computed(() => tabs.findIndex((t) => t.value === splitMethod
       :key="tab.value"
       type="button"
       class="relative z-10 flex flex-1 items-center justify-center p-4 transition-colors duration-200 ease-standard"
-      :class="splitMethod === tab.value ? 'text-bg-surface' : 'text-text-muted'"
+      :class="splitMethod === tab.value ? 'text-primary-foreground' : 'text-text'"
       @click="() => (splitMethod = tab.value)"
     >
       <component :is="tab.icon" :size="20" />

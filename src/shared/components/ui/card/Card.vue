@@ -6,7 +6,7 @@ const props = withDefaults(defineProps<{ clickable?: boolean }>(), { clickable: 
 
 defineOptions({ inheritAttrs: false })
 const { rootClass, attrs } = useMergedAttrs(() => [
-  'flex flex-col overflow-hidden rounded-md bg-bg-surface shadow-sm',
+  'flex flex-col overflow-hidden rounded-md bg-bg-elevated shadow-sm',
   props.clickable &&
     'cursor-pointer transition-[transform,box-shadow] duration-150 ease-standard hover:-translate-y-[2px] hover:shadow-md active:scale-[0.98]',
 ])

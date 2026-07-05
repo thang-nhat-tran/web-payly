@@ -3,7 +3,7 @@ import Skeleton from '@/shared/components/ui/Skeleton.vue'
 </script>
 
 <template>
-  <div class="flex flex-col overflow-hidden rounded-md bg-bg-surface shadow-sm">
+  <div class="flex flex-col overflow-hidden rounded-md bg-bg-elevated shadow-sm">
     <div class="p-8">
       <div class="flex items-center gap-4">
         <Skeleton width="52px" height="52px" border-radius="var(--radius-md)" />

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { HouseIcon } from 'lucide-vue-next'
-import { Card, CardDescription, CardContent } from '@/shared/components/ui/card'
+import { Card, CardBody } from '@/shared/components/ui/card'
 import AvatarStack from '@/shared/components/ui/AvatarStack.vue'
 import type { GroupWithStats } from '@/modules/group/types/group.types'
 import Typography from '@/shared/components/ui/typography/Typography.vue'
@@ -11,7 +11,7 @@ const emit = defineEmits<{ open: [] }>()
 
 <template>
   <Card clickable @click="emit('open')">
-    <CardContent class="p-8">
+    <CardBody class="p-8">
       <div class="flex items-center gap-4">
         <div class="bg-bg-base p-6 rounded-md">
           <HouseIcon :size="24" :stroke-width="2" />
@@ -22,7 +22,7 @@ const emit = defineEmits<{ open: [] }>()
         </div>
       </div>
       <CardDescription v-if="group.description">{{ group.description }}</CardDescription>
-    </CardContent>
+    </CardBody>
   </Card>
 </template>
 

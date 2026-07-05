@@ -3,7 +3,7 @@
 import { computed, type HTMLAttributes, type InputHTMLAttributes } from 'vue'
 import { cn } from '@/shared/utils/cn.util'
 
-type InputVariant = 'outlined' | 'fill' | 'borderless'
+type InputVariant = 'outlined' | 'filled' | 'borderless'
 type InputSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 type InputWeight = 'normal' | 'medium' | 'semibold' | 'bold'
 type InputAlign = 'left' | 'center' | 'right'
@@ -75,7 +75,7 @@ const alignClasses: Record<InputAlign, string> = {
 
 const variantClasses: Record<InputVariant, string> = {
   outlined: 'rounded-md bg-bg-soft shadow-xs border border-text-disabled focus-within:border-text-muted',
-  fill: 'rounded-md bg-bg-surface shadow-md border border-transparent focus-within:border-text-disabled',
+  filled: 'rounded-md bg-bg-elevated shadow-md border border-transparent focus-within:border-text-disabled',
   borderless: 'border-0 bg-transparent',
 }
 

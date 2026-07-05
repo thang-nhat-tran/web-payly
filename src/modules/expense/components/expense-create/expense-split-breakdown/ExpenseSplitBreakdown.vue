@@ -64,11 +64,11 @@ const indicator = computed(() => {
   <Label>Cách chia</Label>
   <SplitMethodTabs v-model="splitMethod" />
 
-  <div class="mt-4 flex flex-col rounded-md bg-bg-surface shadow-sm">
+  <div class="mt-4 flex flex-col rounded-md bg-bg-elevated shadow-sm">
     <div
       v-for="split in splits"
       :key="split.userId"
-      class="flex items-center justify-between gap-3 px-6 py-12 h-20 overflow-hidden border-b border-b-bg-soft last:border-b-0"
+      class="flex items-center justify-between gap-3 px-6 py-10 h-20 overflow-hidden border-b border-b-border last:border-b-0"
     >
       <ParticipantLabel
         :name="expenseParticipantMap[split.userId]?.name"

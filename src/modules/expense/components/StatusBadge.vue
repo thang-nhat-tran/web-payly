@@ -5,7 +5,7 @@ import type { SettlementStatus } from '@/modules/expense/types/expense.type'
 const props = defineProps<{ status: SettlementStatus }>()
 
 const STATUS: Record<SettlementStatus, { label: string; classes: string }> = {
-  pending: { label: 'Chưa trả', classes: 'bg-bg-soft text-text-muted' },
+  pending: { label: 'Chưa trả', classes: 'bg-bg-layout text-text-muted' },
   paid: { label: 'Đã trả', classes: 'bg-[#f0faf4] text-[#166534]' },
 }
 

@@ -5,7 +5,7 @@ import { useAuthStore } from '@/shared/stores/auth.store'
 import { authApi } from '@/modules/auth/api/auth.api'
 import AppHeader from '@/shared/components/app/AppHeader.vue'
 import UserAvatar from '@/shared/components/ui/Avatar.vue'
-import { Button } from '@/shared/components/ui/button'
+import Button from '@/shared/components/ui/Button.vue'
 import { ArrowLeft, LogOut, Mail, CalendarDays, User } from 'lucide-vue-next'
 import { toast } from 'vue-sonner'
 
@@ -47,7 +47,7 @@ function formatDate(dateString: string | null) {
     </AppHeader>
 
     <main class="px-sm py-md">
-      <div class="flex flex-col gap-md rounded-md bg-bg-surface p-md shadow-md">
+      <div class="flex flex-col gap-md rounded-md bg-bg-elevated p-md shadow-md">
         <!-- Avatar & name -->
         <div class="flex flex-col items-center gap-sm border-b border-text-disabled pb-md">
           <UserAvatar :src="auth.profile?.avatarUrl" :name="auth.profile?.fullName ?? auth.user?.email" size="2xl" />
@@ -99,7 +99,7 @@ function formatDate(dateString: string | null) {
         </div>
 
         <!-- Sign out -->
-        <Button variant="destructive" class="w-full" :loading="signingOut" @click="handleSignOut">
+        <Button variant="outline" class="w-full" :loading="signingOut" @click="handleSignOut">
           <LogOut :size="16" />
           Đăng xuất
         </Button>

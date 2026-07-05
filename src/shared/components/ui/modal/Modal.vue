@@ -29,17 +29,13 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
 <template>
   <Teleport to="body">
     <Transition name="backdrop">
-      <div
-        v-if="open"
-        class="fixed inset-0 z-100 flex items-center justify-center bg-[rgba(20,20,19,0.48)] p-md"
-        @click.self="close"
-      >
+      <div v-if="open" class="fixed inset-0 z-100 flex items-center justify-center bg-bg-mask p-md" @click.self="close">
         <Transition name="panel" appear>
           <div
             v-if="open"
             role="dialog"
             aria-modal="true"
-            :class="cn('w-full max-w-200 overflow-hidden rounded-md bg-bg-base shadow-lg', props.class)"
+            :class="cn('w-full max-w-200 overflow-hidden rounded-md bg-bg-layout shadow-lg', props.class)"
           >
             <slot />
           </div>

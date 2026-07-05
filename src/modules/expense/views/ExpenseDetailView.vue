@@ -3,8 +3,8 @@ import { computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ArrowLeft } from 'lucide-vue-next'
 import AppHeader from '@/shared/components/app/AppHeader.vue'
-import { Button } from '@/shared/components/ui/button'
-import { Card, CardContent } from '@/shared/components/ui/card'
+import Button from '@/shared/components/ui/Button.vue'
+import { Card, CardBody } from '@/shared/components/ui/card'
 import ParticipantLabel from '@/modules/expense/components/ParticipantLabel.vue'
 import StatusBadge from '@/modules/expense/components/StatusBadge.vue'
 import { useExpenseDetail } from '@/modules/expense/composables/useExpenseDetail'
@@ -32,7 +32,7 @@ function back() {
   <div class="min-h-svh bg-bg-base">
     <AppHeader>
       <template #left>
-        <Button variant="ghost" size="icon" aria-label="Quay lại" @click="back">
+        <Button variant="ghost" size="xs" aria-label="Quay lại" @click="back">
           <ArrowLeft :size="24" :strokeWidth="2" />
         </Button>
       </template>
@@ -44,7 +44,7 @@ function back() {
     <main v-if="isPending" class="flex flex-col gap-4 p-sm pb-3xl">
       <!-- Skeleton: summary -->
       <Card>
-        <CardContent class="flex flex-col gap-4 p-6">
+        <CardBody class="flex flex-col gap-4 p-6">
           <div class="flex flex-col gap-1">
             <Skeleton width="60%" height="1.25rem" />
             <Skeleton width="40%" height="0.875rem" />
@@ -59,18 +59,18 @@ function back() {
               <Skeleton width="7rem" height="1.5rem" />
             </div>
           </div>
-        </CardContent>
+        </CardBody>
       </Card>
 
       <!-- Skeleton: breakdown -->
       <Card>
-        <CardContent class="flex flex-col p-6">
+        <CardBody class="flex flex-col p-6">
           <Skeleton width="8rem" height="0.75rem" class="mb-4" />
           <div
             v-for="i in 3"
             :key="i"
             class="flex items-center justify-between gap-3 py-3"
-            :class="{ 'border-t border-bg-soft': i > 1 }"
+            :class="{ 'border-t border-border': i > 1 }"
           >
             <div class="flex items-center gap-2">
               <Skeleton width="2rem" height="2rem" radius="round" />
@@ -78,14 +78,14 @@ function back() {
             </div>
             <Skeleton width="5rem" height="0.875rem" />
           </div>
-        </CardContent>
+        </CardBody>
       </Card>
     </main>
 
     <main v-else-if="expense" class="flex flex-col gap-4 p-sm pb-3xl">
       <!-- Summary -->
       <Card>
-        <CardContent class="flex flex-col gap-4 p-6">
+        <CardBody class="flex flex-col gap-4 p-6">
           <div>
             <Typography size="md" weight="bold" as="div">{{ expense.title }}</Typography>
             <Typography size="xs" color="muted"
@@ -107,12 +107,12 @@ function back() {
               </Typography>
             </div>
           </div>
-        </CardContent>
+        </CardBody>
       </Card>
 
       <!-- Breakdown -->
       <Card>
-        <CardContent class="flex flex-col p-6">
+        <CardBody class="flex flex-col p-6">
           <Typography size="xs" weight="semibold" color="muted" class="mb-2 uppercase tracking-wide">
             Chia cho · {{ settledCount }}/{{ expense.debtors.length }} đã trả
           </Typography>
@@ -120,7 +120,7 @@ function back() {
             v-for="(share, i) in expense.debtors"
             :key="share.participant.id"
             class="flex items-center justify-between gap-3 py-3"
-            :class="{ 'border-t border-bg-soft': i > 0 }"
+            :class="{ 'border-t border-border': i > 0 }"
           >
             <ParticipantLabel :name="share.participant.name" :avatar-url="share.participant.avatarUrl" />
             <div class="flex shrink-0 items-center gap-3">
@@ -130,7 +130,7 @@ function back() {
               </Typography>
             </div>
           </div>
-        </CardContent>
+        </CardBody>
       </Card>
     </main>
 

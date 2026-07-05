@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Card, CardContent } from '@/shared/components/ui/card'
+import { Card, CardBody } from '@/shared/components/ui/card'
 import AvatarStack from '@/shared/components/ui/AvatarStack.vue'
 import type { PaidExpense } from '@/modules/expense/types/expense.type'
 import { formatRelativeDateLabel } from '@/shared/utils/datetime.util'
@@ -19,7 +19,7 @@ const settledCount = computed(() => props.expense.debtors.filter((d) => d.status
 
 <template>
   <Card clickable @click="$emit('detail', expense.id)">
-    <CardContent class="flex gap-4 p-6">
+    <CardBody class="flex gap-4 p-6">
       <div class="flex flex-col min-w-0">
         <Typography size="md" weight="bold" truncate color="main" as="div">{{ expense.title }}</Typography>
         <Typography size="xs" color="muted" as="div">Bạn đã trả</Typography>
@@ -35,6 +35,6 @@ const settledCount = computed(() => props.expense.debtors.filter((d) => d.status
           <Typography size="xs" color="muted">{{ settledCount }}/{{ expense.debtors.length }} đã trả</Typography>
         </div>
       </div>
-    </CardContent>
+    </CardBody>
   </Card>
 </template>

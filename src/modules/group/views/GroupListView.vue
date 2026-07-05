@@ -14,6 +14,7 @@ import { toast } from 'vue-sonner'
 import type { Group } from '@/modules/group/types/group.types'
 import { GROUP_MESSAGES } from '@/modules/group/components/group-detail/group-detail.constants'
 import Typography from '@/shared/components/ui/typography/Typography.vue'
+import Button from '@/shared/components/ui/Button.vue'
 
 const router = useRouter()
 const auth = useAuthStore()
@@ -36,47 +37,45 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen p-sm">
-    <AppHeader>
-      <template #left>
-        <div class="flex items-center gap-4">
-          <button class="rounded-full" aria-label="Trang cá nhân" @click="router.push('/profile')">
-            <UserAvatar
-              :src="auth.profile?.avatarUrl ?? auth.user?.user_metadata?.avatar_url"
-              :name="auth.profile?.fullName ?? auth.user?.email"
-              size="md"
-            />
-          </button>
-          <Typography weight="bold" size="xl">Nhóm của bạn</Typography>
-        </div>
-      </template>
-    </AppHeader>
-
-    <main class="mx-auto py-md">
-      <div class="groups-grid">
-        <template v-if="groups.isPending.value">
-          <GroupCardSkeleton v-for="i in 6" :key="i" />
-        </template>
-        <template v-else>
-          <GroupCard
-            v-for="group in groups.data.value"
-            :key="group.id"
-            :group="group"
-            @open="router.push(`/groups/${group.id}`)"
+  <AppHeader>
+    <template #left>
+      <div class="flex items-center">
+        <Button variant="ghost" @click="router.push('/profile')">
+          <UserAvatar
+            :src="auth.profile?.avatarUrl ?? auth.user?.user_metadata?.avatar_url"
+            :name="auth.profile?.fullName ?? auth.user?.email"
+            size="md"
           />
-        </template>
+        </Button>
+        <Typography weight="bold" size="lg">Nhóm của bạn</Typography>
       </div>
-    </main>
+    </template>
+  </AppHeader>
 
-    <AppFab :icon="HousePlus" aria-label="Tạo nhóm mới" @click="showCreateModal = true" />
+  <main class="p-sm py-md">
+    <div class="groups-grid">
+      <template v-if="groups.isPending.value">
+        <GroupCardSkeleton v-for="i in 6" :key="i" />
+      </template>
+      <template v-else>
+        <GroupCard
+          v-for="group in groups.data.value"
+          :key="group.id"
+          :group="group"
+          @open="router.push(`/groups/${group.id}`)"
+        />
+      </template>
+    </div>
+  </main>
 
-    <GroupCreateModal
-      :open="showCreateModal"
-      @close="showCreateModal = false"
-      @success="handleCreateSuccess"
-      @error="handleCreateError"
-    />
-  </div>
+  <AppFab :icon="HousePlus" aria-label="Tạo nhóm mới" @click="showCreateModal = true" />
+
+  <GroupCreateModal
+    :open="showCreateModal"
+    @close="showCreateModal = false"
+    @success="handleCreateSuccess"
+    @error="handleCreateError"
+  />
 </template>
 
 <style scoped>

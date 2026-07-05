@@ -95,7 +95,7 @@ onMounted(() => fetchMembers())
         <Label>Tổng số tiền</Label>
         <MoneyInput
           v-model="totalAmount"
-          variant="fill"
+          variant="filled"
           :locale="appSetting.locale"
           :currency="appSetting.currency"
           align="center"
@@ -105,7 +105,7 @@ onMounted(() => fetchMembers())
       </div>
       <div>
         <Label>Tên khoản chi</Label>
-        <Input v-model="title" size="sm" variant="fill" placeholder="Poisidon thượng hạn" />
+        <Input v-model="title" size="sm" variant="filled" placeholder="Poisidon thượng hạn" />
         <p v-if="errors.title" class="mt-1 px-1 text-xs text-danger-main">{{ errors.title }}</p>
       </div>
 
@@ -123,7 +123,7 @@ onMounted(() => fetchMembers())
           v-model:custom-amount-map="customAmountMap"
           v-model:percentage-map="percentageMap"
         />
-        <p v-if="errors.splits" class="mt-1 px-1 text-xs text-danger-main">{{ errors.splits }}</p>
+        <p v-if="errors.splits" class="mt-1 px-1 text-xs text-error">{{ errors.splits }}</p>
       </div>
     </form>
 

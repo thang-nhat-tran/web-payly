@@ -16,24 +16,24 @@ const attrs = useAttrs()
 const variantColorClasses: Record<TagVariant, Record<TagColor, string>> = {
   filled: {
     default: 'bg-bg-soft text-text-muted',
-    success: 'bg-success-bg text-success',
+    success: 'bg-success-bg text-success-main',
     danger: 'bg-danger-bg text-text-main',
     warning: 'bg-warning-bg text-danger-light',
-    info: 'bg-info-bg text-link',
+    info: 'bg-info-bg text-text-secondary',
   },
   solid: {
     default: 'bg-text-muted text-bg-surface',
-    success: 'bg-success text-bg-surface',
+    success: 'bg-success-main text-bg-surface',
     danger: 'bg-danger-main text-bg-surface',
     warning: 'bg-danger-light text-bg-surface',
-    info: 'bg-link text-bg-surface',
+    info: 'bg-text-secondary text-bg-surface',
   },
   outlined: {
     default: 'border-text-disabled text-text-muted',
-    success: 'border-success-border text-success',
+    success: 'border-success-border text-success-main',
     danger: 'border-danger-border text-danger-main',
     warning: 'border-warning-border text-danger-light',
-    info: 'border-info-border text-link',
+    info: 'border-info-border text-text-secondary',
   },
 }
 

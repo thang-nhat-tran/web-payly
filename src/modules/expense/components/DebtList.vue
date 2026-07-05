@@ -20,7 +20,8 @@ onMounted(() => fetchDebts())
 </script>
 
 <template>
-  <div class="list">
+  <Typography size="md" weight="semibold" class="p-sm" as="div">Khoản nợ</Typography>
+  <div class="flex flex-col gap-sm px-sm">
     <template v-if="isPending">
       <DebtCardSkeleton v-for="i in 4" :key="i" />
     </template>
@@ -28,28 +29,10 @@ onMounted(() => fetchDebts())
       <DebtCard v-for="d in debts" :key="d.id" :debt="d" @detail="openDetail" />
     </template>
     <template v-else>
-      <div class="empty">
+      <div class="flex flex-col items-center gap-2 py-48">
         <AppEmpty size="lg" />
         <Typography size="sm" color="muted">Chưa có khoản nợ nào</Typography>
       </div>
     </template>
   </div>
 </template>
-
-<style scoped>
-.list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-sm) var(--spacing-sm) var(--spacing-3xl);
-}
-
-.empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-xl) 0;
-}
-</style>

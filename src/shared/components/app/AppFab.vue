@@ -22,8 +22,8 @@ defineEmits<{ click: [] }>()
   width: 56px;
   height: 56px;
   border-radius: var(--radius-round);
-  background-color: var(--color-text-main);
-  color: var(--color-bg-base);
+  background-color: var(--color-primary);
+  color: var(--color-primary-foreground);
   border: none;
   display: flex;
   align-items: center;

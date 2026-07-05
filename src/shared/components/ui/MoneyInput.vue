@@ -6,7 +6,7 @@ import { formatNumber } from '@/shared/utils/number.util'
 import { getCurrencySymbol } from '@/shared/utils/money.util'
 import type { SupportedLocale, SupportedCurrency } from '@/shared/types/app-setting.type'
 
-type MoneyInputVariant = 'outlined' | 'fill' | 'borderless'
+type MoneyInputVariant = 'outlined' | 'filled' | 'borderless'
 type MoneyInputSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 type MoneyInputAlign = 'left' | 'center' | 'right'
 type MoneyInputWeight = 'normal' | 'medium' | 'semibold' | 'bold'
@@ -55,8 +55,8 @@ const weightClasses: Record<MoneyInputWeight, string> = {
 }
 
 const variantClasses: Record<MoneyInputVariant, string> = {
-  outlined: 'rounded-md bg-bg-base shadow-xs border border-text-disabled focus-within:border-text-muted',
-  fill: 'rounded-md bg-bg-surface shadow-md border border-transparent focus-within:border-text-disabled',
+  outlined: 'rounded-md bg-bg-base shadow-xs border border-border-secondary focus-within:border-border',
+  filled: 'rounded-md bg-bg-elevated shadow-md border border-transparent focus-within:border-border',
   borderless: 'border-0 bg-transparent',
 }
 

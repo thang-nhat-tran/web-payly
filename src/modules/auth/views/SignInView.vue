@@ -2,7 +2,7 @@
 import { useSignInWithGoogle } from '@/modules/auth/composables/useSignInWithGoogle'
 import IconGoogle from '@/shared/components/icons/IconGoogle.vue'
 import AppLogo from '@/shared/components/app/AppLogo.vue'
-import { Button } from '@/shared/components/ui/button'
+import Button from '@/shared/components/ui/Button.vue'
 
 const { signInWithGoogle, signInLoading, signInError } = useSignInWithGoogle()
 </script>
@@ -12,7 +12,7 @@ const { signInWithGoogle, signInLoading, signInError } = useSignInWithGoogle()
     <h2>Welcome to Payly</h2>
     <AppLogo size="2xl" />
 
-    <Button variant="secondary" :disabled="signInLoading" @click="signInWithGoogle">
+    <Button variant="outline" :disabled="signInLoading" @click="signInWithGoogle">
       <IconGoogle class="shrink-0" />
       <span>{{ signInLoading ? 'Redirecting…' : 'Continue with Google' }}</span>
     </Button>

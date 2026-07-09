@@ -32,7 +32,7 @@ function shareStatus(settlementId: string | null): SettlementStatus {
 // Shared `select` shapes so the list and detail queries return identical row types.
 const PAID_EXPENSE_SELECT = `id, title, amount, created_at, paid_by,
    expense_splits ( user_id, share_amount, settlement_id, users ( id, full_name, avatar_url ) )` as const
-const OWED_DEBT_SELECT = `share_amount, settlement_id,
+const OWED_DEBT_SELECT = `id, share_amount, settlement_id,
    expenses!inner ( id, title, created_at, paid_by, group_id, payer:users!expenses_paid_by_fkey ( id, full_name, avatar_url ) )` as const
 
 /** Expenses the current user paid up front ("Khoản chi"), with each debtor's share embedded. */
@@ -103,6 +103,7 @@ function mapOwedDebt(row: OwedDebtRow): OwedDebt {
   return {
     kind: 'debt',
     id: expense.id,
+    splitId: row.id,
     title: expense.title,
     paidAt: expense.created_at ?? '',
     paidBy: {
@@ -163,6 +164,19 @@ export const expenseApi = {
       p_split_method: payload.splitMethod,
       p_split_config: payload.splitConfig as unknown as Json,
       p_expense_splits: expenseSplits as unknown as Json,
+    })
+    if (error) throw error
+    return data
+  },
+
+  /**
+   * Marks one or more of the current user's `expense_splits` as settled via
+   * the `settle_expense_splits` Postgres function.
+   * @returns the ids of the `settlements` rows created (one per distinct payer).
+   */
+  async settleDebts(splitIds: string[]): Promise<string[]> {
+    const { data, error } = await supabase.rpc('settle_expense_splits', {
+      p_expense_split_ids: splitIds,
     })
     if (error) throw error
     return data

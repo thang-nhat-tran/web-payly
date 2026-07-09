@@ -279,6 +279,7 @@ export type Database = {
         Returns: string
       }
       join_group_by_token: { Args: { p_invite_token: string }; Returns: string }
+      settle_expense_splits: { Args: { p_expense_split_ids: string[] }; Returns: string[] }
     }
     Enums: {
       expense_split_method_enum: "equal" | "custom" | "percentage"

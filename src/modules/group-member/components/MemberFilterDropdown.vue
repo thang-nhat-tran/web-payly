@@ -30,7 +30,7 @@ const triggerLabel = computed(
 </script>
 
 <template>
-  <Dropdown v-model:selected-key="dropdownKey" :options="options" placement="bottom-end" size="sm">
+  <Dropdown v-model:selected-key="dropdownKey" :options="options" placement="bottom-start" size="sm">
     <template #trigger>
       <Button variant="outline" size="sm">
         <ListFilter :size="16" />

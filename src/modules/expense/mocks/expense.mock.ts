@@ -61,6 +61,7 @@ export const mockOwedDebts: OwedDebt[] = [
   {
     kind: 'debt',
     id: 'd1',
+    splitId: 's1',
     title: 'Xăng xe đi Vũng Tàu',
     paidAt: '2026-05-12T09:00:00',
     paidBy: { id: 'u5', name: 'Nguyễn Văn Hùng', avatarUrl: avatar(5) },
@@ -70,6 +71,7 @@ export const mockOwedDebts: OwedDebt[] = [
   {
     kind: 'debt',
     id: 'd2',
+    splitId: 's2',
     title: 'Vé cáp treo Núi Bà Đen',
     paidAt: '2026-05-15T10:15:00',
     paidBy: { id: 'u7', name: 'Phạm Bảo Ngọc', avatarUrl: avatar(7) },
@@ -80,6 +82,7 @@ export const mockOwedDebts: OwedDebt[] = [
   {
     kind: 'debt',
     id: 'd3',
+    splitId: 's3',
     title: 'Cà phê sáng',
     paidAt: '2026-05-16T08:00:00',
     paidBy: { id: 'u4', name: 'Trần Thị Lan', avatarUrl: avatar(4) },

@@ -36,6 +36,8 @@ export interface PaidExpense {
 export interface OwedDebt {
   kind: 'debt'
   id: string
+  /** The underlying `expense_splits.id` — pass this (not `id`, the expense id) to settle the debt. */
+  splitId: string
   title: string
   paidAt: string // ISO date string
   /** Who fronted the money. */

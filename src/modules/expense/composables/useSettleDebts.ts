@@ -1,0 +1,31 @@
+import { expenseApi } from '@/modules/expense/api/expense.api'
+import { useMutation } from '@/shared/lib/query/vue/useMutation'
+import { useQueryClient } from '@/shared/lib/query/vue/useQueryClient'
+import { useAuthStore } from '@/shared/stores/auth.store'
+import { expenseListKey } from './useExpenseList'
+import { debtListKey } from './useDebtList'
+
+export interface SettleDebtsRequest {
+  groupId: string
+  splitIds: string[]
+  /** Underlying expense ids of the settled debts, for detail-view cache invalidation. */
+  expenseIds: string[]
+}
+
+/** Settles one or more of the current user's debts; resolves to the created settlement ids. */
+export function useSettleDebts() {
+  const queryClient = useQueryClient()
+  const auth = useAuthStore()
+
+  return useMutation<string[], SettleDebtsRequest>({
+    mutationFn: (payload) => expenseApi.settleDebts(payload.splitIds),
+    onSuccess: (_settlementIds, payload) => {
+      const userId = auth.profile?.id
+      queryClient.invalidateQuery(debtListKey(payload.groupId, userId))
+      queryClient.invalidateQuery(expenseListKey(payload.groupId, userId))
+      payload.expenseIds.forEach((expenseId) => {
+        queryClient.invalidateQuery(['debt-detail', expenseId, userId])
+      })
+    },
+  })
+}

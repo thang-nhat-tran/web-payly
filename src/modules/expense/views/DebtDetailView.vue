@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref, watchEffect, onMounted } from 'vue'
+import { ref, computed, watchEffect, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ArrowLeft } from 'lucide-vue-next'
 import AppHeader from '@/shared/components/app/AppHeader.vue'
 import { Card, CardBody } from '@/shared/components/ui/card'
 import Button from '@/shared/components/ui/Button.vue'
-import StatusBadge from '@/modules/expense/components/StatusBadge.vue'
+import Tag, { type TagColor } from '@/shared/components/ui/Tag.vue'
 import { useDebtDetail } from '@/modules/expense/composables/useDebtDetail'
 import type { SettlementStatus } from '@/modules/expense/types/expense.type'
 import { formatDate } from '@/shared/utils/datetime.util'
@@ -27,6 +27,10 @@ watchEffect(() => {
   if (debt.value) status.value = debt.value.status
 })
 
+const statusConfig = computed<{ label: string; color: TagColor }>(() =>
+  status.value === 'paid' ? { label: 'Đã trả', color: 'success' } : { label: 'Chưa trả', color: 'default' },
+)
+
 onMounted(() => fetchDebt())
 
 function back() {
@@ -43,7 +47,7 @@ function back() {
         </Button>
       </template>
       <template #center>
-        <h3>Chi tiết khoản nợ</h3>
+        <Typography size="md" weight="semibold"> Chi tiết khoản nợ </Typography>
       </template>
     </AppHeader>
 
@@ -51,9 +55,9 @@ function back() {
       <!-- Skeleton: amount owed -->
       <Card>
         <CardBody class="flex flex-col items-center gap-3 p-8">
-          <Skeleton width="6rem" height="0.875rem" />
-          <Skeleton width="10rem" height="2rem" />
-          <Skeleton width="4rem" height="1.5rem" radius="pill" />
+          <Skeleton width="6rem" height="2.5rem" />
+          <Skeleton width="10rem" height="3rem" />
+          <Skeleton width="4rem" height="2rem" radius="pill" />
         </CardBody>
       </Card>
 
@@ -64,10 +68,10 @@ function back() {
             v-for="i in 3"
             :key="i"
             class="flex items-center justify-between gap-3 py-3"
-            :class="{ 'border-t border-border': i > 1 }"
+            :class="{ 'border-t border-border-secondary': i > 1 }"
           >
-            <Skeleton width="4rem" height="0.875rem" />
-            <Skeleton width="8rem" height="0.875rem" />
+            <Skeleton width="4rem" height="1.5rem" />
+            <Skeleton width="8rem" height="1.5rem" />
           </div>
         </CardBody>
       </Card>
@@ -81,7 +85,7 @@ function back() {
           <Typography size="xl" weight="bold" color="danger">
             {{ formatMoney(debt.amountIOwe, appSetting.locale, appSetting.currency) }}
           </Typography>
-          <StatusBadge :status="status" />
+          <Tag :color="statusConfig.color" variant="filled">{{ statusConfig.label }}</Tag>
         </CardBody>
       </Card>
 

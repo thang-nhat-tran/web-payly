@@ -6,8 +6,9 @@ import AppHeader from '@/shared/components/app/AppHeader.vue'
 import Button from '@/shared/components/ui/Button.vue'
 import { Card, CardBody } from '@/shared/components/ui/card'
 import ParticipantLabel from '@/modules/expense/components/ParticipantLabel.vue'
-import StatusBadge from '@/modules/expense/components/StatusBadge.vue'
+import Tag, { type TagColor } from '@/shared/components/ui/Tag.vue'
 import { useExpenseDetail } from '@/modules/expense/composables/useExpenseDetail'
+import type { SettlementStatus } from '@/modules/expense/types/expense.type'
 import { formatDate } from '@/shared/utils/datetime.util'
 import { useAppSettingStore } from '@/shared/stores/app-setting.store'
 import { formatMoney } from '@/shared/utils/money.util'
@@ -20,6 +21,10 @@ const appSetting = useAppSettingStore()
 
 const { data: expense, isPending, query: fetchExpense } = useExpenseDetail(route.params.expenseId as string)
 const settledCount = computed(() => expense.value?.debtors.filter((d) => d.status === 'paid').length ?? 0)
+
+function statusConfig(status: SettlementStatus): { label: string; color: TagColor } {
+  return status === 'paid' ? { label: 'Đã trả', color: 'success' } : { label: 'Chưa trả', color: 'default' }
+}
 
 onMounted(() => fetchExpense())
 
@@ -37,7 +42,7 @@ function back() {
         </Button>
       </template>
       <template #center>
-        <h3>Chi tiết khoản chi</h3>
+        <Typography size="md" weight="semibold"> Chi tiết khoản chi </Typography>
       </template>
     </AppHeader>
 
@@ -45,39 +50,15 @@ function back() {
       <!-- Skeleton: summary -->
       <Card>
         <CardBody class="flex flex-col gap-4 p-6">
-          <div class="flex flex-col gap-1">
-            <Skeleton width="60%" height="1.25rem" />
-            <Skeleton width="40%" height="0.875rem" />
-          </div>
-          <div class="flex items-end justify-between">
-            <div class="flex flex-col gap-1">
-              <Skeleton width="4rem" height="0.75rem" />
-              <Skeleton width="7rem" height="1.5rem" />
-            </div>
-            <div class="flex flex-col items-end gap-1">
-              <Skeleton width="4rem" height="0.75rem" />
-              <Skeleton width="7rem" height="1.5rem" />
-            </div>
-          </div>
+          <Skeleton width="60%" height="5.25rem" />
+          <Skeleton width="40%" height="5.25rem" />
         </CardBody>
       </Card>
 
       <!-- Skeleton: breakdown -->
       <Card>
-        <CardBody class="flex flex-col p-6">
-          <Skeleton width="8rem" height="0.75rem" class="mb-4" />
-          <div
-            v-for="i in 3"
-            :key="i"
-            class="flex items-center justify-between gap-3 py-3"
-            :class="{ 'border-t border-border': i > 1 }"
-          >
-            <div class="flex items-center gap-2">
-              <Skeleton width="2rem" height="2rem" radius="round" />
-              <Skeleton width="5rem" height="0.875rem" />
-            </div>
-            <Skeleton width="5rem" height="0.875rem" />
-          </div>
+        <CardBody class="p-6">
+          <Skeleton width="8rem" height="4.75rem" />
         </CardBody>
       </Card>
     </main>
@@ -124,7 +105,9 @@ function back() {
           >
             <ParticipantLabel :name="share.participant.name" :avatar-url="share.participant.avatarUrl" />
             <div class="flex shrink-0 items-center gap-3">
-              <StatusBadge :status="share.status" />
+              <Tag :color="statusConfig(share.status).color" variant="filled">{{
+                statusConfig(share.status).label
+              }}</Tag>
               <Typography weight="semibold" as="div" color="danger">
                 {{ formatMoney(share.amount, appSetting.locale, appSetting.currency) }}
               </Typography>

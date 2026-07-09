@@ -15,25 +15,25 @@ const attrs = useAttrs()
 
 const variantColorClasses: Record<TagVariant, Record<TagColor, string>> = {
   filled: {
-    default: 'bg-bg-soft text-text-muted',
-    success: 'bg-success-bg text-success-main',
-    danger: 'bg-danger-bg text-text-main',
-    warning: 'bg-warning-bg text-danger-light',
-    info: 'bg-info-bg text-text-secondary',
+    default: 'bg-bg-layout text-text-secondary',
+    success: 'bg-success/10 text-success',
+    danger: 'bg-error/10 text-error',
+    warning: 'bg-warning/10 text-warning',
+    info: 'bg-info/10 text-info',
   },
   solid: {
-    default: 'bg-text-muted text-bg-surface',
-    success: 'bg-success-main text-bg-surface',
-    danger: 'bg-danger-main text-bg-surface',
-    warning: 'bg-danger-light text-bg-surface',
-    info: 'bg-text-secondary text-bg-surface',
+    default: 'bg-text-secondary text-bg-elevated',
+    success: 'bg-success text-success-foreground',
+    danger: 'bg-error text-error-foreground',
+    warning: 'bg-warning text-warning-foreground',
+    info: 'bg-info text-info-foreground',
   },
   outlined: {
-    default: 'border-text-disabled text-text-muted',
-    success: 'border-success-border text-success-main',
-    danger: 'border-danger-border text-danger-main',
-    warning: 'border-warning-border text-danger-light',
-    info: 'border-info-border text-text-secondary',
+    default: 'border-border text-text-secondary',
+    success: 'border-success text-success',
+    danger: 'border-error text-error',
+    warning: 'border-warning text-warning',
+    info: 'border-info text-info',
   },
 }
 

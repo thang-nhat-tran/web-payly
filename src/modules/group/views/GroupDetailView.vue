@@ -9,17 +9,20 @@ import ExpenseList from '@/modules/expense/components/ExpenseList.vue'
 import DebtList from '@/modules/expense/components/DebtList.vue'
 import { Receipt } from 'lucide-vue-next'
 import GroupSidebar from '../components/group-sidebar/GroupSidebar.vue'
-import type { GroupMenuKeys } from '../types/group-menu.type.ts'
+import { menuItems, type GroupMenuKeys } from '../types/group-menu.type.ts'
 import GroupMemberView from '@/modules/group-member/views/GroupMemberView.vue'
 const router = useRouter()
 const route = useRoute()
 const groupDetail = useGroupDetail(route.params.id as string)
 const group = computed(() => groupDetail.data.value)
 
-const activeTab = ref<GroupMenuKeys>('expense')
+const DEFAULT_TAB: GroupMenuKeys = 'expense'
+const isGroupMenuKey = (value: unknown): value is GroupMenuKeys => menuItems.some((item) => item.key === value)
+
+const activeTab = computed<GroupMenuKeys>(() => (isGroupMenuKey(route.query.tab) ? route.query.tab : DEFAULT_TAB))
 const handleTabSelect = (tab: GroupMenuKeys) => {
   sidebarOpen.value = false
-  activeTab.value = tab
+  router.push({ query: { ...route.query, tab } })
 }
 
 const sidebarOpen = ref(false)

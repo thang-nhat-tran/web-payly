@@ -44,11 +44,11 @@
   --color-text-disabled: #b5b4b3;
   /* Border */
   --color-border: #e0e0e0;
-  --color-border-secondary: #c0c0c0;
+  --color-border-secondary: #ededed;
   /* Background */
   --color-bg-layout: #f3f0ee;
   --color-bg-elevated: #fcfbfa;
-  --color-bg-active: #fcfbfa;
+  --color-bg-active: #dbd9d7;
   --color-bg-mask: rgba(0, 0, 0, 0.45);
 
   /* ---------------------- */

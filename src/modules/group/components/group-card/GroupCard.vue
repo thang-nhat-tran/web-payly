@@ -21,57 +21,6 @@ const emit = defineEmits<{ open: [] }>()
           <AvatarStack :avatar-urls="group.memberAvatarUrls" size="xs" />
         </div>
       </div>
-      <CardDescription v-if="group.description">{{ group.description }}</CardDescription>
     </CardBody>
   </Card>
 </template>
-
-<style scoped>
-.amount-row {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-}
-
-.amount-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-round);
-  background-color: var(--color-bg-base);
-  color: var(--color-text-main);
-  flex-shrink: 0;
-}
-
-.amount {
-  font-size: var(--text-md);
-  font-weight: 500;
-  letter-spacing: var(--tracking-normal);
-  color: var(--color-text-main);
-  line-height: 1.2;
-}
-
-.amount-label {
-  font-size: var(--text-xs);
-  font-weight: 450;
-  color: var(--color-text-muted);
-  margin-top: 2px;
-}
-
-.icon-members {
-  color: var(--color-text-muted);
-  flex-shrink: 0;
-}
-
-.meta {
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
-  margin-left: var(--spacing-xs);
-}
-
-.open-btn {
-  margin-left: auto;
-}
-</style>

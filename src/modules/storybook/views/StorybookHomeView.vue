@@ -11,6 +11,7 @@ const pages = [
   { to: '/storybook/skeleton', label: 'Skeleton', description: 'Radius scale' },
   { to: '/storybook/typography', label: 'Typography', description: 'Tags, sizes, weights, colors, and alignment' },
   { to: '/storybook/menu', label: 'Menu', description: 'Selectable items, groups, dividers, and horizontal mode' },
+  { to: '/storybook/dropdown', label: 'Dropdown', description: 'Placements, selection, and disabled state' },
 ]
 </script>
 

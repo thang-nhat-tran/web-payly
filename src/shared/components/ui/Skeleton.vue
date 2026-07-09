@@ -34,7 +34,7 @@ const radiusValue = computed(() => `var(--radius-${props.radius})`)
     background: linear-gradient(
       90deg,
       var(--color-text-disabled) 25%,
-      var(--color-bg-soft) 50%,
+      var(--color-bg-elevated) 50%,
       var(--color-text-disabled) 75%
     );
     background-size: 200% 100%;

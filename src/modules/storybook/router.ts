@@ -16,6 +16,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import('./views/TypographyStoryView.vue'),
   },
   { path: '/storybook/menu', name: 'StorybookMenu', component: () => import('./views/MenuStoryView.vue') },
+  {
+    path: '/storybook/dropdown',
+    name: 'StorybookDropdown',
+    component: () => import('./views/DropdownStoryView.vue'),
+  },
 ]
 
 export default routes

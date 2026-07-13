@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { toast } from 'vue-sonner'
 import DebtCard from './debt-card/DebtCard.vue'
 import DebtCardSkeleton from './debt-card/DebtCardSkeleton.vue'
 import AppEmpty from '@/shared/components/app/AppEmpty.vue'
@@ -11,7 +10,6 @@ import Tooltip from '@/shared/components/ui/Tooltip.vue'
 import { useDebtList } from '@/modules/expense/composables/useDebtList'
 import { useGroupMemberList } from '@/modules/group-member/composables/useGroupMemberList'
 import MemberFilterDropdown from '@/modules/group-member/components/MemberFilterDropdown.vue'
-import DebtPayConfirmModal from './debt-pay-confirm-modal/DebtPayConfirmModal.vue'
 
 const props = defineProps<{ groupId: string }>()
 const router = useRouter()
@@ -29,10 +27,7 @@ const filteredDebts = computed(() => {
 // Multi-select state — entered via long-press on a card, driving the Pay flow below.
 const selectionMode = ref(false)
 const selectedSplitIds = ref<Set<string>>(new Set())
-const showConfirm = ref(false)
 const tooltipForceOpen = ref(false)
-
-const selectedDebts = computed(() => (debts.value ?? []).filter((d) => selectedSplitIds.value.has(d.splitId)))
 
 function toggleSelect(splitId: string) {
   const next = new Set(selectedSplitIds.value)
@@ -58,17 +53,7 @@ function handlePayClick() {
     setTimeout(() => (tooltipForceOpen.value = false), 1500)
     return
   }
-  showConfirm.value = true
-}
-
-function handleSettleSuccess() {
-  showConfirm.value = false
-  exitSelectionMode()
-  toast.success('Đã thanh toán khoản nợ')
-}
-
-function handleSettleError(error: Error) {
-  toast.error('Thanh toán thất bại', { description: error.message })
+  router.push(`/groups/${props.groupId}/debts/pay?splitIds=${Array.from(selectedSplitIds.value).join(',')}`)
 }
 
 function openDetail(debtId: string) {
@@ -110,6 +95,7 @@ onMounted(() => {
         :debt="d"
         :selection-mode="selectionMode"
         :selected="selectedSplitIds.has(d.splitId)"
+        :selectable="d.status !== 'paid'"
         @detail="openDetail"
         @toggle-select="toggleSelect"
         @long-press="handleLongPress"
@@ -124,13 +110,4 @@ onMounted(() => {
       </div>
     </template>
   </div>
-
-  <DebtPayConfirmModal
-    :open="showConfirm"
-    :group-id="groupId"
-    :debts="selectedDebts"
-    @close="showConfirm = false"
-    @success="handleSettleSuccess"
-    @error="handleSettleError"
-  />
 </template>

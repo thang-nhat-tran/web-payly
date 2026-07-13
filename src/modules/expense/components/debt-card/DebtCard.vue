@@ -12,7 +12,7 @@ import Typography from '@/shared/components/ui/typography/Typography.vue'
 import { getFirstWord } from '@/shared/utils/string.util'
 import { useLongPress } from '@/shared/composables/useLongPress'
 
-const props = defineProps<{ debt: OwedDebt; selectionMode?: boolean; selected?: boolean }>()
+const props = defineProps<{ debt: OwedDebt; selectionMode?: boolean; selected?: boolean; selectable?: boolean }>()
 const emit = defineEmits<{ detail: [string]; toggleSelect: [string]; longPress: [string] }>()
 
 const { locale, currency } = useAppSettingStore()
@@ -21,16 +21,14 @@ const statusConfig = computed<{ label: string; color: TagColor }>(() =>
   props.debt.status === 'paid' ? { label: 'Đã trả', color: 'success' } : { label: 'Chưa trả', color: 'default' },
 )
 
-const selectable = computed(() => props.debt.status !== 'paid')
-
 const { handlers } = useLongPress({
   onLongPress: () => {
-    if (!selectable.value) return
+    if (!props.selectable) return
     emit('longPress', props.debt.splitId)
   },
   onClick: () => {
     if (props.selectionMode) {
-      if (!selectable.value) return
+      if (!props.selectable) return
       emit('toggleSelect', props.debt.splitId)
     } else {
       emit('detail', props.debt.id)
@@ -40,7 +38,7 @@ const { handlers } = useLongPress({
 </script>
 
 <template>
-  <Card clickable v-bind="handlers" :class="{ 'ring-2 ring-primary': selected }">
+  <Card :clickable="selectable" v-bind="handlers" :class="{ 'ring-2 ring-primary': selected }">
     <CardBody class="flex gap-4 p-6">
       <div class="min-w-0 flex-1 flex flex-col items-start gap-2">
         <div class="flex min-w-0 items-center gap-3 w-full">

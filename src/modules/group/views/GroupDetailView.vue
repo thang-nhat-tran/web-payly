@@ -4,10 +4,8 @@ import { useRouter, useRoute } from 'vue-router'
 import { useGroupDetail } from '@/modules/group/composables/useGroupDetail'
 import GroupDetailHeader from '@/modules/group/components/group-detail/GroupDetailHeader.vue'
 import GroupDetailSkeleton from '@/modules/group/components/group-detail/GroupDetailSkeleton.vue'
-import AppFab from '@/shared/components/app/AppFab.vue'
 import ExpenseList from '@/modules/expense/components/ExpenseList.vue'
 import DebtList from '@/modules/expense/components/DebtList.vue'
-import { Receipt } from 'lucide-vue-next'
 import GroupSidebar from '../components/group-sidebar/GroupSidebar.vue'
 import { menuItems, type GroupMenuKeys } from '../types/group-menu.type.ts'
 import GroupMemberView from '@/modules/group-member/views/GroupMemberView.vue'
@@ -29,10 +27,6 @@ const sidebarOpen = ref(false)
 
 const handleBack = () => {
   router.push('/groups')
-}
-
-const goToCreateExpense = () => {
-  router.push(`/groups/${route.params.id}/expenses/new`)
 }
 
 onMounted(() => {
@@ -59,12 +53,5 @@ onMounted(() => {
     v-model:open="sidebarOpen"
     :selected-menu-item="activeTab"
     @update:selected-menu-item="handleTabSelect"
-  />
-  <AppFab
-    v-if="group && activeTab === 'expense'"
-    :icon="Receipt"
-    @click="goToCreateExpense"
-    mask="false"
-    maskClosable="false"
   />
 </template>

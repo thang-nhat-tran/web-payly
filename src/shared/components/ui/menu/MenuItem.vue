@@ -18,7 +18,7 @@ function onClick() {
 
 const itemClass = computed(() =>
   cn(
-    'flex w-full items-center gap-2 rounded-sm p-sm text-text-secondary',
+    'flex w-full items-center gap-2 rounded-sm p-sm text-text-secondary cursor-pointer',
     props.variant === 'elevated' ? 'bg-bg-elevated' : 'bg-transparent',
     props.item.danger && 'text-error hover:bg-error-hover',
     props.selected && !props.item.danger && 'bg-bg-active font-semibold text-text',

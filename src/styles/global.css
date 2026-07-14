@@ -12,28 +12,28 @@
   /* Success colors */
   --color-success: #4caf50;
   --color-success-hover: #43a047;
-  --color-success-foreground: #ffffff;
+  --color-success-foreground: #141413;
   --color-success-border: #4caf50;
   --color-success-border-hover: #43a047;
 
   /* Warning colors */
   --color-warning: #ff9800;
   --color-warning-hover: #fb8c00;
-  --color-warning-foreground: #ffffff;
+  --color-warning-foreground: #141413;
   --color-warning-border: #ff9800;
   --color-warning-border-hover: #fb8c00;
 
   /* Error colors */
   --color-error: #f44336;
   --color-error-hover: #d32f2f;
-  --color-error-foreground: #ffffff;
+  --color-error-foreground: #141413;
   --color-error-border: #f44336;
   --color-error-border-hover: #d32f2f;
 
   /* Info colors */
   --color-info: #3860be;
   --color-info-hover: #1976d2;
-  --color-info-foreground: #ffffff;
+  --color-info-foreground: #141413;
   --color-info-border: #2196f3;
   --color-info-border-hover: #1976d2;
 
@@ -145,7 +145,7 @@
    VUE SONNER TOAST — Overrides
    ============================================================ */
 .toast-description {
-  color: var(--color-primary-foreground) !important;
+  color: var(--color-text) !important;
   font-size: var(--text-xs) !important;
 }
 

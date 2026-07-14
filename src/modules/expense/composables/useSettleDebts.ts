@@ -10,6 +10,8 @@ export interface SettleDebtsRequest {
   splitIds: string[]
   /** Underlying expense ids of the settled debts, for detail-view cache invalidation. */
   expenseIds: string[]
+  /** Public URL of an uploaded payment-proof image, stored on the created settlement(s). */
+  evidenceImagePath?: string
 }
 
 /** Settles one or more of the current user's debts; resolves to the created settlement ids. */
@@ -18,7 +20,7 @@ export function useSettleDebts() {
   const auth = useAuthStore()
 
   return useMutation<string[], SettleDebtsRequest>({
-    mutationFn: (payload) => expenseApi.settleDebts(payload.splitIds),
+    mutationFn: (payload) => expenseApi.settleDebts(payload.splitIds, payload.evidenceImagePath),
     onSuccess: (_settlementIds, payload) => {
       const userId = auth.profile?.id
       queryClient.invalidateQuery(debtListKey(payload.groupId, userId))

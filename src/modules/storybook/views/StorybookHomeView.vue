@@ -12,6 +12,7 @@ const pages = [
   { to: '/storybook/typography', label: 'Typography', description: 'Tags, sizes, weights, colors, and alignment' },
   { to: '/storybook/menu', label: 'Menu', description: 'Selectable items, groups, dividers, and horizontal mode' },
   { to: '/storybook/dropdown', label: 'Dropdown', description: 'Placements, selection, and disabled state' },
+  { to: '/storybook/upload', label: 'Upload', description: 'Preview, progress, error/retry, and multi-file limits' },
 ]
 </script>
 

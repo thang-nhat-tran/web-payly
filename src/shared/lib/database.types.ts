@@ -12,6 +12,31 @@ export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "14.5"
   }
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          extensions?: Json
+          operationName?: string
+          query?: string
+          variables?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
   public: {
     Tables: {
       expense_splits: {
@@ -283,7 +308,7 @@ export type Database = {
       }
       join_group_by_token: { Args: { p_invite_token: string }; Returns: string }
       settle_expense_splits: {
-        Args: { p_expense_split_ids: string[] }
+        Args: { p_evidence_image_path?: string; p_expense_split_ids: string[] }
         Returns: string[]
       }
     }
@@ -415,6 +440,9 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
+  graphql_public: {
+    Enums: {},
+  },
   public: {
     Enums: {
       expense_split_method_enum: ["equal", "custom", "percentage"],

@@ -1,10 +1,8 @@
 import { supabase } from '@/shared/lib/supabase'
-import { uploadFile } from '@/shared/lib/storage/core/storage.service'
 import type { QueryData } from '@supabase/supabase-js'
 import type { Json } from '@/shared/lib/database.types'
 import type { SplitConfig, SplitMethod } from '@/modules/expense/types/expense-split.type'
 import type { OwedDebt, PaidExpense, SettlementStatus } from '@/modules/expense/types/expense.type'
-import { buildSettlementEvidencePath } from '@/shared/lib/storage/core/file-path-builder'
 
 /** One participant's portion of an expense (app-side, camelCase). */
 export interface ExpenseSplitInput {
@@ -169,33 +167,5 @@ export const expenseApi = {
     })
     if (error) throw error
     return data
-  },
-
-  /**
-   * Marks one or more of the current user's `expense_splits` as settled via
-   * the `settle_expense_splits` Postgres function.
-   * @param evidenceImagePath Public URL of an uploaded payment-proof image (see
-   * `uploadSettlementEvidence`), stored on every `settlements` row this call creates.
-   * @returns the ids of the `settlements` rows created (one per distinct payer).
-   */
-  async settleDebts(splitIds: string[], evidenceImagePath?: string): Promise<string[]> {
-    const { data, error } = await supabase.rpc('settle_expense_splits', {
-      p_expense_split_ids: splitIds,
-      p_evidence_image_path: evidenceImagePath,
-    })
-    if (error) throw error
-    return data
-  },
-
-  /**
-   * Uploads a payment-proof image for the current user's next settlement, grouped
-   * under their own folder since the settlement itself doesn't exist until
-   * `settleDebts` runs.
-   * @returns the storage path to pass into `settleDebts` as `evidenceImagePath`
-   * (private-bucket paths, not URLs — resolve with `getPrivateFileUrl` to display).
-   */
-  async uploadSettlementEvidence(userId: string, file: File): Promise<string> {
-    const { path } = await uploadFile(file, buildSettlementEvidencePath(userId, file), 'settlementEvidence')
-    return path
   },
 }

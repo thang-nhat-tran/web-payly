@@ -17,7 +17,7 @@ export interface UploadItem {
 
 /**
  * Injected by the parent so this component stays free of API/business logic, e.g.
- * `(file) => expenseApi.uploadSettlementEvidence(userId, file)`.
+ * `(file) => settlementApi.uploadSettlementEvidence(userId, file)`.
  * `onProgress` is optional — call it if the underlying upload can report real progress.
  * Resolves to the storage path (not a URL) so callers manage paths, not URLs.
  */

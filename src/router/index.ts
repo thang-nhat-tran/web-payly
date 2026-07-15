@@ -4,6 +4,7 @@ import authRoutes from '@/modules/auth/router'
 import groupRoutes from '@/modules/group/router'
 import groupMemberRoutes from '@/modules/group-member/router'
 import expenseRoutes from '@/modules/expense/router'
+import settlementRoutes from '@/modules/settlement/router'
 import userRoutes from '@/modules/user/router'
 import storybookRoutes from '@/modules/storybook/router'
 
@@ -12,6 +13,7 @@ const routes = [
   ...groupRoutes,
   ...groupMemberRoutes,
   ...expenseRoutes,
+  ...settlementRoutes,
   ...userRoutes,
   ...storybookRoutes,
 ]

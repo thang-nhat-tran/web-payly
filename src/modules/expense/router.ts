@@ -14,12 +14,6 @@ const routes: RouteRecordRaw[] = [
     meta: { requiresAuth: true },
   },
   {
-    path: '/groups/:id/debts/pay',
-    name: 'DebtPay',
-    component: () => import('./views/DebtPayView.vue'),
-    meta: { requiresAuth: true },
-  },
-  {
     path: '/groups/:id/debts/:debtId',
     name: 'DebtDetail',
     component: () => import('./views/DebtDetailView.vue'),

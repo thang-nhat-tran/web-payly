@@ -2,7 +2,7 @@
 import { toast } from 'vue-sonner'
 import { Upload } from '@/shared/components/ui/upload'
 import type { UploadFn, UploadItem } from '@/shared/components/ui/upload'
-import { expenseApi } from '@/modules/expense/api/expense.api'
+import { settlementApi } from '@/modules/settlement/api/settlement.api'
 import { useAuthStore } from '@/shared/stores/auth.store'
 
 // `settlements.evidence_image_path` is a single column, so this only ever holds 0-1 paths.
@@ -13,7 +13,7 @@ const auth = useAuthStore()
 const uploadFn: UploadFn = (file) => {
   const userId = auth.profile?.id
   if (!userId) return Promise.reject(new Error('Bạn cần đăng nhập để tải lên bằng chứng thanh toán'))
-  return expenseApi.uploadSettlementEvidence(userId, file)
+  return settlementApi.uploadSettlementEvidence(userId, file)
 }
 
 function handleUploadError(item: UploadItem) {

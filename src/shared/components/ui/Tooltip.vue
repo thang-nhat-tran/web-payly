@@ -61,7 +61,7 @@ const placementClass: Record<string, string> = {
         role="tooltip"
         :class="
           cn(
-            'pointer-events-none absolute z-50 whitespace-nowrap rounded-xs bg-text px-3 py-1 text-xs text-bg-elevated shadow-md',
+            'pointer-events-none absolute z-50 whitespace-nowrap rounded-xs bg-text px-3 py-1 text-xs text-primary-foreground shadow-md',
             placementClass[placement],
             props.class,
           )

@@ -1,6 +1,6 @@
 import { supabase } from '@/shared/lib/supabase'
-import { uploadFile, getPrivateFileUrl } from '@/shared/lib/storage/core/storage.service'
-import { buildSettlementEvidencePath } from '@/shared/lib/storage/core/file-path-builder'
+import { uploadFile, getPrivateFileUrl } from '@/shared/lib/file-storage/supabase-file-storage.service'
+import { buildSettlementEvidencePath } from '@/shared/lib/file-storage/file-path-builder'
 import type { QueryData } from '@supabase/supabase-js'
 import type { Settlement, SettlementDetail } from '@/modules/settlement/types/settlement.type'
 

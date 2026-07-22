@@ -1,4 +1,4 @@
-import { supabase } from '../../supabase'
+import { supabase } from '../supabase'
 import type { UploadOptions, UploadResult } from './storage.type'
 import { UPLOAD_PRESETS, type UploadPresetKey } from './upload-preset'
 

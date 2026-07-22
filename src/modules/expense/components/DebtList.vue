@@ -10,6 +10,8 @@ import Tooltip from '@/shared/components/ui/Tooltip.vue'
 import { useDebtList } from '@/modules/expense/composables/useDebtList'
 import { useGroupMemberList } from '@/modules/group-member/composables/useGroupMemberList'
 import MemberFilterDropdown from '@/modules/group-member/components/MemberFilterDropdown.vue'
+import { localStorageService } from '@/shared/lib/browser-storage/local-storage.service'
+import { STORAGE_KEYS } from '@/shared/lib/browser-storage/storage-key.const'
 
 const props = defineProps<{ groupId: string }>()
 const router = useRouter()
@@ -27,7 +29,11 @@ const filteredDebts = computed(() => {
 // Multi-select state — entered via long-press on a card, driving the Pay flow below.
 const selectionMode = ref(false)
 const selectedSplitIds = ref<Set<string>>(new Set())
-const tooltipForceOpen = ref(false)
+
+// Hint tooltip shown until the user discovers long-press once, then hidden for good.
+const isSelectionTooltipHidden = ref(
+  localStorageService.get<boolean>(STORAGE_KEYS.debtListSelectionTooltipHidden) ?? false,
+)
 
 function toggleSelect(splitId: string) {
   const next = new Set(selectedSplitIds.value)
@@ -40,6 +46,9 @@ function toggleSelect(splitId: string) {
 function handleLongPress(splitId: string) {
   selectionMode.value = true
   toggleSelect(splitId)
+
+  isSelectionTooltipHidden.value = true
+  localStorageService.set(STORAGE_KEYS.debtListSelectionTooltipHidden, true)
 }
 
 function exitSelectionMode() {
@@ -49,8 +58,6 @@ function exitSelectionMode() {
 
 function handlePayClick() {
   if (selectedSplitIds.value.size === 0) {
-    tooltipForceOpen.value = true
-    setTimeout(() => (tooltipForceOpen.value = false), 1500)
     return
   }
   router.push(`/groups/${props.groupId}/debts/pay?splitIds=${Array.from(selectedSplitIds.value).join(',')}`)
@@ -71,7 +78,7 @@ onMounted(() => {
     <Typography size="md" weight="semibold" as="div">Khoản nợ</Typography>
     <div class="flex items-center gap-xs">
       <MemberFilterDropdown v-model:selected-member-id="selectedMemberId" :members="members ?? []" />
-      <Tooltip text="Nhấn giữ một khoản nợ để chọn" v-model:open="tooltipForceOpen">
+      <Tooltip text="Nhấn giữ một khoản nợ để chọn" :open="!selectionMode && !isSelectionTooltipHidden">
         <Button
           variant="outline"
           size="sm"
